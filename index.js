@@ -2,5 +2,5 @@
 'use strict';
 
 module.exports = {
-  name: 'ember-data-store-front'
+  name: 'ember-data-storefront'
 };

@@ -1,7 +1,7 @@
 {
-  "name": "ember-data-store-front",
+  "name": "ember-data-storefront",
   "version": "0.0.0",
-  "description": "The default blueprint for ember-cli addons.",
+  "description": "A collection of APIs to make working with Ember data easier.",
   "keywords": [
     "ember-addon"
   ],
@@ -11,7 +11,11 @@
     "doc": "doc",
     "test": "tests"
   },
-  "repository": "",
+  "repository": "https://github.com/EmberMap/ember-data-storefront",
+  "contributors": [
+    "Sam Selkoff <sam.selikoff@gmail.com> (https://embermap.com)",
+    "Ryan Toronto <ryanto@gmail.com> (https://embermap.com)",
+  ],
   "scripts": {
     "build": "ember build",
     "start": "ember server",
