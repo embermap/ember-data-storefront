@@ -1,3 +1,5 @@
+## Work in progress: This addon currently doesn't work!
+
 # Ember data storefront
 
 A collection of APIs to make working with Ember data easier.
