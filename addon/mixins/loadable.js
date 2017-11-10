@@ -10,7 +10,7 @@ export default Ember.Mixin.create({
 
   load(...includes) {
     let includesString = includes.join(',');
-    let nonLoadedIncludes = this.getNonLoadedIncludes(includesString);
+    let nonLoadedIncludes = this._getNonLoadedIncludes(includesString);
 
     this.set('loadedIncludes', [...nonLoadedIncludes, ...this.get('loadedIncludes')]);
 
@@ -31,7 +31,7 @@ export default Ember.Mixin.create({
   },
 
   hasLoaded(includesString) {
-    let nonLoadedIncludes = this.getNonLoadedIncludes(includesString);
+    let nonLoadedIncludes = this._getNonLoadedIncludes(includesString);
 
     return !nonLoadedIncludes.length;
   }
