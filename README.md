@@ -1,5 +1,3 @@
-## Work in progress: This addon currently doesn't work!
-
 # Ember data storefront
 
 A collection of APIs to make working with Ember data easier.
@@ -7,11 +5,9 @@ A collection of APIs to make working with Ember data easier.
 Our opinions:
 
 * Relationship access is always sync
-* Async for data fetching
+* Relationship fetching is always async with well defined APIs
 * No surprises in templates (FOUC, N+1)
 * JSON:API backend
-
-This addon is a work in progress...
 
 ## Installation
 
@@ -19,49 +15,35 @@ This addon is a work in progress...
 ember install ember-data-storefront
 ```
 
-## Force sync relationships
-
-We're of the opinion that async relationships create a lot of problems. This is because they use a single API that mixes data fetching over the network with local data access.
-
-This makes it hard for developers to express the intent of the code, since network requests are very different thing for data access.
-
-For example, it's not clear exactly what the following snippet is doing.
-
-```
-let comments = post.get('comments');
-```
-
-It could be making an AJAX request to fetch the posts comments, returning a promise. It could be returning an array of the post's comments and then making a background request to update that array. Or, maybe the developer wrote this line wanting to get the post's comments that were already loaded a few seconds ago by the router, not needing a background refresh at all.
-
-In all these situations the code does not tell us the developer's intentions, which is a problem.
-
-When using async relationships you can easily fall into trap of:
-
-* Calls to `get` trigging a number of AJAX requests.
-* Computed properties unknowingly making AJAX requests, turning them into unintentional async computed properties.
-* Needing to be aware that `get` of an async relationship should be followed by a `.then`. While this pattern makes sense for data loading, it is confusing to think about when accessing already loaded data.
-* Calls to `get('relationship')` returning a PromiseProxy, instead of a model or list of models.
-
-We can avoid all of these problems by sync relationships. That way, whenever we call `post.get('comments')`, we'll always get back an array of posts comments.
-
-Because of this, we believe that all relationships should be sync, and this addon will enforce that by defining `{ async: false }` on every relationship.
-
-To turn this feature on, you'll need to add this code to app.js.
-
-```
-// app/app.js
-import 'ember-data-storefront/ext/force-sync';
-```
-
-In the next section, we'll discuss the APIs that allow this addon to lazily load data on demand.
-
 ## Loadable
 
-For loading relationships asynchronously.
+## `model.load('relations')`
 
-To turn this feature on you'll need to add the following to app.js.
+With this feature turned on storefront adds a `load()` method to every model, allowing for asynchronous loading of Ember data relationships.
 
+```js
+post.load('comments');
 ```
+
+You can also use JSON:API's dot notation to load child relationships.
+
+```js
+post.load('comments.author');
+```
+
+Every call to `load()` will return a promise.
+
+```js
+post.load('comments').then(() => console.log('loaded comments!'));
+```
+
+If a relationship has not loaded the promise will block until the data is loaded. However, if a relationship has already been loaded the promise will not block, and perform a background reload. This means you don't have to worry about overcalling `load()`.
+
+This feature works best when used on relationships that are defined with `{ async: false }` because it allows `load()` to load the data, and `get()` to access data that has already been loaded.
+
+You can turn this feature on by adding the following to `app/app.js`.
+
+```js
 // app/app.js
 import DS from 'ember-data';
 import Loadable from 'ember-data-storefront/mixins/loadable';
@@ -69,15 +51,24 @@ import Loadable from 'ember-data-storefront/mixins/loadable';
 DS.Model.reopen(Loadable);
 ```
 
-### model.load('relationship')
+## Force sync relationships
 
-### model.hasLoaded('relationship')
+We're of the opinion that async relationships create a lot of problems. This is because they use a single API that mixes data fetching over the network with local data access.
+
+For this reasons, we believe that all relationships should be sync and this addon will enforce that by defining `{ async: false }` on every relationship.
+
+To turn this feature on, you'll need to add this code to `app/app.js`.
+
+```js
+// app/app.js
+import 'ember-data-storefront/ext/force-sync';
+```
 
 ## Must preload
 
-A template level check in development to assert that a relationship is loaded before rendering a template. This will prevent the template from FOUCing as well as kicking of N+1 queries.
+A template level check in development to assert that a relationship is loaded before rendering a template. This will prevent the template from FOUCing as well as kicking off N+1 queries.
 
-```
+```hbs
 {{assert-must-preload post 'comments.author'}}
 
 {{#each post.comments as |comment|}}
@@ -87,11 +78,13 @@ A template level check in development to assert that a relationship is loaded be
 
 ## Snapshot
 
+**WORK IN PROGRESS**
+
 A way to rollback graph changes to Ember data models.
 
-To turn this feature on you'll need to add the following to app.js.
+To turn this feature on you'll need to add the following to `app/app.js`.
 
-```
+```js
 // app/app.js
 import DS from 'ember-data';
 import Snapshottable from 'ember-data-storefront/mixins/snapshottable';
@@ -101,7 +94,7 @@ DS.Model.reopen(Snapshottable);
 
 API:
 
-```
+```js
 let snapshot = post.takeSnapshot({
   author: true,
   comments: {
