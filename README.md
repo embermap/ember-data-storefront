@@ -17,9 +17,7 @@ ember install ember-data-storefront
 
 ## Loadable
 
-## `model.load('relationship')`
-
-With this feature turned on storefront adds a `load()` method to every model, allowing for asynchronous loading of Ember data relationships.
+With this feature turned on storefront adds a `load()` method to every model. This gives you a clear method for asynchronously loading of Ember data relationships.
 
 ```js
 post.load('comments');
@@ -37,9 +35,9 @@ Every call to `load()` will return a promise.
 post.load('comments').then(() => console.log('loaded comments!'));
 ```
 
-If a relationship has not loaded the promise will block until the data is loaded. However, if a relationship has already been loaded the promise will not block, and perform a background reload. This means you don't have to worry about overcalling `load()`.
+If a relationship has not loaded the promise will block until the data is loaded. However, if a relationship has already been loaded the promise will not block and perform a background reload. This means you don't have to worry about overcalling `load()`.
 
-This feature works best when used on relationships that are defined with `{ async: false }` because it allows `load()` to load the data, and `get()` to access data that has already been loaded.
+This feature works best when used on relationships that are defined with `{ async: false }` because it allows `load()` to load the data, and `get()` to access data that has been loaded.
 
 You can turn this feature on by adding the following to `app/app.js`.
 
@@ -63,6 +61,8 @@ To turn this feature on, you'll need to add this code to `app/app.js`.
 // app/app.js
 import 'ember-data-storefront/ext/force-sync';
 ```
+
+Once turned on, you should use `load()` to fetch data and `get()` to access data.
 
 ## Must preload
 
