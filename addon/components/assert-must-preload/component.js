@@ -1,4 +1,4 @@
-    import Ember from 'ember';
+import Ember from 'ember';
 
 /*
   Use this when authoring a component that requires a model to be passed in with
