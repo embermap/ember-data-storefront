@@ -17,7 +17,7 @@ ember install ember-data-storefront
 
 ## Loadable
 
-## `model.load('relations')`
+## `model.load('relationship')`
 
 With this feature turned on storefront adds a `load()` method to every model, allowing for asynchronous loading of Ember data relationships.
 
