@@ -14,14 +14,16 @@ import Ember from 'ember';
     {{/each}}
 */
 const Component = Ember.Component.extend({
+  tagName: '',
 
   didReceiveAttrs() {
     let [ model, ...includes ] = this.get('args');
     let parentComponent = this.parentView;
+    let parentName = parentComponent ? parentComponent._debugContainerKey : 'component';
     let includesString = includes.join(',');
 
     Ember.assert(
-      `You passed a ${model.constructor.modelName} model into a '${parentComponent._debugContainerKey}', but that model didn't have all of its required relationships preloaded ('${includesString}'). Please make sure to preload the association. [ember-data-loadable]`,
+      `You passed a ${model.constructor.modelName} model into a '${parentName}', but that model didn't have all of its required relationships preloaded ('${includesString}'). Please make sure to preload the association. [ember-data-storefront]`,
       model.hasLoaded(includesString)
     );
 
