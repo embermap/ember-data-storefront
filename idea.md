@@ -4,19 +4,22 @@ Collections
 let storefront = this.get('storefront');
 
 // fetching all records
-let posts = storefront.all('post');
+let loader = storefront.all('post');
+let posts = yield storefront.all('post'); // resolves with the posts
 
 // reload them
-posts.reload(); // returns a promise that will repopulate posts
+let loader2 = posts.reload(); // returns a promise that will repopulate posts
 
 // get the loaded date
 posts.storefront.loadedAt; // javascript date
 
 // fetching a filtered set of records
-let popularPosts = storefront.all('post', {
+let popularPostsLoader = storefront.all('post', {
   include: 'comments',
   filter: { popular: true }
 });
+
+popularPostsLoader.then(posts => ...
 
 // using the cache for 20 minutes
 popularPosts.storefront.expireAt = moment().add(20, 'minutes');
