@@ -17,13 +17,13 @@ ember install ember-data-storefront
 
 ## Loadable
 
-With this feature turned on storefront adds a `load()` method to every model. This gives you a clear method for asynchronously loading of Ember data relationships.
+With this feature turned on storefront adds a `load()` method to every model. This gives you a clear method for asynchronously loading Ember data relationships.
 
 ```js
 post.load('comments');
 ```
 
-You can also use JSON:API's dot notation to load child relationships.
+You can also use JSON:API's dot notation to load additional related relationships.
 
 ```js
 post.load('comments.author');
@@ -39,7 +39,7 @@ If a relationship has not loaded the promise will block until the data is loaded
 
 This feature works best when used on relationships that are defined with `{ async: false }` because it allows `load()` to load the data, and `get()` to access data that has been loaded.
 
-You can turn this feature on by adding the following to `app/app.js`.
+You can add the `load` API to your models by adding the following code to `app/app.js`.
 
 ```js
 // app/app.js
@@ -51,11 +51,11 @@ DS.Model.reopen(Loadable);
 
 ## Force sync relationships
 
-We're of the opinion that async relationships create a lot of problems. This is because they use a single API that mixes data fetching over the network with local data access.
+We're of the opinion that async relationships create a lot of problems. This is because they use a single API that mixes data fetching over the network with local data access. Read [our blog post](https://embermap.com/notes/83-the-case-against-async-relationships) to learn more about our thinking on this topic.
 
-For this reasons, we believe that all relationships should be sync and this addon will enforce that by defining `{ async: false }` on every relationship.
+For these reasons, we believe that all relationships should be sync, and we've added a feature that will enforce this by defining `{ async: false }` on every relationship.
 
-To turn this feature on, you'll need to add this code to `app/app.js`.
+To turn this feature on, add this code to `app/app.js`.
 
 ```js
 // app/app.js
@@ -66,7 +66,7 @@ Once turned on, you should use `load()` to fetch data and `get()` to access data
 
 ## Must preload
 
-A template level check in development to assert that a relationship is loaded before rendering a template. This will prevent the template from FOUCing as well as kicking off N+1 queries.
+A template-level check in development to assert that a relationship is loaded before rendering a template. This will prevent the template from FOUCing as well as kicking off N+1 queries.
 
 ```hbs
 {{assert-must-preload post 'comments.author'}}
