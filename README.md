@@ -8,6 +8,7 @@ Our opinions:
 * Relationship fetching is always async with well defined APIs
 * No surprises in templates (FOUC, N+1)
 * JSON:API backend
+* Query API that is filter, pagination, and query param aware.
 
 ## Installation
 
@@ -49,13 +50,70 @@ import Loadable from 'ember-data-storefront/mixins/loadable';
 DS.Model.reopen(Loadable);
 ```
 
+## Query API
+
+Storefront contains a service that is similar to Ember Data's store. Under the hood, storefront's Query API is a wrapper around Ember data, so you can always fallback to ED if needed.
+
+By default, storefront's query interface is injected in all routes and controllers. If you would like to use storefront in another Ember object you can inject it as you would any other service.
+
+```js
+export default Ember.computed.extend({
+  storefront: Ember.service.inject(),
+
+  didInsertElement() {
+    this.get('storefront').loadAll('post', { filter: { popular: true }});
+  }
+});
+```
+
+The following query APIs are available on the storefront service:
+
+* [loadAll](###loadAll)
+
+
+### loadAll(modelName, params)
+
+```js
+storefront
+  .loadAll('post', { filter: { popular: true }})
+  .then(models => models);
+```
+
+Similar to `findAll`, `loadAll` will query the backend for a collection of models. The first call to `loadAll` returns a blocking promise that will fulfill with a collection of models. Subsequent calls to `loadAll` with the same modelName and params will return a cached result and reloaded the results in the background.
+
+The difference between `loadAll` and `findAll` is that `findAll` will instantly fulfill if any models are in the Ember data store, which can lead to FOUC as well as UI bugs. For example, imagine a user visits the `/posts/1` route, which loads a specific post. Next, they go to the `/posts` route that loads all posts. Since Ember data has a post model (Post Id: 1) in its store, the `findAll` in the `/posts` route model hook will instantly fulfill and render the template with a single post. However, since `findAll` also triggers a background reload, the page will soon re-render with all posts. This creates a confusing flash of changing content.
+
+`loadAll` avoids this problem by returning a blocking promise for any query it has not executed. It will only return an instantly fulfilling promise if it knows it has the expected data in the store.
+
+It also let's you load collections of records using filters, pagination, includes, or any other query string data. Returning a blocking promise for any queries it has never run.
+
+The collection returned by `loadAll` is a bound array. It will automatically re-update when the query is re-run in the future.
+
+Whenever `loadAll` is returning an instantly fulfilling promise it will also a background reload. If needed, you can force `loadAll` to return a blocking promise by adding `{ reload: true }` to the params.
+
+```js
+// Examples
+
+// filters
+storefront.loadAll('post', { filter: { popular: true }});
+
+// pagination
+storefront.loadAll('post', { page: { limit: 10, offset: 0 }});
+
+// includes
+storefront.loadAll('post', { include: 'comments' });
+
+// force an already loaded set to reload (blocking promise)
+storefront.loadAll('post', { reload: true });
+```
+
 ## Force sync relationships
 
 We're of the opinion that async relationships create a lot of problems. This is because they use a single API that mixes data fetching over the network with local data access.
 
-For this reasons, we believe that all relationships should be sync and this addon will enforce that by defining `{ async: false }` on every relationship.
+For this reasons, we believe that all relationships should be sync and this addon can be used to enforce sync access by defining `{ async: false }` on every relationship.
 
-To turn this feature on, you'll need to add this code to `app/app.js`.
+This feature is not required, but it is recommended. To turn this feature on, you'll need to add this code to `app/app.js`.
 
 ```js
 // app/app.js

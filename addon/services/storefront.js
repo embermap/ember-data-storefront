@@ -1,55 +1,63 @@
 import Ember from 'ember';
 import Service from '@ember/service';
+import QuerySet from 'ember-data-storefront/-private/query-set';
 
 export default Service.extend({
   store: Ember.inject.service(),
 
-  /**
-    this.store.loadAll('post', { filter.popular = true })
+  init() {
+    this._super(...arguments);
+    this.set('_cache', {});
+  },
 
-    this.storefront.all('post', {
-      filter: { popular: true },
-      include: 'comments'
-    });
-  */
+  loadAll(type, params = {}) {
+    let shouldReload = params.reload;
+    delete params.reload;
 
-  all(type, params = {}) {
-    let key = this._paramsKey(params);
+    let promise;
+    let key = this._key(type, params);
     let cache = this.get('_cache');
+    let querySet = cache[key];
+    let store = this.get('store');
 
-    if (!cache[key]) {
-      return this.store.query('type', params)
-        .then((results) => {
-          results.__storefront = {
-            params,
-            loadedAt: new Date(),
-          };
-          results.reload = function() {
-            // query and populate the right record array
-          };
-          cache[key] = results;
-          return results;
-        });
+    if (querySet && !shouldReload) {
+      promise = Ember.RSVP.resolve(querySet.records);
+      querySet.reload(); // background update
+
+    } else if (querySet && shouldReload) {
+      promise = querySet.reload();
 
     } else {
-      return Ember.RSVP.resolve(cache[key]);
+      let querySet = new QuerySet(store, type, params);
+      cache[key] = querySet;
 
+      promise = querySet.query();
     }
+
+    return promise;
   },
 
-  find(type, id, params) {
+  _key(type, params) {
+    function serializeQuery(params, prefix) {
+      const query = Object.keys(params).map((key) => {
+        const value  = params[key];
 
-  },
+        if (params.constructor === Array) {
+          key = `${prefix}[]`;
+        } else if (params.constructor === Object) {
+          key = (prefix ? `${prefix}[${key}]` : key);
+        }
 
-  refresh(result) {
-    // if record array
+        if (typeof value === 'object') {
+          return serializeQuery(value, key);
+        } else {
+          return `${key}=${encodeURIComponent(value)}`;
+        }
+      });
 
-    // if single record
+      return [].concat.apply([], query).join('&');
+    }
 
-    // if promise?
-  },
-
-  _paramsKey(params) {
-    return "x";
+    return `${type}:${serializeQuery(params)}`;
   }
 });
