@@ -53,7 +53,6 @@ test('records that no longer exist in an update should be removed from the recor
 });
 
 test('the record set should not contain records that were not part of the query', async function(assert) {
-  server.logging = true;
   server.create('post', { title: 'Test post' });
   server.create('post', { title: 'Another post' });
   let querySet1 = new QuerySet(this.store, 'post', { filter: { slug: 'test-post' } });
