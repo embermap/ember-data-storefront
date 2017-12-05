@@ -1,3 +1,20 @@
-<h2 id="title">Welcome to Ember</h2>
+<h2 id="title">Welcome to Ember Data Storefront</h2>
 
 {{outlet}}
+
+<div>
+  <strong>Posts: {{model.allPosts}}</strong>:
+</div>
+<div>
+  {{#each model.allPosts as |post|}}
+
+    <div>
+      Post[{{post.id}}]: {{post.title}}
+    </div>
+
+  {{/each}}
+</div>
+
+<button {{action "reloadAllPosts"}}>
+  Reload all posts
+</button>
