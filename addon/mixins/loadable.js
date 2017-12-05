@@ -9,12 +9,13 @@ export default Ember.Mixin.create({
   },
 
   load(...includes) {
+    let modelName = this.constructor.modelName;
     let includesString = includes.join(',');
     let nonLoadedIncludes = this._getNonLoadedIncludes(includesString);
 
     this.set('loadedIncludes', [...nonLoadedIncludes, ...this.get('loadedIncludes')]);
 
-    return this.store.findRecord('user', this.get('id'), {
+    return this.store.findRecord(modelName, this.get('id'), {
       include: includesString,
       reload: nonLoadedIncludes.length
     });

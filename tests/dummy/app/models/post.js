@@ -4,5 +4,5 @@ export default DS.Model.extend({
   title: DS.attr('string'),
   text: DS.attr('string'),
 
-  comment: DS.hasMany('post')
+  comments: DS.hasMany('comment')
 });

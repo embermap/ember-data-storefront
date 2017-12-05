@@ -5,6 +5,7 @@ import { module, test } from 'qunit';
 module('Unit | Mixin | loadable', {
   beforeEach() {
     let LoadableObject = EmberObject.extend(LoadableMixin);
+    LoadableObject.modelName = 'user';
     this.subject = LoadableObject.create({
       id: '123',
       store: {

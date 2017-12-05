@@ -1,4 +1,4 @@
-import { Factory } from 'ember-cli-mirage';
+import { Factory, trait } from 'ember-cli-mirage';
 import Ember from 'ember';
 
 export default Factory.extend({
@@ -10,5 +10,11 @@ export default Factory.extend({
 
   afterCreate(post) {
     post.update({ slug: Ember.String.dasherize(post.title) });
-  }
+  },
+
+  withComments: trait({
+    afterCreate(post, server) {
+      server.createList('comment', 3, { post });
+    }
+  })
 });

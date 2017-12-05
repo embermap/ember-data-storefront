@@ -8,4 +8,6 @@ export default function() {
 
     return schema.posts.where(filters);
   });
+
+  this.get('/posts/:id');
 }
