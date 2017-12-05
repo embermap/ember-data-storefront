@@ -79,7 +79,7 @@ storefront
   .then(models => models);
 ```
 
-Similar to `findAll`, `loadAll` will query the backend for a collection of models. The first call to `loadAll` returns a blocking promise that will fulfill with a collection of models. Subsequent calls to `loadAll` with the same modelName and params will return a cached result and reloaded the results in the background.
+Similar to `findAll`, `loadAll` will query the backend for a collection of models. The first call to `loadAll` returns a blocking promise that will fulfill with a collection of models. Subsequent calls to `loadAll` with the same model name and params will return a cached result and reloaded the results in the background.
 
 The difference between `loadAll` and `findAll` is that `findAll` will instantly fulfill if any models are in the Ember data store, which can lead to FOUC as well as UI bugs. For example, imagine a user visits the `/posts/1` route, which loads a specific post. Next, they go to the `/posts` route that loads all posts. Since Ember data has a post model (Post Id: 1) in its store, the `findAll` in the `/posts` route model hook will instantly fulfill and render the template with a single post. However, since `findAll` also triggers a background reload, the page will soon re-render with all posts. This creates a confusing flash of changing content.
 
