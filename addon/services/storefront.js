@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import DS from 'ember-data';
 import Service from '@ember/service';
 import QuerySet from 'ember-data-storefront/-private/query-set';
 
@@ -34,7 +35,7 @@ export default Service.extend({
       promise = querySet.query();
     }
 
-    return promise;
+    return DS.PromiseArray.create({ promise });
   },
 
   _key(type, params) {
