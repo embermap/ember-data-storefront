@@ -2,13 +2,15 @@ import Ember from 'ember';
 import DS from 'ember-data';
 import Service from '@ember/service';
 import QuerySet from 'ember-data-storefront/-private/query-set';
+import Cache from 'ember-data-storefront/-private/cache';
 
 export default Service.extend({
   store: Ember.inject.service(),
 
   init() {
     this._super(...arguments);
-    this.set('_cache', {});
+
+    this.set('cache', new Cache(this.get('store')));
   },
 
   loadAll(type, params = {}) {
@@ -16,49 +18,62 @@ export default Service.extend({
     delete params.reload;
 
     let promise;
-    let key = this._key(type, params);
-    let cache = this.get('_cache');
-    let querySet = cache[key];
-    let store = this.get('store');
+    let querySet = this.get('cache').collectionFor(type, params);
 
     if (querySet && !shouldReload) {
       promise = Ember.RSVP.resolve(querySet.records);
-      querySet.reload(); // background update
+      querySet.reload(); // background reload TODO: swap for expires
 
     } else if (querySet && shouldReload) {
       promise = querySet.reload();
 
     } else {
-      let querySet = new QuerySet(store, type, params);
-      cache[key] = querySet;
-
-      promise = querySet.query();
+      promise = this.fetchAllWithParams(type, params);
     }
 
     return DS.PromiseArray.create({ promise });
   },
 
-  _key(type, params) {
-    function serializeQuery(params, prefix) {
-      const query = Object.keys(params).map((key) => {
-        const value  = params[key];
+  loadRecord(type, id, params = {}) {
+    let record = this.get('cache').recordFor(type, id, params);
+    let promise;
 
-        if (params.constructor === Array) {
-          key = `${prefix}[]`;
-        } else if (params.constructor === Object) {
-          key = (prefix ? `${prefix}[${key}]` : key);
-        }
+    if (record) {
+      promise = Ember.RSVP.resolve(record);
+      this.fetchRecordWithParams(type, id, params); // background reload TODO: swap for expires
 
-        if (typeof value === 'object') {
-          return serializeQuery(value, key);
-        } else {
-          return `${key}=${encodeURIComponent(value)}`;
-        }
-      });
-
-      return [].concat.apply([], query).join('&');
+    } else {
+      promise = this.fetchRecordWithParams(type, id, params);
     }
 
-    return `${type}:${serializeQuery(params)}`;
-  }
+    return promise;
+  },
+
+  fetchAllWithParams(type, params) {
+    let querySet = new QuerySet(this.get('store'), type, params);
+    let cache = this.get('cache');
+
+    return querySet
+      .query()
+      .then(collection => {
+        cache.putCollectionFor(type, params, querySet);
+
+        return collection;
+      });
+  },
+
+  fetchRecordWithParams(type, id, params) {
+    let options = Object.assign({ reload: true }, params);
+    let cache = this.get('cache');
+
+    return this.get('store')
+      .findRecord(type, id, options)
+      .then(record => {
+        cache.putRecordFor(type, id, params);
+
+        return record;
+      });
+  },
+
+
 });

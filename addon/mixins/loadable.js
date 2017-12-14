@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Mixin.create({
+  storefront: Ember.inject.service(),
 
   init() {
     this._super(...arguments);
@@ -14,6 +15,10 @@ export default Ember.Mixin.create({
     let nonLoadedIncludes = this._getNonLoadedIncludes(includesString);
 
     this.set('loadedIncludes', [...nonLoadedIncludes, ...this.get('loadedIncludes')]);
+
+    // return this.get('storefront').loadRecord(modelName, this.get('id'), {
+    //   include: includesString,
+    // });
 
     return this.store.findRecord(modelName, this.get('id'), {
       include: includesString,

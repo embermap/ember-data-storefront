@@ -1,6 +1,6 @@
 import { moduleFor, test } from 'ember-qunit';
 import { startMirage } from 'dummy/initializers/ember-cli-mirage';
-import Ember from 'ember';
+import { run } from '@ember/runloop';
 
 moduleFor('mixin:loadable', 'Integration | Mixins | Loadable', {
   integration: true,
@@ -15,23 +15,19 @@ moduleFor('mixin:loadable', 'Integration | Mixins | Loadable', {
   }
 });
 
-test('it should xyz', async function(assert) {
+test('it can load includes', async function(assert) {
   server.create('post', { id: 1 });
   server.createList('comment', 2, { postId: 1 });
 
-  let findPromise;
-  Ember.run(() => {
-    findPromise = this.store.findRecord('post', 1)
+  let post = await run(() => {
+    return this.store.findRecord('post', 1)
   });
 
-  let post = await findPromise;
+  assert.equal(post.hasMany('comments').value(), null);
 
-  let loadPromise;
-  Ember.run(() => {
-    loadPromise = post.load('comments');
+  post = await run(() => {
+    return post.load('comments');
   });
 
-  await loadPromise;
-
-  assert.equal(post.get('comments.length'), 2);
+  assert.equal(post.hasMany('comments').value().get('length'), 2);
 });
