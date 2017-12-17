@@ -3,6 +3,7 @@ import DS from 'ember-data';
 import Service from '@ember/service';
 import QuerySet from 'ember-data-storefront/-private/query-set';
 import Cache from 'ember-data-storefront/-private/cache';
+import { resolve } from 'rsvp';
 
 export default Service.extend({
   store: Ember.inject.service(),
@@ -10,7 +11,7 @@ export default Service.extend({
   init() {
     this._super(...arguments);
 
-    this.set('cache', new Cache(this.get('store')));
+    this.cache = new Cache(this.get('store'));
   },
 
   loadAll(type, params = {}) {
@@ -34,16 +35,31 @@ export default Service.extend({
     return DS.PromiseArray.create({ promise });
   },
 
+  // loadRecord(type, id, params = {}) {
+  //   let record = this.get('cache').recordFor(type, id, params);
+  //   let promise;
+  //
+  //   if (record) {
+  //     promise = Ember.RSVP.resolve(record);
+  //     this.fetchRecordWithParams(type, id, params); // background reload TODO: swap for expires
+  //
+  //   } else {
+  //     promise = this.fetchRecordWithParams(type, id, params);
+  //   }
+  //
+  //   return promise;
+  // },
+
   loadRecord(type, id, params = {}) {
-    let record = this.get('cache').recordFor(type, id, params);
+    let query = this.cache.queryFor(type, id, params);
     let promise;
 
-    if (record) {
-      promise = Ember.RSVP.resolve(record);
-      this.fetchRecordWithParams(type, id, params); // background reload TODO: swap for expires
+    if (query.value) {
+      promise = resolve(query.value);
+      query.run(); // background reload TODO: swap for expires/stale
 
     } else {
-      promise = this.fetchRecordWithParams(type, id, params);
+      promise = query.run();
     }
 
     return promise;
