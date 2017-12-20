@@ -1,23 +1,39 @@
 import Cache from './cache';
 import RecordQuery from './record-query';
+import RecordArrayQuery from './record-array-query';
 import { get } from '@ember/object';
 
+/*
+  I know how to retrieve queries from the cache, and also assemble queries that
+  are not in the cache but can be derived from them.
+*/
 export default class Coordinator {
 
   constructor(store) {
     this.store = store;
     this.cache = new Cache();
 
-    // A materialized view of the cache's queries that have loaded includes
+    // A materialized view of loaded includes from the cache's queries.
     this.loadedIncludes = {};
   }
 
-  queryFor(type, id, params) {
-    let query = this.cache.get(type, id, params);
+  recordQueryFor(type, id, params) {
+    let query = this.cache.getRecordQuery(type, id, params);
 
     if (!query) {
-      query = this._assembleQuery(type, id, params);
-      this._rememberQuery(query);
+      query = this._assembleRecordQuery(type, id, params);
+      this._rememberRecordQuery(query);
+    }
+
+    return query;
+  }
+
+  recordArrayQueryFor(type, params) {
+    let query = this.cache.getRecordArrayQuery(type, params);
+
+    if (!query) {
+      query = this._assembleRecordArrayQuery(type, params);
+      this._rememberRecordArrayQuery(query);
     }
 
     return query;
@@ -25,12 +41,18 @@ export default class Coordinator {
 
   // Private
 
-  _assembleQuery(type, id, params) {
+  _assembleRecordQuery(type, id, params) {
     let query = new RecordQuery(this.store, type, id, params);
 
     if (this._queryValueCanBeDerived(query)) {
       query.value = this.store.peekRecord(type, id);
     }
+
+    return query;
+  }
+
+  _assembleRecordArrayQuery(type, params) {
+    let query = new RecordArrayQuery(this.store, type, params);
 
     return query;
   }
@@ -58,9 +80,13 @@ export default class Coordinator {
       });
   }
 
-  _rememberQuery(query) {
-    this.cache.put(query);
+  _rememberRecordQuery(query) {
+    this.cache.putRecordQuery(query);
     this._updateLoadedIncludesWithQuery(query);
+  }
+
+  _rememberRecordArrayQuery(query) {
+    this.cache.putRecordArrayQuery(query);
   }
 
   _updateLoadedIncludesWithQuery(query) {

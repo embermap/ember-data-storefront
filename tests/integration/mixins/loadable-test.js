@@ -1,11 +1,14 @@
 import { moduleFor, test } from 'ember-qunit';
 import { startMirage } from 'dummy/initializers/ember-cli-mirage';
 import { run } from '@ember/runloop';
+import DS from 'ember-data';
+import Loadable from 'ember-data-storefront/mixins/loadable';
 
 moduleFor('mixin:loadable', 'Integration | Mixins | Loadable', {
   integration: true,
 
   beforeEach() {
+    DS.Model.reopen(Loadable);
     this.server = startMirage();
     this.inject.service('store')
   },

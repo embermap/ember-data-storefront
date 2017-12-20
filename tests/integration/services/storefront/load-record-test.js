@@ -49,9 +49,7 @@ test('it can load a record', async function(assert) {
 test('it resolves immediately with an already-loaded record, then reloads it in the background', async function(assert) {
   let serverPost = this.server.create('post', { title: 'My post' });
   let serverCalls = 0;
-  this.server.pretender.handledRequest = function() {
-    serverCalls++;
-  };
+  this.server.pretender.handledRequest = () => serverCalls++;
 
   await run(() => {
     return this.storefront.loadRecord('post', serverPost.id);
@@ -70,9 +68,7 @@ test('it resolves immediately with an already-loaded record, then reloads it in 
 test('it forces already-loaded records to fetch with the reload option', async function(assert) {
   let serverPost = this.server.create('post');
   let serverCalls = 0;
-  this.server.pretender.handledRequest = function() {
-    serverCalls++;
-  };
+  this.server.pretender.handledRequest = () => serverCalls++;
 
   await run(() => {
     return this.storefront.loadRecord('post', serverPost.id, { reload: true });
@@ -134,9 +130,7 @@ test('it blocks when including an association for the first time', async functio
   let serverPost = this.server.create('post');
   this.server.createList('comment', 3, { post: serverPost });
   let serverCalls = 0;
-  this.server.pretender.handledRequest = function() {
-    serverCalls++;
-  };
+  this.server.pretender.handledRequest = () => serverCalls++;
 
   let post = await run(() => {
     return this.storefront.loadRecord('post', serverPost.id);
@@ -161,9 +155,7 @@ test('it resolves immediately with an includes-only query whose relationships ha
   this.server.createList('comment', 3, { post: serverPost });
   this.server.createList('tag', 2, { posts: [ serverPost ] });
   let serverCalls = 0;
-  this.server.pretender.handledRequest = function() {
-    serverCalls++;
-  };
+  this.server.pretender.handledRequest = () => serverCalls++;
 
   let post = await run(() => {
     return this.storefront.loadRecord('post', serverPost.id, {

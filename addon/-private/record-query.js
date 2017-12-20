@@ -1,17 +1,17 @@
 export default class RecordQuery {
 
-  /**
-    The latest result of the query.
-
-    @public
-    @property value
-  */
   constructor(store, type, id, params) {
     this.store = store;
     this.type = type;
     this.id = id;
     this.params = params;
 
+    /**
+      The latest result of the query.
+
+      @public
+      @property value
+    */
     this.value = null;
   }
 

@@ -55,3 +55,7 @@ test('the template rerenders for fresh storefront queries', function(assert) {
     assert.equal(this.$().text().trim(), "ipsum");
   });
 });
+
+test('works for findALl', function(assert) {
+  assert.ok(false);
+});

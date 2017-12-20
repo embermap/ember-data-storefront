@@ -1,4 +1,5 @@
 import { get } from '@ember/object';
+import RecordQuery from './record-query';
 
 /*
   A cache for queries.
@@ -7,17 +8,29 @@ export default class Cache {
 
   constructor() {
     this.recordQueries = {};
+    this.recordArrayQueries = {};
   }
 
-  get(type, id, params={}) {
+  getRecordQuery(type, id, params={}) {
     let key = this._keyForParams(params);
     let recordQueries = get(this.recordQueries, `${type}.${id}`) || {};
-    let recordQuery = recordQueries[key];
 
-    return recordQuery;
+    return recordQueries[key];
   }
 
-  put(query) {
+  getRecordArrayQuery(type, params={}) {
+    let key = this._keyForParams(params);
+    let recordArrayQueries = get(this.recordArrayQueries, `${type}`) || {};
+
+    return recordArrayQueries[key];
+  }
+
+  putRecordQuery(query) {
+    this._setupCacheForQuery(query);
+    this._addQueryToCache(query);
+  }
+
+  putRecordArrayQuery(query) {
     this._setupCacheForQuery(query);
     this._addQueryToCache(query);
   }
@@ -51,14 +64,22 @@ export default class Cache {
   }
 
   _setupCacheForQuery(query) {
-    this.recordQueries[query.type] = this.recordQueries[query.type] || {};
-    this.recordQueries[query.type][query.id] = this.recordQueries[query.type][query.id] || {};
+    if (query instanceof RecordQuery) {
+      this.recordQueries[query.type] = this.recordQueries[query.type] || {};
+      this.recordQueries[query.type][query.id] = this.recordQueries[query.type][query.id] || {};
+    } else {
+      this.recordArrayQueries[query.type] = this.recordArrayQueries[query.type] || {};
+    }
   }
 
   _addQueryToCache(query) {
     let key = this._keyForParams(query.params);
 
-    this.recordQueries[query.type][query.id][key] = query;
+    if (query instanceof RecordQuery) {
+      this.recordQueries[query.type][query.id][key] = query;
+    } else {
+      this.recordArrayQueries[query.type][key] = query;
+    }
   }
 
 }
