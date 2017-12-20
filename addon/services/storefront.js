@@ -1,8 +1,6 @@
 import Ember from 'ember';
-import DS from 'ember-data';
 import Service from '@ember/service';
-import QuerySet from 'ember-data-storefront/-private/query-set';
-import Cache from 'ember-data-storefront/-private/cache';
+import Coordinator from 'ember-data-storefront/-private/coordinator';
 import { resolve } from 'rsvp';
 
 export default Service.extend({
@@ -11,85 +9,53 @@ export default Service.extend({
   init() {
     this._super(...arguments);
 
-    this.cache = new Cache(this.get('store'));
+    this.coordinator = new Coordinator(this.get('store'));
   },
 
-  loadAll(type, params = {}) {
-    let shouldReload = params.reload;
-    delete params.reload;
-
-    let promise;
-    let querySet = this.get('cache').collectionFor(type, params);
-
-    if (querySet && !shouldReload) {
-      promise = Ember.RSVP.resolve(querySet.records);
-      querySet.reload(); // background reload TODO: swap for expires
-
-    } else if (querySet && shouldReload) {
-      promise = querySet.reload();
-
-    } else {
-      promise = this.fetchAllWithParams(type, params);
-    }
-
-    return DS.PromiseArray.create({ promise });
-  },
-
-  // loadRecord(type, id, params = {}) {
-  //   let record = this.get('cache').recordFor(type, id, params);
-  //   let promise;
+  // loadAll(type, params = {}) {
+  //   let shouldReload = params.reload;
+  //   delete params.reload;
   //
-  //   if (record) {
-  //     promise = Ember.RSVP.resolve(record);
-  //     this.fetchRecordWithParams(type, id, params); // background reload TODO: swap for expires
+  //   let promise;
+  //   let querySet = this.get('cache').collectionFor(type, params);
+  //
+  //   if (querySet && !shouldReload) {
+  //     promise = Ember.RSVP.resolve(querySet.records);
+  //     querySet.reload(); // background reload TODO: swap for expires
+  //
+  //   } else if (querySet && shouldReload) {
+  //     promise = querySet.reload();
   //
   //   } else {
-  //     promise = this.fetchRecordWithParams(type, id, params);
+  //     promise = this.fetchAllWithParams(type, params);
   //   }
+  //
+  //   return DS.PromiseArray.create({ promise });
+  // },
+
+  // loadAll(type, params = {}) {
+  //   let query = this.cache.queryFor(type, params);
+  //   let promise;
+  //
+  //   promise = query.run();
   //
   //   return promise;
   // },
 
-  loadRecord(type, id, params = {}) {
-    let query = this.cache.queryFor(type, id, params);
+  loadRecord(type, id, params={}) {
+    let query = this.coordinator.queryFor(type, id, params);
+    let forceReload = params.reload;
     let promise;
 
-    if (query.value) {
-      promise = resolve(query.value);
-      query.run(); // background reload TODO: swap for expires/stale
+    if (forceReload || !query.value) {
+      promise = query.run();
 
     } else {
-      promise = query.run();
+      promise = resolve(query.value);
+      query.run(); // background reload. TODO: swap for expires/stale
     }
 
     return promise;
-  },
-
-  fetchAllWithParams(type, params) {
-    let querySet = new QuerySet(this.get('store'), type, params);
-    let cache = this.get('cache');
-
-    return querySet
-      .query()
-      .then(collection => {
-        cache.putCollectionFor(type, params, querySet);
-
-        return collection;
-      });
-  },
-
-  fetchRecordWithParams(type, id, params) {
-    let options = Object.assign({ reload: true }, params);
-    let cache = this.get('cache');
-
-    return this.get('store')
-      .findRecord(type, id, options)
-      .then(record => {
-        cache.putRecordFor(type, id, params);
-
-        return record;
-      });
-  },
-
+  }
 
 });

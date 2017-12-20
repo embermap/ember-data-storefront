@@ -1,4 +1,6 @@
 export default function() {
+  window.server = this;
+  
   this.get('posts', function(schema, request) {
     let filters = {};
 

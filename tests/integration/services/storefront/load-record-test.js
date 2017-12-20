@@ -1,8 +1,8 @@
 import { moduleFor, test } from 'ember-qunit';
 import { run } from '@ember/runloop';
 import { waitFor } from 'ember-wait-for-test-helper/wait-for';
-import Server from 'ember-cli-mirage/server';
 import { Model, hasMany, belongsTo, JSONAPISerializer } from 'ember-cli-mirage';
+import Server from 'ember-cli-mirage/server';
 
 moduleFor('service:storefront', 'Integration | Services | Storefront | loadRecord', {
   integration: true,
@@ -46,7 +46,7 @@ test('it can load a record', async function(assert) {
   assert.equal(post.get('id'), serverPost.id);
 });
 
-test(`it resolves immediately if it already loaded the record, and reloads it in the background`, async function(assert) {
+test('it resolves immediately with an already-loaded record, then reloads it in the background', async function(assert) {
   let serverPost = this.server.create('post', { title: 'My post' });
   let serverCalls = 0;
   this.server.pretender.handledRequest = function() {
@@ -67,6 +67,24 @@ test(`it resolves immediately if it already loaded the record, and reloads it in
   await waitFor(() => serverCalls === 2);
 });
 
+test('it forces already-loaded records to fetch with the reload option', async function(assert) {
+  let serverPost = this.server.create('post');
+  let serverCalls = 0;
+  this.server.pretender.handledRequest = function() {
+    serverCalls++;
+  };
+
+  await run(() => {
+    return this.storefront.loadRecord('post', serverPost.id, { reload: true });
+  });
+
+  await run(() => {
+    return this.storefront.loadRecord('post', serverPost.id, { reload: true });
+  });
+
+  assert.equal(serverCalls, 2);
+});
+
 test('it can load a record with includes', async function(assert) {
   let serverPost = this.server.create('post');
   this.server.createList('comment', 3, { post: serverPost });
@@ -81,7 +99,7 @@ test('it can load a record with includes', async function(assert) {
   assert.equal(post.get('comments.length'), 3);
 });
 
-test(`it resolves immediately if it already loaded the record with an includes query, and reloads the includes query in the background`, async function(assert) {
+test(`it resolves immediately with an already-loaded includes query, then reloads it in the background`, async function(assert) {
   let serverPost = this.server.create('post', { title: 'My post' });
   this.server.createList('comment', 3, { post: serverPost });
   let serverCalls = [];
@@ -94,6 +112,8 @@ test(`it resolves immediately if it already loaded the record with an includes q
       include: 'comments'
     });
   });
+
+  assert.equal(serverCalls.length, 1);
 
   let post = await run(() => {
     return this.storefront.loadRecord('post', serverPost.id, {
@@ -136,7 +156,7 @@ test('it blocks when including an association for the first time', async functio
   assert.equal(post.hasMany('comments').value().get('length'), 3);
 });
 
-test('it resolves immediately if its an includes-noly query and all relationships have already been loaded', async function(assert) {
+test('it resolves immediately with an includes-only query whose relationships have already been loaded', async function(assert) {
   let serverPost = this.server.create('post');
   this.server.createList('comment', 3, { post: serverPost });
   this.server.createList('tag', 2, { posts: [ serverPost ] });
