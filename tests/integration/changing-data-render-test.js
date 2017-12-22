@@ -1,5 +1,4 @@
 import { moduleForComponent, test } from 'ember-qunit';
-import wait from 'ember-test-helpers/wait';
 import hbs from 'htmlbars-inline-precompile';
 import { Model, JSONAPISerializer } from 'ember-cli-mirage';
 import Server from 'ember-cli-mirage/server';
@@ -25,11 +24,11 @@ moduleForComponent('Integration | Changing data render test', {
   }
 });
 
-test('the template rerenders for fresh storefront queries', function(assert) {
+test('record queries trigger template rerenders', async function(assert) {
   let serverPost = this.server.create('post', { title: 'Lorem' });
   let postId = serverPost.id;
 
-  run(() => {
+  await run(() => {
     return this.storefront.loadRecord('post', postId)
       .then(post => {
         this.set('model', post);
@@ -40,22 +39,38 @@ test('the template rerenders for fresh storefront queries', function(assert) {
     {{model.title}}
   `);
 
-  wait().then(() => {
-    assert.equal(this.$().text().trim(), "Lorem");
+  assert.equal(this.$().text().trim(), "Lorem");
+
+  this.server.schema.posts.find(serverPost.id).update('title', 'ipsum');
+  await run(() => {
+    return this.storefront.loadRecord('post', postId);
   });
 
-  wait().then(() => {
-    this.server.schema.posts.find(serverPost.id).update('title', 'ipsum');
-    run(() => {
-      return this.storefront.loadRecord('post', postId);
-    });
-  });
-
-  return wait().then(() => {
-    assert.equal(this.$().text().trim(), "ipsum");
-  });
+  assert.equal(this.$().text().trim(), "ipsum");
 });
 
-test('works for findALl', function(assert) {
-  assert.ok(false);
+test('record array queries trigger template rerenders', async function(assert) {
+  this.server.createList('post', 2);
+
+  await run(() => {
+    return this.storefront.loadAll('post')
+      .then(posts => {
+        this.set('model', posts);
+      });
+  });
+
+  this.render(hbs`
+    <ul>
+      {{#each model as |post|}}
+        <li>{{post.id}}</li>
+      {{/each}}
+    </ul>
+  `);
+
+  assert.equal(this.$('li').length, 2);
+
+  this.server.create('post');
+  await this.get('model').update();
+
+  assert.equal(this.$('li').length, 3);
 });

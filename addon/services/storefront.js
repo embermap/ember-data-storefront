@@ -42,5 +42,9 @@ export default Service.extend({
     }
 
     return promise;
+  },
+
+  hasLoadedIncludesForRecord(type, id, includesString) {
+    return this.coordinator.recordHasIncludes(type, id, includesString);
   }
 });

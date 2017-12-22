@@ -39,6 +39,13 @@ export default class Coordinator {
     return query;
   }
 
+  recordHasIncludes(type, id, includesString) {
+    let query = this._assembleRecordQuery(type, id, { include: includesString });
+    let nonLoadedIncludes = this._nonLoadedIncludesForQuery(query);
+
+    return nonLoadedIncludes.length === 0;
+  }
+
   // Private
 
   _assembleRecordQuery(type, id, params) {
@@ -62,7 +69,7 @@ export default class Coordinator {
     if (queryKeys.length === 1 && queryKeys[0] === 'include') {
       let nonLoadedIncludes = this._nonLoadedIncludesForQuery(query);
 
-      return !nonLoadedIncludes.length;
+      return nonLoadedIncludes.length === 0;
     }
   }
 

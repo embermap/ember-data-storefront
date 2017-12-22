@@ -13,7 +13,7 @@ import Ember from 'ember';
       This comment was written by {{comment.author.name}}
     {{/each}}
 */
-const Component = Ember.Component.extend({
+export default Ember.Component.extend({
   tagName: '',
 
   didReceiveAttrs() {
@@ -30,11 +30,8 @@ const Component = Ember.Component.extend({
     return this._super(...arguments);
   }
 
-});
+}).reopenClass({
 
-Component.reopenClass({
-  // positionalParams: [ 'model', 'includesString' ]
   positionalParams: 'args'
+  
 });
-
-export default Component;
