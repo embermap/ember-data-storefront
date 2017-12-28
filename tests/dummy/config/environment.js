@@ -4,9 +4,15 @@
 module.exports = function(environment) {
   let ENV = {
     modulePrefix: 'dummy',
+    podModulePrefix: 'dummy/pods',
     environment,
+    // rootURL: '/ember-data-storefront/',
     rootURL: '/',
-    locationType: 'auto',
+    locationType: 'router-scroll',
+    historySupportMiddleware: true,
+    routerScroll: {
+      scrollElement: '#docs-viewer__scroll-body'
+    },
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build

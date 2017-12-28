@@ -6,21 +6,9 @@ export default class RecordQuery {
     this.id = id;
     this.params = params;
 
-    /**
-      The latest result of the query.
-
-      @public
-      @property value
-    */
     this.value = null;
   }
 
-  /**
-    Execute the query against the network.
-
-    @public
-    @method run
-  */
   run() {
     let options = Object.assign({ reload: true }, this.params);
 
