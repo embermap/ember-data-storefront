@@ -58,7 +58,6 @@
     "ember-source": "~2.16.0",
     "ember-test-selectors": "^0.3.8",
     "ember-wait-for-test-helper": "^2.1.1",
-    "liquid-fire": "^0.29.1",
     "loader.js": "^4.2.3"
   },
   "engines": {

@@ -50,11 +50,11 @@
 
     <div class='demo1__expander'>
       <a {{action 'toggleExpand'}} href="#">
-        {{#liquid-if isExpanded}}
+        {{#if isExpanded}}
           {{fa-icon 'angle-up'}}
         {{else}}
           {{fa-icon 'angle-down'}}
-        {{/liquid-if}}
+        {{/if}}
       </a>
     </div>
   </div>
