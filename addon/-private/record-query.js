@@ -10,7 +10,13 @@ export default class RecordQuery {
   }
 
   run() {
-    let options = Object.assign({ reload: true }, this.params);
+    // If the query has params, we force a reload, since Ember Data treats all
+    // findRecords the same.
+    let hasParams = Object.keys(this.params).length > 0;
+    let options = Object.assign(
+      { reload: hasParams },
+      this.params
+    );
 
     return this.store.findRecord(this.type, this.id, options)
       .then(record => {

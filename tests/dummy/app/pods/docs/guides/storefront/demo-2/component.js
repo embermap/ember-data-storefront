@@ -23,18 +23,18 @@ export default Component.extend({
 
   routes: {
     '/posts': {
-      // BEGIN-SNIPPET demo1-posts-route
+      // BEGIN-SNIPPET demo2-posts-route
       // route
       model() {
-        return this.get('store').findAll('post');
+        return this.get('storefront').findAll('post');
       }
       // END-SNIPPET
     },
     '/posts/1': {
-      // BEGIN-SNIPPET demo1-posts1-route
+      // BEGIN-SNIPPET demo2-posts1-route
       // route
       model() {
-        return this.get('store').findRecord('post', 1);
+        return this.get('storefront').findRecord('post', 1);
       }
       // END-SNIPPET
     }

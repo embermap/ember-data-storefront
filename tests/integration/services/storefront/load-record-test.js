@@ -1,14 +1,14 @@
 import { moduleFor, test } from 'ember-qunit';
 import { run } from '@ember/runloop';
 import { waitFor } from 'ember-wait-for-test-helper/wait-for';
-import { Model, hasMany, belongsTo, JSONAPISerializer } from 'ember-cli-mirage';
-import Server from 'ember-cli-mirage/server';
+import { Model, hasMany, belongsTo } from 'ember-cli-mirage';
+import MirageServer from 'dummy/tests/integration/helpers/mirage-server';
 
 moduleFor('service:storefront', 'Integration | Services | Storefront | loadRecord', {
   integration: true,
 
   beforeEach() {
-    this.server = new Server({
+    this.server = new MirageServer({
       models: {
         post: Model.extend({
           comments: hasMany(),
@@ -20,9 +20,6 @@ moduleFor('service:storefront', 'Integration | Services | Storefront | loadRecor
         tag: Model.extend({
           posts: hasMany()
         })
-      },
-      serializers: {
-        application: JSONAPISerializer
       },
       baseConfig() {
         this.resource('posts');

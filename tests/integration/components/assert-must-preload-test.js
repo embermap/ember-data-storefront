@@ -13,6 +13,10 @@ moduleForComponent('assert-must-preload', 'Integration | Component | assert must
     DS.Model.reopen(Loadable);
     this.storefront = this.container.lookup('service:storefront')
     this.server = startMirage();
+  },
+
+  afterEach() {
+    this.server.shutdown();
   }
 });
 

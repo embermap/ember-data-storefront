@@ -1,26 +1,26 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import { Model, JSONAPISerializer } from 'ember-cli-mirage';
-import Server from 'ember-cli-mirage/server';
+import MirageServer from 'dummy/tests/integration/helpers/mirage-server';
+import { Model } from 'ember-cli-mirage';
 import { run } from '@ember/runloop';
 
 moduleForComponent('Integration | Changing data render test', {
   integration: true,
 
   beforeEach() {
-    this.server = new Server({
-      environment: 'test',
+    this.server = new MirageServer({
       models: {
         post: Model.extend()
-      },
-      serializers: {
-        application: JSONAPISerializer
       },
       baseConfig() {
         this.resource('posts');
       }
     });
     this.storefront = this.container.lookup('service:storefront')
+  },
+
+  afterEach() {
+    this.server.shutdown();
   }
 });
 
@@ -43,7 +43,7 @@ test('record queries trigger template rerenders', async function(assert) {
 
   this.server.schema.posts.find(serverPost.id).update('title', 'ipsum');
   await run(() => {
-    return this.storefront.loadRecord('post', postId);
+    return this.storefront.loadRecord('post', postId, { reload: true });
   });
 
   assert.equal(this.$().text().trim(), "ipsum");

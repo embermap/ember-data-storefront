@@ -27,7 +27,7 @@ export default Service.extend({
   init() {
     this._super(...arguments);
 
-    this.coordinator = new Coordinator(this.get('store'));
+    this.resetCache();
   },
 
   /**
@@ -89,6 +89,10 @@ export default Service.extend({
     return promise;
   },
 
+  findAll(...args) {
+    return this.loadAll(...args);
+  },
+
   loadRecord(type, id, options={}) {
     let query = this.coordinator.recordQueryFor(type, id, options);
     let forceReload = options.reload;
@@ -105,7 +109,16 @@ export default Service.extend({
     return promise;
   },
 
+  findRecord(...args) {
+    return this.loadRecord(...args);
+  },
+
   hasLoadedIncludesForRecord(type, id, includesString) {
     return this.coordinator.recordHasIncludes(type, id, includesString);
+  },
+
+  resetCache() {
+    this.coordinator = new Coordinator(this.get('store'));
   }
+
 });

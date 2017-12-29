@@ -21,10 +21,34 @@
 
 <p>If you followed the steps above, what you'll notice is that under the second scenario, the <code>/posts</code> route was actually rendered in two states. First, it showed <code>post:1</code> in the list, and then after about a second the app re-rendered and the other two posts appeared.</p>
 
-<p>This is because the <code>/posts/1</code> route loaded the <code>post:1</code> record into Ember Data's store. By the time you visited the <code>/posts</code> index route, the promise from the store's <code>findAll</code> method resolved immediately with that <code>post:1</code> record, and then triggered a background reload of the entire <code>posts</code> collection. (Click the {{fa-icon 'angle-down'}} above to expand the demo for more details about what's happening as you navigate through the app.)</p>
+<p>This is because the <code>/posts/1</code> route had already loaded the <code>post:1</code> record into Ember Data's store. By the time you visited the <code>/posts</code> index route, the promise from the store's <code>findAll</code> method resolved immediately with that <code>post:1</code> record, and then triggered a background reload of the entire <code>posts</code> collection. (Click the {{fa-icon 'angle-down'}} above to expand the demo for more details about what's happening as you navigate through the app.)</p>
 
 <p>Ember Data's <code>findAll</code> method accepts a <code>reload</code> option that we can use to force the promise to block, but then we'd lose the benefits of caching. (Note how after visiting <code>/posts</code> for the first time, it's fast on all subsequent visits.)</p>
 
-<p>Storefront's modified version of <code>findAll</code> was designed to avoid re-rendering problems like this.</p>
+<p>Storefront's modified version of <code>findAll</code> was designed to avoid re-rendering problems like this. Let's make one small change to our routes: we'll replace Ember Data's <code>store</code> with the <code>storefront</code> service:</p>
+
+{{#docs-snippet name="your-snippet-name"}}
+  model() {
+-   return this.get('store').findAll('post');
++   return this.get('storefront').findAll('post');
+  }
+
+  model() {
+-   return this.get('store').findRecord('post', 1);
++   return this.get('storefront').findRecord('post', 1);
+  }
+{{/docs-snippet}}
+
+<p>
+  Now let's take a look at our app (be sure to click reset first):
+</p>
+
+{{docs/guides/storefront/demo-2}}
+
+<p>
+  Notice that the behavior for the second scenario has changed. If we visit <code>/posts/1</code> first, and then click on <code>/posts</code>, we get a blocking promise. Storefront knows you've never called <code>findAll</code> for the <code>post</code> model yet, so instead of resolving instantly with the one post you happen to have in the store, it issues a network request for all posts and returns a blocking promise. In this way, you avoid the index route being in a state that you as the developer didn't intend.
+</p>
+
+<p>Philosophically, Storefront's position is that routes (and other data-loading parts of your application) should be as declarative as possible. If you return <code>findAll('post')</code> from your route, you are declaring that this route needs a list of all posts in order to render. If your application has never made that network request, then it should block until it has made it for the first time. On subsequent visits, the page will render instantly using the cached value, as you can see by clicking around in the demo above.</p>
 
 {{!-- <h2>Loading a model</h2> --}}
