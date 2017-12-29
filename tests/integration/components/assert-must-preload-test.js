@@ -23,7 +23,7 @@ test('it errors if the relationship has not yet be loaded', function(assert) {
     this.render(hbs`
       {{assert-must-preload post "comments"}}
     `)
-  }, /You passed a post model into a 'component', but that model didn't have all of its required relationships preloaded ('comments')*/);
+  }, /You passed a post model into a .+, but that model didn't have all of its required relationships preloaded ('comments')*/);
 });
 
 test('it errors if one of the relationships has not yet been loaded', function(assert) {
