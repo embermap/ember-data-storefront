@@ -14,7 +14,7 @@ export default function(overrides) {
   let server = new Server(config);
 
   // Have to override after instantiation, because `test` env sets to 0
-  server.timing = 50;
+  server.timing = 5;
 
   return server;
 }
