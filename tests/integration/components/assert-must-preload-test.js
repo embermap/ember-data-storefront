@@ -1,24 +1,31 @@
-import EmberObject from '@ember/object';
-import LoadableMixin from 'ember-data-storefront/mixins/loadable';
 import { moduleForComponent, test } from 'ember-qunit';
+import { run } from '@ember/runloop';
+import { startMirage } from 'dummy/initializers/ember-cli-mirage';
 import hbs from 'htmlbars-inline-precompile';
+import DS from 'ember-data';
+import Loadable from 'ember-data-storefront/mixins/loadable';
 
 moduleForComponent('assert-must-preload', 'Integration | Component | assert must preload', {
+
   integration: true,
 
   beforeEach() {
-    let LoadableObject = EmberObject.extend(LoadableMixin);
-    LoadableObject.modelName = 'post';
-    this.post = LoadableObject.create({
-      id: '123',
-      store: {
-        findRecord() {}
-      }
-    });
+    DS.Model.reopen(Loadable);
+    this.storefront = this.container.lookup('service:storefront')
+    this.server = startMirage();
+  },
+
+  afterEach() {
+    this.server.shutdown();
   }
 });
 
-test('it errors if the relationship has not yet be loaded', function(assert) {
+test('it errors if the relationship has not yet be loaded', async function(assert) {
+  this.server.create('post');
+  this.post = await run(() => {
+    return this.storefront.loadRecord('post', 1);
+  });
+
   assert.expectAssertion(() => {
     this.render(hbs`
       {{assert-must-preload post "comments"}}
@@ -26,33 +33,42 @@ test('it errors if the relationship has not yet be loaded', function(assert) {
   }, /You passed a post model into a .+, but that model didn't have all of its required relationships preloaded ('comments')*/);
 });
 
-test('it errors if one of the relationships has not yet been loaded', function(assert) {
-  this.post.load('comments');
+test('it errors if one of the relationships has not yet be loaded', async function(assert) {
+  this.server.create('post');
+  this.post = await run(() => {
+    return this.storefront.loadRecord('post', 1, { include: 'author' });
+  });
 
   assert.expectAssertion(() => {
     this.render(hbs`
       {{assert-must-preload post "author,comments"}}
     `)
-  });
+  }, /You passed a post model into a .+, but that model didn't have all of its required relationships preloaded ('comments')*/);
 });
 
-test('it errors if a relationship has been loaded, but one of its relationships has not', function(assert) {
-  this.post.load('comments');
+test('it errors if a nested relationship has not yet be loaded', async function(assert) {
+  this.server.create('post');
+  this.post = await run(() => {
+    return this.storefront.loadRecord('post', 1, { include: 'comments' });
+  });
 
   assert.expectAssertion(() => {
     this.render(hbs`
-      {{assert-must-preload post "comments,author"}}
+      {{assert-must-preload post "comments.author"}}
     `)
-  });
+  }, /You passed a post model into a .+, but that model didn't have all of its required relationships preloaded ('comments.author')*/);
 });
 
-test('it does not error if all of the relationships have been loaded', function(assert) {
-  this.post.load('comments');
+test('it does not error if the relationship was loaded', async function(assert) {
+  this.server.create('post');
+  this.post = await run(() => {
+    return this.storefront.loadRecord('post', 1, { include: 'comments' });
+  });
 
   this.render(hbs`
     {{assert-must-preload post "comments"}}
   `);
 
-  // basically nothing render ok
+  // if nothing renders, we're ok
   assert.equal(this.$().text().trim(), "");
 });

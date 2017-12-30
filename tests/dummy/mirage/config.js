@@ -1,13 +1,23 @@
 export default function() {
-  this.get('posts', function(schema, request) {
-    let filters = {};
+  window.server = this;
 
-    if (request.queryParams['filter[slug]']) {
-      filters.slug = request.queryParams['filter[slug]'];
-    }
-
-    return schema.posts.where(filters);
+  this.get('posts', {
+    timing: 1000
   });
 
-  this.get('/posts/:id');
+  // this.get('posts', function(schema, request) {
+  //   let filters = {};
+  //
+  //   if (request.queryParams['filter[slug]']) {
+  //     filters.slug = request.queryParams['filter[slug]'];
+  //   }
+  //
+  //   return schema.posts.where(filters);
+  // });
+
+  this.get('/posts/:id', {
+    timing: 1000
+  });
+
+  this.passthrough();
 }
