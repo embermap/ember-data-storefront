@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/ember-learn/ember-cli-addon-docs.svg)](https://travis-ci.org/ember-learn/ember-cli-addon-docs)
+[![Build Status](https://travis-ci.org/embermap/ember-data-storefront.svg)](https://travis-ci.org/embermap/ember-data-storefront)
 
 # Ember Data Storefront
 
