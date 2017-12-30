@@ -1,4 +1,6 @@
-# Ember data storefront
+[![Build Status](https://travis-ci.org/ember-learn/ember-cli-addon-docs.svg)](https://travis-ci.org/ember-learn/ember-cli-addon-docs)
+
+# Ember Data Storefront
 
 A collection of APIs to make working with Ember data easier.
 
