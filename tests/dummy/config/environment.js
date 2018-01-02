@@ -6,7 +6,6 @@ module.exports = function(environment) {
     modulePrefix: 'dummy',
     podModulePrefix: 'dummy/pods',
     environment,
-    // rootURL: '/ember-data-storefront/',
     rootURL: '/',
     locationType: 'router-scroll',
     historySupportMiddleware: true,
@@ -50,7 +49,7 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
-    // here you can enable a production-specific feature
+    ENV.rootURL = '/ember-data-storefront';
   }
 
   return ENV;
