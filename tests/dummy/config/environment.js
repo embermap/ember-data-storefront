@@ -12,6 +12,9 @@ module.exports = function(environment) {
     routerScroll: {
       scrollElement: '#docs-viewer__scroll-body'
     },
+    'ember-cli-mirage': {
+      enabled: true
+    },
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
