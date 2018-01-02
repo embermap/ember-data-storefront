@@ -5,7 +5,15 @@ const EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
 
 module.exports = function(defaults) {
   let app = new EmberAddon(defaults, {
-    // Add options here
+    fingerprint: {
+      prepend: '/ember-data-storefront/',
+    },
+    svgJar: {
+      sourceDirs: [
+        'public',
+        'tests/dummy/public'
+      ]
+    }
   });
 
   /*
