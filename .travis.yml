@@ -44,3 +44,6 @@ script:
 
 after_success:
   - node_modules/.bin/ember deploy production
+  
+notifications:
+  email: false
