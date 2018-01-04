@@ -37,7 +37,7 @@ test('it returns true if the relationship has been loaded', async function(asser
   this.server.createList('comment', 3, { post: serverPost });
 
   await run(() => {
-    return this.storefront.loadRecord('post', serverPost.id, {
+    return this.storefront.findRecord('post', serverPost.id, {
       include: 'comments'
     });
   });
@@ -50,7 +50,7 @@ test('it returns false if the relationship has not been loaded', async function(
   this.server.createList('comment', 3, { post: serverPost });
 
   await run(() => {
-    return this.storefront.loadRecord('post', serverPost.id);
+    return this.storefront.findRecord('post', serverPost.id);
   });
 
   assert.notOk(this.storefront.hasLoadedIncludesForRecord('post', serverPost.id, 'comments'));

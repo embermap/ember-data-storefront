@@ -7,7 +7,7 @@ export default Ember.Mixin.create({
   load(...includes) {
     let modelName = this.constructor.modelName;
 
-    return this.get('storefront').loadRecord(modelName, this.get('id'), {
+    return this.get('storefront').findRecord(modelName, this.get('id'), {
       include: includes.join(',')
     });
   },

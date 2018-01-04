@@ -63,50 +63,50 @@ export default Ember.computed.extend({
   storefront: Ember.service.inject(),
 
   didInsertElement() {
-    this.get('storefront').loadAll('post', { filter: { popular: true }});
+    this.get('storefront').findAll('post', { filter: { popular: true }});
   }
 });
 ```
 
 The following query APIs are available on the storefront service:
 
-* [loadAll](###loadAll)
+* [findAll](###findAll)
 
 
-### loadAll(modelName, params)
+### findAll(modelName, params)
 
 ```js
 storefront
-  .loadAll('post', { filter: { popular: true }})
+  .findAll('post', { filter: { popular: true }})
   .then(models => models);
 ```
 
-Similar to `findAll`, `loadAll` will query the backend for a collection of models. The first call to `loadAll` returns a blocking promise that will fulfill with a collection of models. Subsequent calls to `loadAll` with the same model name and params will return a cached result and reloaded the results in the background.
+Similar to `store.findAll`, `findAll` will query the backend for a collection of models. The first call to `findAll` returns a blocking promise that will fulfill with a collection of models. Subsequent calls to `findAll` with the same model name and params will return a cached result and reloaded the results in the background.
 
-The difference between `loadAll` and `findAll` is that `findAll` will instantly fulfill if any models are in the Ember data store, which can lead to FOUC as well as UI bugs. For example, imagine a user visits the `/posts/1` route, which loads a specific post. Next, they go to the `/posts` route that loads all posts. Since Ember data has a post model (Post Id: 1) in its store, the `findAll` in the `/posts` route model hook will instantly fulfill and render the template with a single post. However, since `findAll` also triggers a background reload, the page will soon re-render with all posts. This creates a confusing flash of changing content.
+The difference between `findAll` and `store.findAll` is that `store.findAll` will instantly fulfill if any models are in the Ember data store, which can lead to FOUC as well as UI bugs. For example, imagine a user visits the `/posts/1` route, which loads a specific post. Next, they go to the `/posts` route that loads all posts. Since Ember data has a post model (Post Id: 1) in its store, the `store.findAll` in the `/posts` route model hook will instantly fulfill and render the template with a single post. However, since `store.findAll` also triggers a background reload, the page will soon re-render with all posts. This creates a confusing flash of changing content.
 
-`loadAll` avoids this problem by returning a blocking promise for any query it has not executed. It will only return an instantly fulfilling promise if it knows it has the expected data in the store.
+`findAll` avoids this problem by returning a blocking promise for any query it has not executed. It will only return an instantly fulfilling promise if it knows it has the expected data in the store.
 
 It also let's you load collections of records using filters, pagination, includes, or any other query string data. Returning a blocking promise for any queries it has never run.
 
-The collection returned by `loadAll` is a bound array. It will automatically re-update when the query is re-run in the future.
+The collection returned by `findAll` is a bound array. It will automatically re-update when the query is re-run in the future.
 
-Whenever `loadAll` is returning an instantly fulfilling promise it will also a background reload. If needed, you can force `loadAll` to return a blocking promise by adding `{ reload: true }` to the params.
+Whenever `findAll` is returning an instantly fulfilling promise it will also a background reload. If needed, you can force `findAll` to return a blocking promise by adding `{ reload: true }` to the params.
 
 ```js
 // Examples
 
 // filters
-storefront.loadAll('post', { filter: { popular: true }});
+storefront.findAll('post', { filter: { popular: true }});
 
 // pagination
-storefront.loadAll('post', { page: { limit: 10, offset: 0 }});
+storefront.findAll('post', { page: { limit: 10, offset: 0 }});
 
 // includes
-storefront.loadAll('post', { include: 'comments' });
+storefront.findAll('post', { include: 'comments' });
 
 // force an already loaded set to reload (blocking promise)
-storefront.loadAll('post', { reload: true });
+storefront.findAll('post', { reload: true });
 ```
 
 ## Force sync relationships

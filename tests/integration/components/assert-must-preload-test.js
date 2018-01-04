@@ -23,7 +23,7 @@ moduleForComponent('assert-must-preload', 'Integration | Component | assert must
 test('it errors if the relationship has not yet be loaded', async function(assert) {
   this.server.create('post');
   this.post = await run(() => {
-    return this.storefront.loadRecord('post', 1);
+    return this.storefront.findRecord('post', 1);
   });
 
   assert.expectAssertion(() => {
@@ -36,7 +36,7 @@ test('it errors if the relationship has not yet be loaded', async function(asser
 test('it errors if one of the relationships has not yet be loaded', async function(assert) {
   this.server.create('post');
   this.post = await run(() => {
-    return this.storefront.loadRecord('post', 1, { include: 'author' });
+    return this.storefront.findRecord('post', 1, { include: 'author' });
   });
 
   assert.expectAssertion(() => {
@@ -49,7 +49,7 @@ test('it errors if one of the relationships has not yet be loaded', async functi
 test('it errors if a nested relationship has not yet be loaded', async function(assert) {
   this.server.create('post');
   this.post = await run(() => {
-    return this.storefront.loadRecord('post', 1, { include: 'comments' });
+    return this.storefront.findRecord('post', 1, { include: 'comments' });
   });
 
   assert.expectAssertion(() => {
@@ -62,7 +62,7 @@ test('it errors if a nested relationship has not yet be loaded', async function(
 test('it does not error if the relationship was loaded', async function(assert) {
   this.server.create('post');
   this.post = await run(() => {
-    return this.storefront.loadRecord('post', 1, { include: 'comments' });
+    return this.storefront.findRecord('post', 1, { include: 'comments' });
   });
 
   this.render(hbs`

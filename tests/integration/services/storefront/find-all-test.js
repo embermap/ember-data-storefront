@@ -3,7 +3,7 @@ import { waitFor } from 'ember-wait-for-test-helper/wait-for';
 import { Model, hasMany, belongsTo } from 'ember-cli-mirage';
 import MirageServer from 'dummy/tests/integration/helpers/mirage-server';
 
-moduleFor('service:storefront', 'Integration | Services | Storefront | loadAll', {
+moduleFor('service:storefront', 'Integration | Services | Storefront | findAll', {
   integration: true,
 
   beforeEach() {
@@ -35,7 +35,7 @@ moduleFor('service:storefront', 'Integration | Services | Storefront | loadAll',
 test('it can load a collection', async function(assert) {
   let post = this.server.create('post');
 
-  let posts = await this.storefront.loadAll('post');
+  let posts = await this.storefront.findAll('post');
 
   assert.equal(posts.get('length'), 1);
   assert.equal(posts.get('firstObject.id'), post.id);
@@ -46,13 +46,13 @@ test('it resolves immediately with an already-loaded collection, then reloads it
   let serverCalls = 0;
   this.server.pretender.handledRequest = () => serverCalls++;
 
-  let posts = await this.storefront.loadAll('post', serverPost.id);
+  let posts = await this.storefront.findAll('post', serverPost.id);
 
   assert.equal(serverCalls, 1);
   assert.equal(posts.get('length'), 2);
 
   this.server.create('post');
-  posts = await this.storefront.loadAll('post', serverPost.id);
+  posts = await this.storefront.findAll('post', serverPost.id);
 
   assert.equal(serverCalls, 1);
   assert.equal(posts.get('length'), 2);
@@ -66,8 +66,8 @@ test('it forces an already-loaded collection to fetch with the reload options', 
   let serverCalls = 0;
   this.server.pretender.handledRequest = () => serverCalls++;
 
-  await this.storefront.loadAll('post', { reload: true });
-  let posts = await this.storefront.loadAll('post', { reload: true });
+  await this.storefront.findAll('post', { reload: true });
+  let posts = await this.storefront.findAll('post', { reload: true });
 
   assert.equal(serverCalls, 2);
   assert.equal(posts.get('length'), 3);
@@ -80,7 +80,7 @@ test('it can load a collection with a query object', async function(assert) {
     serverCalls.push(args);
   };
 
-  let posts = await this.storefront.loadAll('post', {
+  let posts = await this.storefront.findAll('post', {
     filter: {
       testing: 123
     }
@@ -101,7 +101,7 @@ test('it can load a collection with includes', async function(assert) {
     serverCalls.push(arguments);
   };
 
-  let posts = await this.storefront.loadAll('post', {
+  let posts = await this.storefront.findAll('post', {
     include: 'comments'
   });
 
