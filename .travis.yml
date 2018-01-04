@@ -10,9 +10,10 @@ addons:
   chrome: stable
 
 cache:
+  yarn: true
   directories:
     - $HOME/.npm
-
+    - $HOME/.cache # includes bowers cache
 env:
   global:
     # See https://git.io/vdao3 for details.
@@ -33,10 +34,13 @@ matrix:
     - env: EMBER_TRY_SCENARIO=ember-canary
 
 before_install:
-  - npm config set spin false
-  - npm install -g npm@4
-  - npm --version
+  # Locking to Yarn 1.0.2 to work around https://github.com/yarnpkg/yarn/issues/4612
+  - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.0.2
+  - export PATH=$HOME/.yarn/bin:$PATH
 
+install:
+  - yarn install --no-lockfile
+  
 script:
   # Usually, it's ok to finish the test scenario without reverting
   #  to the addon's original dependency state, skipping "cleanup".
@@ -44,6 +48,6 @@ script:
 
 after_success:
   - node_modules/.bin/ember deploy production
-  
+
 notifications:
   email: false
