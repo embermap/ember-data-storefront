@@ -91,7 +91,7 @@ It also let's you load collections of records using filters, pagination, include
 
 The collection returned by `findAll` is a bound array. It will automatically re-update when the query is re-run in the future.
 
-Whenever `findAll` is returning an instantly fulfilling promise it will also a background reload. If needed, you can force `findAll` to return a blocking promise by adding `{ reload: true }` to the params.
+Whenever `findAll` is returning an instantly fulfilling promise it will also do a background reload. If needed, you can force `findAll` to return a blocking promise by adding `{ reload: true }` to the params.
 
 ```js
 // Examples
