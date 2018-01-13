@@ -1,12 +1,13 @@
 import { resolve } from 'rsvp';
 import { ago } from 'ember-data-storefront/-private/utils/time';
 
-export default class EmberDataRecordArray {
+export default class ArrayQuery {
 
-  constructor(store, type, params) {
+  constructor(store, type, params, strategy) {
     this.store = store;
     this.type = type;
     this.params = params;
+    this.strategy = strategy;
 
     this.lastRun = null;
     this.value = null;
@@ -14,17 +15,12 @@ export default class EmberDataRecordArray {
 
   run() {
     let promise;
-    let expires = this.params.expires;
-    let isFresh = this.value && expires && this.lastRun && ago(expires).isBefore(this.lastRun);
-    let isStale = expires && !isFresh;
 
-    if (isFresh) {
+    if (this.isFresh()) {
       promise = resolve(this.value);
 
     } else if (this.value) {
-      let shouldBlock = isStale ||
-        this.params.reload ||
-        !this.store.adapterFor(this.type).shouldBackgroundReloadAll(this.store, this.value);
+      let shouldBlock = this.strategy && this.strategy.shouldBlockReload(this);
 
       // still refetch the query
       let refetch = this.value.update()
@@ -46,5 +42,20 @@ export default class EmberDataRecordArray {
     }
 
     return promise
+  }
+
+  isFresh() {
+    let expires = this.params.expires;
+    let lastRun = this.lastRun;
+
+    return this.value &&
+      lastRun &&
+      expires &&
+      expires !== "immediately" &&
+      (expires === "never" || ago(expires).isBefore(lastRun));
+  }
+
+  isStale() {
+    return this.params.expires && !this.isFresh();
   }
 }

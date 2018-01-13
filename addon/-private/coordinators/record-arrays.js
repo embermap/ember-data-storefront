@@ -1,9 +1,10 @@
 import Cache from 'ember-data-storefront/-private/cache';
+import ArrayQuery from 'ember-data-storefront/-private/queries/array';
 import Strategies from 'ember-data-storefront/-private/strategies';
 
 class Coordinator {
-  constructor(queryArrayClass) {
-    this.queryArrayClass = queryArrayClass;
+  constructor(strategyClass) {
+    this.strategyClass = strategyClass;
     this.cache = new Cache();
   }
 
@@ -11,7 +12,8 @@ class Coordinator {
     let query = this.cache.getRecordArrayQuery(type, params);
 
     if (!query) {
-      query = new this.queryArrayClass(store, type, params);
+      let strategy = new this.strategyClass();
+      query = new ArrayQuery(store, type, params, strategy);
       this.cache.putRecordArrayQuery(query);
     }
 
@@ -28,7 +30,7 @@ export default class RecordArrays {
     let coordinator = this.coordinators[name];
 
     if (!coordinator) {
-      coordinator = new Coordinator(Strategies[`${name}Array`]);
+      coordinator = new Coordinator(Strategies[`${name}`]);
       this.coordinators[name] = coordinator;
     }
 

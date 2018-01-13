@@ -1,5 +1,5 @@
-import EmberDataArray from './ember-data/array';
+import EmberData from './ember-data';
 
 export default {
-  EmberDataArray
+  EmberData
 }
