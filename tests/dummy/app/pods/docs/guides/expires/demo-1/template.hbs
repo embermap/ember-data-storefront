@@ -1,0 +1,94 @@
+<div class='demo-expire'>
+  <div class="demo-expire__container">
+    <div class="demo-expire__top-section">
+      <div class="demo-expire__flex demo-expire__flex-items-center">
+        <h2 class="demo-expire__section-heading">
+          Expiring queries
+        </h2>
+        <div class="demo-expire__mla">
+          <button {{action 'reset'}} class='demo-expire__btn'>Reset</button>
+        </div>
+      </div>
+
+      <div class="demo-expire__panel">
+        <div class="demo-expire__flex demo-expire__flex-items-center">
+        </div>
+
+        <h2>Query</h2>
+
+        {{#docs-snippet name="find-all-expires"}}
+          this.get('storefront')
+            .findAll('posts', { expires: '10 seconds' });
+        {{/docs-snippet}}
+
+        <button {{action (perform findAll)}} class='demo-expire__btn'>
+          Run query!
+        </button>
+
+        <div class="demo-expire__flex">
+          <div class="demo-expire__flex-w50">
+            <h3 class="demo-expire__title">
+              Query promise
+            </h3>
+            <div class='demo-expire__app-url'>
+              {{#if findAll.isRunning}}
+                Blocking
+              {{else if query.isUpdating}}
+                Background reload
+              {{else}}
+                Idle
+              {{/if}}
+            </div>
+          </div>
+          
+          <div class="demo-expire__flex-w50">
+            <h3 class="demo-expire__title">
+              Expires
+            </h3>
+            <div class='demo-expire__app-url'>
+              {{#if (and lastRun isNotExpired)}}
+                Expires in {{round (div expiresIn 1000) decimals=2}} seconds
+              {{else if lastRun}}
+                Expired!
+              {{else}}
+                Nothing to expire.
+              {{/if}}
+            </div>
+          </div>
+        </div>
+
+        <div class="demo-expire__flex">
+          <div class="demo-expire__flex-w50">
+            <h3 class="demo-expire__title">
+              Server
+            </h3>
+            <div class='demo-expire__app-url'>
+              The server has {{serverPosts.length}} posts.
+            </div>
+          </div>
+
+          <div class="demo-expire__flex-w50">
+            <h3 class="demo-expire__title">
+              Result
+            </h3>
+            <div class='demo-expire__app-url'>
+              {{#if query}}
+                The query found {{query.length}} posts.
+              {{else}}
+                No results yet.
+              {{/if}}
+            </div>
+          </div>
+        </div>
+
+        <h3 class="demo-expire__title">
+          Event log
+        </h3>
+        {{sticky-log log=log}}
+
+      </div>
+
+    </div>
+
+  </div>
+</div>

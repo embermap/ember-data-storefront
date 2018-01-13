@@ -12,6 +12,7 @@ Router.map(function() {
    this.route('quickstart');
    this.route('guides', function() {
      this.route('storefront');
+     this.route('expires');
    });
 
    this.route('api', function() {

@@ -1,0 +1,25 @@
+<h1>The Storefront service</h1>
+
+{{#docs-snippet name="find-all-expires"}}
+  this.get('storefront')
+    .findAll('posts', { expires: '10 seconds' });
+{{/docs-snippet}}
+
+<p>
+  Every time we run this query it will return the same result
+  until it expires, which will happen in 10 seconds. If the query is
+  run after it has expired, it will fetch new data from the backend.
+</p>
+
+<p>
+  To show this this, let's have our server create a new post every
+  second. We'll then have the client fetch all posts from the server
+  with an expires time of 10 seconds.
+</p>
+
+<p>
+  Since the query is considered expired it will return a blocking
+  promise. We don't want to have your route render stale data.
+</p>
+
+{{docs/guides/expires/demo-1}}

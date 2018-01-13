@@ -1,0 +1,12 @@
+.sticky-log {
+  overflow: scroll;
+  height: 160px;
+  background-color: #f8f8f8;
+  padding: 12px;
+
+  color: #ABABAB;
+
+  :last-child {
+    color: #333;
+  }
+}

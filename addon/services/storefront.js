@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import Service from '@ember/service';
 import Coordinator from 'ember-data-storefront/-private/coordinator';
+import RecordArrays from 'ember-data-storefront/-private/coordinators/record-arrays';
 import { resolve } from 'rsvp';
 import { deprecate } from '@ember/application/deprecations';
 
@@ -62,7 +63,7 @@ export default Service.extend({
     @return {Promise} a promise resolving with the record array
     @public
   */
-  findAll(type, options={}) {
+  findAll1(type, options={}) {
     let query = this.coordinator.recordArrayQueryFor(type, options);
     let forceReload = options.reload;
     let promise;
@@ -76,6 +77,16 @@ export default Service.extend({
     }
 
     return promise;
+  },
+
+  findAll(type, options={}) {
+    let store = this.get('store');
+    let strategy = 'EmberData';
+
+    return this.recordArrays
+      .strategy(strategy)
+      .query(store, type, options)
+      .run();
   },
 
   loadAll(...args) {
@@ -118,6 +129,7 @@ export default Service.extend({
 
   resetCache() {
     this.coordinator = new Coordinator(this.get('store'));
+    this.recordArrays = new RecordArrays(this.get('store'));
   }
 
 });

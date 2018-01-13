@@ -22,7 +22,9 @@
     "test": "ember try:each"
   },
   "dependencies": {
-    "ember-cli-babel": "^6.6.0"
+    "ember-cli-babel": "^6.6.0",
+    "ember-cli-moment-shim": "^3.5.0",
+    "ember-moment": "^7.5.0"
   },
   "devDependencies": {
     "broccoli-asset-rev": "^2.4.5",
@@ -51,6 +53,7 @@
     "ember-export-application-global": "^2.0.0",
     "ember-font-awesome": "3.1.1",
     "ember-load-initializers": "^1.0.0",
+    "ember-math-helpers": "^2.4.0",
     "ember-maybe-import-regenerator": "^0.1.6",
     "ember-qunit-assert-helpers": "^0.2.1",
     "ember-resolver": "^4.0.0",
