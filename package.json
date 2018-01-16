@@ -19,10 +19,12 @@
   "scripts": {
     "build": "ember build",
     "start": "ember server",
-    "test": "ember try:each"
+    "test": "ember try:each",
+    "test:node": "qunit node-tests/**/*-test.js"
   },
   "dependencies": {
-    "ember-cli-babel": "^6.6.0"
+    "ember-cli-babel": "^6.6.0",
+    "global": "^4.3.2"
   },
   "devDependencies": {
     "broccoli-asset-rev": "^2.4.5",
@@ -58,7 +60,9 @@
     "ember-source": "~2.16.0",
     "ember-test-selectors": "^0.3.8",
     "ember-wait-for-test-helper": "^2.1.1",
-    "loader.js": "^4.2.3"
+    "loader.js": "^4.2.3",
+    "qunit": "^2.5.0",
+    "strip-indent": "^2.0.0"
   },
   "engines": {
     "node": "^4.5 || 6.* || >= 7.*"
