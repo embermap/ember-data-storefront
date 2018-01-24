@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/embermap/ember-data-storefront.svg)](https://travis-ci.org/embermap/ember-data-storefront)
+[![npm version](https://badge.fury.io/js/ember-data-storefront.svg)](http://badge.fury.io/js/ember-data-storefront)
 
 # Ember Data Storefront
 
