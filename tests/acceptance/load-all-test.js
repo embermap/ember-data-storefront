@@ -23,7 +23,7 @@ test('visiting /load-all', async function(assert) {
   server.create('post', { id: '1', title: 'Post 1 title' });
   server.create('post');
 
-  await visit('/docs/guides/storefront');
+  await visit('/docs/guides/data-fetching');
 
   // Click post1-link, see loading, then see post1
   click(t('demo2', 'post1-link'));

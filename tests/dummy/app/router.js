@@ -8,16 +8,27 @@ const Router = EmberRouter.extend(RouterScroll, {
 });
 
 Router.map(function() {
- this.route('docs', function() {
-   this.route('quickstart');
-   this.route('guides', function() {
-     this.route('storefront');
-   });
+  this.route('docs', function() {
+    this.route('guides', function() {
+      this.route('data-fetching');
+      this.route('working-with-relationships');
+      this.route('avoiding-rendering-errors');
+      /*
+        - Querying data
+          - Storefront's loadAll and loadRecord are cached at the query-level.
+        - Relationships
+          - Loading related data. `#loadable` gives you an explicit way to load related data (.get is not explicit). This works best with sync relationships.
+          - Sync relationships
+        - Avoiding rendering errors
+          - assert-must-preload
+          - Sync relationships are the best way we've found to avoiding templating errors
+      */
+    });
 
-   this.route('api', function() {
-     this.route('class', { path: '/:class_id' });
-   });
- });
+    this.route('api', function() {
+      this.route('class', { path: '/:class_id' });
+    });
+  });
 });
 
 export default Router;

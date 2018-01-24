@@ -1,10 +1,10 @@
-<h1>The Storefront service</h1>
+<h1>Data fetching</h1>
 
 <p>
   Storefront's main service acts as a replacement for Ember Data's <code>store</code>. It's built directly on top of Ember Data, but is more intelligent about caching. Another way to say this is that Storefront's <code>find</code> methods are query-aware.
 </p>
 
-<h2>Avoiding unexpected re-renders</h2>
+<hr>
 
 {{!-- <p>Storefront's version of <code>findAll</code> is similar to Ember Data's with one important exception: it caches results based on the complete set of options you pass to it. Ember Data, on the other hand, resolves calls to <code>findAll</code> by returning everything in its local store.</p> --}}
 
@@ -17,7 +17,7 @@
   <li>This time, visit <code>/posts/1</code> first and <code>/posts</code> second.</li>
 </ul>
 
-{{docs/guides/storefront/demo-1}}
+{{docs/guides/data-fetching/demo-1}}
 
 <p>If you followed the steps above, what you'll notice is that under the second scenario, the <code>/posts</code> route was actually rendered in two states. First, it showed <code>post:1</code> in the list, and then after about a second the app re-rendered and the other two posts appeared.</p>
 
@@ -43,7 +43,7 @@
   Now let's take a look at our app (be sure to click reset first):
 </p>
 
-{{docs/guides/storefront/demo-2}}
+{{docs/guides/data-fetching/demo-2}}
 
 <p>
   Notice that the behavior for the second scenario has changed. If we visit <code>/posts/1</code> first, and then click on <code>/posts</code>, we get a blocking promise. Storefront knows you've never called <code>findAll</code> for the <code>post</code> model yet, so instead of resolving instantly with the one post you happen to have in the store, it issues a network request for all posts and returns a blocking promise. In this way, you avoid the index route being in a state that you as the developer didn't intend.
