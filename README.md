@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/EmberMap/ember-data-storefront.svg)](https://travis-ci.org/EmberMap/ember-data-storefront)
+[![Build Status](https://travis-ci.org/embermap/ember-data-storefront.svg)](https://travis-ci.org/embermap/ember-data-storefront)
 
 # Ember Data Storefront
 
