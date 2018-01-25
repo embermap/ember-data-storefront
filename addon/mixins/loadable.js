@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 /**
-  _This feature relies on JSON:API, and assumes that your server supports JSON:API includes._
+  _This mixin relies on JSON:API, and assumes that your server supports JSON:API includes._
 
   This mixin adds a `#load` method to your Ember Data models.
 
@@ -21,7 +21,7 @@ import Ember from 'ember';
   post.load('comments');
   ```
 
-  The above uses Storefront's `loadRecord` method to query your backend for the post along with its comments.
+  The above uses Storefront's `findRecord` method to query your backend for the post along with its comments.
 
   You can also use JSON:API's dot notation to load additional related relationships.
 
@@ -35,7 +35,7 @@ import Ember from 'ember';
   post.load('comments').then(() => console.log('loaded comments!'));
   ```
 
-  If a relationship has never been loaded, the promise will block until the data is loaded. However, if a relationship has already been loaded (even from calls to `loadRecord` elsewhere in your application), the promise will resolve synchronously with the data from Storefront's cache. This means you don't have to worry about overcalling `load()`.
+  If a relationship has never been loaded, the promise will block until the data is loaded. However, if a relationship has already been loaded (even from calls to `findRecord` elsewhere in your application), the promise will resolve synchronously with the data from Storefront's cache. This means you don't have to worry about overcalling `load()`.
 
   This feature works best when used on relationships that are defined with `{ async: false }` because it allows `load()` to load the data, and `get()` to access the data that has already been loaded.
 

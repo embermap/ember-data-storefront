@@ -1,10 +1,30 @@
 # Working with relationships
 
+Here are some patterns we recommend to make working with relationships more predictable.
+
 ## Explicitly load related data
 
 The `Loadable` mixin gives you a simple, expressive way to load related data. This works best when used in conjunction with sync-only relationships.
 
-## Only use synchronous relationships
+```js
+// models/post.js
+import DS from 'ember-data';
+import Loadable from 'ember-data-storefront/mixins/loadable';
+
+export default DS.Model.extend(Loadable, {
+  comments: DS.hasMany()
+});
+```
+
+Now you have an explicit, expressive API for asynchronously loading related data:
+
+```js
+post.load('comments');
+```
+
+View the `Loadable` API docs for more.
+
+## Avoid async relationships
 
 **Why avoid async relationships?**
 

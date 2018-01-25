@@ -1,6 +1,8 @@
 # Avoiding rendering errors
 
-## Ensuring data is loaded at render-time
+These patterns minimize the states in which your templates can exist, helping you to avoid FOUC and other surprises.
+
+## Ensure data is loaded at render-time
 
 You can use the `{{assert-must-preload}}` component to throw a dev-time warning if a template is rendered without all of its requisite data. This can help you avoid FOUC and the `n+1` query bug.
 
@@ -16,8 +18,4 @@ If this template is rendered with a `post` that has not loaded its `comments.aut
 
 This template assertion is especially useful for reusable components with complex data requirements.
 
-## Avoid async relationships
-
-Async relationships that are lazily fetched at the template-render time introduce new, potentially unwanted states into your application. You don't let Ember infer and lazily load your route's model hook, so why do you let it infer and lazily load your model's relationships?
-
-You can read more about [our thoughts on avoiding async relationships](https://embermap.com/notes/83-the-case-against-async-relationships).
+Async relationships can also lead to surprises in templates by adding unnecessary states to your application. Read the section "Avoid async relationships" from the previous section to learn more about their pitfalls, and how to enforce sync-only relationships in your apps.
