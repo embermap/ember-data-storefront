@@ -28,6 +28,6 @@ Async relationships got you down? Check out our `Loadable` mixin and keep all yo
 
 ### Fewer rendering bugs
 
-Do certain paths through your application lead to templates sometimes being rendered with missing data? Tired of hitting the `n + 1` query bug? By declaring your routes' and templates' data needs, your app will become more robust.
+Do certain paths through your application lead to templates being rendered with missing data? Tired of hitting the `n + 1` query bug? By declaring your routes' and templates' data needs, your app will become more robust.
 
 {{link-to 'Read more' 'docs.guides.avoiding-rendering-errors'}}.

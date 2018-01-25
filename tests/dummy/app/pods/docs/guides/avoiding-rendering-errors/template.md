@@ -18,4 +18,4 @@ If this template is rendered with a `post` that has not loaded its `comments.aut
 
 This template assertion is especially useful for reusable components with complex data requirements.
 
-Async relationships can also lead to surprises in templates by adding unnecessary states to your application. Read the section "Avoid async relationships" from the previous section to learn more about their pitfalls, and how to enforce sync-only relationships in your apps.
+Async relationships can also lead to surprises in templates by adding unnecessary states to your application. Read the section "Avoid async relationships" from the previous guide to learn more about their pitfalls, and how to enforce sync-only relationships in your apps.
