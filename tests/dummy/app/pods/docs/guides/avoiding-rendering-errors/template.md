@@ -4,6 +4,10 @@ These patterns minimize the states in which your templates can exist, helping yo
 
 ## Ensure data is loaded at render-time
 
+<aside>
+  &lbrace;&lbrace;assert-must-preload&rbrace;&rbrace; only works on models that have included the Loadable mixin.
+</aside>
+
 You can use the `{{assert-must-preload}}` component to throw a dev-time warning if a template is rendered without all of its requisite data. This can help you avoid FOUC and the `n+1` query bug.
 
 ```hbs

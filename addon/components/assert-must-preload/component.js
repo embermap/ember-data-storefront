@@ -3,6 +3,8 @@ import Ember from 'ember';
 /**
   _This component relies on JSON:API, and assumes that your server supports JSON:API includes._
 
+  _{{assert-must-preload}} only works on models that have included the Loadable mixin._
+
   Use this when authoring a component that requires a model to be passed in with
   certain relationships already loaded.
 
@@ -28,11 +30,16 @@ export default Ember.Component.extend({
   didReceiveAttrs() {
     let [ model, ...includes ] = this.get('args');
     let parentComponent = this.parentView;
-    let parentName = parentComponent ? parentComponent._debugContainerKey : 'component';
+    let parentName = parentComponent ? parentComponent._debugContainerKey : 'template';
     let includesString = includes.join(',');
 
     Ember.assert(
-      `You passed a ${model.constructor.modelName} model into a '${parentName}', but that model didn't have all of its required relationships preloaded ('${includesString}'). Please make sure to preload the association. [ember-data-storefront]`,
+      `You passed a ${model.constructor.modelName} model into an {{assert-must-preload}}, but that model is not using the Loadable mixin. [ember-data-storefront]`,
+      model.hasLoaded
+    );
+
+    Ember.assert(
+      `You tried to render a ${parentName} that access relationships off of a ${model.constructor.modelName}, but that model didn't have all of its required relationships preloaded ('${includesString}'). Please make sure to preload the association. [ember-data-storefront]`,
       model.hasLoaded(includesString)
     );
 
