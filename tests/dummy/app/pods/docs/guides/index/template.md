@@ -1,8 +1,7 @@
 # Guides
 
-Learn how to use Storefront's APIs.
+Learn how to use Storefront.
 
-- [Storefront service]()
-- [Loadable mixin]()
-- [Force sync relationships]()
-- [assert-must-preload]()
+- Data fetching
+- Working with relationships
+- Avoiding rendering errors

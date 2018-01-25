@@ -2,10 +2,11 @@
 
   {{#viewer.nav as |nav|}}
     {{nav.item 'Overview' 'docs.index'}}
-    {{nav.item 'Quickstart' 'docs.quickstart'}}
     {{nav.item 'Guides' 'docs.guides'}}
     {{#nav.subnav as |nav|}}
-      {{nav.item 'The Storefront service' 'docs.guides.storefront'}}
+      {{nav.item 'Data fetching' 'docs.guides.data-fetching'}}
+      {{nav.item 'Working with relationships' 'docs.guides.working-with-relationships'}}
+      {{nav.item 'Avoiding rendering errros' 'docs.guides.avoiding-rendering-errors'}}
     {{/nav.subnav}}
   {{/viewer.nav}}
 
