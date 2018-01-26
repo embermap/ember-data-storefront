@@ -1,6 +1,6 @@
 # Ember Data Storefront
 
-[![npm version](https://img.shields.io/npm/v/ember-data-storefront.svg?style=flat-square)](http://badge.fury.io/js/eslint-plugin-ember-data-sync-relationships)
+[![npm version](https://img.shields.io/npm/v/ember-data-storefront.svg?style=flat-square)](http://badge.fury.io/js/ember-data-storefront)
 [![Build Status](https://img.shields.io/travis/embermap/ember-data-storefront.svg?style=flat-square)](https://travis-ci.org/embermap/ember-data-storefront)
 
 A collection of APIs that address common data-loading issues.
