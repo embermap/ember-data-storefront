@@ -3,13 +3,13 @@ import { waitFor } from 'ember-wait-for-test-helper/wait-for';
 import { startMirage } from 'dummy/initializers/ember-cli-mirage';
 import { run } from '@ember/runloop';
 import DS from 'ember-data';
-import Loadable from 'ember-data-storefront/mixins/loadable';
+import LoadableModel from 'ember-data-storefront/mixins/loadable-model';
 
-moduleFor('mixin:loadable', 'Integration | Mixins | Loadable', {
+moduleFor('mixin:loadable-model', 'Integration | Mixins | LoadableModel', {
   integration: true,
 
   beforeEach() {
-    DS.Model.reopen(Loadable);
+    DS.Model.reopen(LoadableModel);
     this.server = startMirage();
     this.inject.service('store')
 

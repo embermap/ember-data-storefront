@@ -3,9 +3,9 @@ import Resolver from './resolver';
 import loadInitializers from 'ember-load-initializers';
 import config from './config/environment';
 import DS from 'ember-data';
-import Loadable from 'ember-data-storefront/mixins/loadable';
+import LoadableModel from 'ember-data-storefront/mixins/loadable-model';
 
-DS.Model.reopen(Loadable);
+DS.Model.reopen(LoadableModel);
 
 const App = Application.extend({
   modulePrefix: config.modulePrefix,

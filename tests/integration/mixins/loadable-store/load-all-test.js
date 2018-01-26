@@ -1,9 +1,10 @@
 import { moduleFor, test } from 'ember-qunit';
-import { waitFor } from 'ember-wait-for-test-helper/wait-for';
-import { Model, hasMany, belongsTo } from 'ember-cli-mirage';
 import MirageServer from 'dummy/tests/integration/helpers/mirage-server';
+import { Model, hasMany, belongsTo } from 'ember-cli-mirage';
+import { waitFor } from 'ember-wait-for-test-helper/wait-for';
+import LoadableStore from 'ember-data-storefront/mixins/loadable-store';
 
-moduleFor('service:storefront', 'Integration | Services | Storefront | findAll', {
+moduleFor('mixin:loadable-store', 'Integration | Mixins | LoadableStore | loadAll', {
   integration: true,
 
   beforeEach() {
@@ -24,7 +25,9 @@ moduleFor('service:storefront', 'Integration | Services | Storefront | findAll',
         this.resource('posts');
       }
     });
-    this.storefront = this.subject();
+
+    this.inject.service('store')
+    this.store.reopen(LoadableStore);
   },
 
   afterEach() {
@@ -35,7 +38,7 @@ moduleFor('service:storefront', 'Integration | Services | Storefront | findAll',
 test('it can load a collection', async function(assert) {
   let post = this.server.create('post');
 
-  let posts = await this.storefront.findAll('post');
+  let posts = await this.store.loadAll('post');
 
   assert.equal(posts.get('length'), 1);
   assert.equal(posts.get('firstObject.id'), post.id);
@@ -46,13 +49,13 @@ test('it resolves immediately with an already-loaded collection, then reloads it
   let serverCalls = 0;
   this.server.pretender.handledRequest = () => serverCalls++;
 
-  let posts = await this.storefront.findAll('post', serverPost.id);
+  let posts = await this.store.loadAll('post', serverPost.id);
 
   assert.equal(serverCalls, 1);
   assert.equal(posts.get('length'), 2);
 
   this.server.create('post');
-  posts = await this.storefront.findAll('post', serverPost.id);
+  posts = await this.store.loadAll('post', serverPost.id);
 
   assert.equal(serverCalls, 1);
   assert.equal(posts.get('length'), 2);
@@ -66,8 +69,8 @@ test('it forces an already-loaded collection to fetch with the reload options', 
   let serverCalls = 0;
   this.server.pretender.handledRequest = () => serverCalls++;
 
-  await this.storefront.findAll('post', { reload: true });
-  let posts = await this.storefront.findAll('post', { reload: true });
+  await this.store.loadAll('post', { reload: true });
+  let posts = await this.store.loadAll('post', { reload: true });
 
   assert.equal(serverCalls, 2);
   assert.equal(posts.get('length'), 3);
@@ -80,7 +83,7 @@ test('it can load a collection with a query object', async function(assert) {
     serverCalls.push(args);
   };
 
-  let posts = await this.storefront.findAll('post', {
+  let posts = await this.store.loadAll('post', {
     filter: {
       testing: 123
     }
@@ -101,7 +104,7 @@ test('it can load a collection with includes', async function(assert) {
     serverCalls.push(arguments);
   };
 
-  let posts = await this.storefront.findAll('post', {
+  let posts = await this.store.loadAll('post', {
     include: 'comments'
   });
 

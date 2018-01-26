@@ -8,7 +8,6 @@ import { A } from '@ember/array';
 export default Component.extend({
 
   store: service(),
-  storefront: service(),
 
   serverPosts: computed(function() {
     return window.server.db.dump().posts;
@@ -26,7 +25,7 @@ export default Component.extend({
       // BEGIN-SNIPPET demo2-posts-route
       // route
       model() {
-        return this.get('storefront').findAll('post');
+        return this.get('store').loadAll('post');
       }
       // END-SNIPPET
     },
@@ -34,7 +33,7 @@ export default Component.extend({
       // BEGIN-SNIPPET demo2-posts1-route
       // route
       model() {
-        return this.get('storefront').findRecord('post', 1);
+        return this.get('store').loadRecord('post', 1);
       }
       // END-SNIPPET
     }
@@ -53,7 +52,7 @@ export default Component.extend({
 
   reset() {
     this.get('store').unloadAll('post');
-    this.get('storefront').resetCache();
+    this.get('store').resetCache();
     this.set('visitedRoutes', A([ '/' ]));
   },
 

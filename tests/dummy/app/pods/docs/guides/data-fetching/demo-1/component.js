@@ -8,7 +8,6 @@ import { A } from '@ember/array';
 export default Component.extend({
 
   store: service(),
-  storefront: service(),
 
   serverPosts: computed(function() {
     return window.server.db.dump().posts;
@@ -53,7 +52,7 @@ export default Component.extend({
 
   reset() {
     this.get('store').unloadAll('post');
-    this.get('storefront').resetCache();
+    this.get('store').resetCache();
     this.set('visitedRoutes', A([ '/' ]));
   },
 

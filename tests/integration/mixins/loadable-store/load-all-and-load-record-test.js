@@ -3,8 +3,9 @@ import { run } from '@ember/runloop';
 import { waitFor } from 'ember-wait-for-test-helper/wait-for';
 import { Model, hasMany, belongsTo } from 'ember-cli-mirage';
 import MirageServer from 'dummy/tests/integration/helpers/mirage-server';
+import LoadableStore from 'ember-data-storefront/mixins/loadable-store';
 
-moduleFor('service:storefront', 'Integration | Services | Storefront | findAll and findRecord', {
+moduleFor('mixin:loadable-store', 'Integration | Mixins | LoadableStore | loadAll and loadRecord', {
   integration: true,
 
   beforeEach() {
@@ -25,7 +26,9 @@ moduleFor('service:storefront', 'Integration | Services | Storefront | findAll a
         this.resource('posts');
       }
     });
-    this.storefront = this.subject();
+
+    this.inject.service('store')
+    this.store.reopen(LoadableStore);
   },
 
   afterEach() {
@@ -33,7 +36,7 @@ moduleFor('service:storefront', 'Integration | Services | Storefront | findAll a
   }
 });
 
-test('findRecord resolves immediately if its called with no options and the record is already in the store from findAll, then reloads it in the background', async function(assert) {
+test('loadRecord resolves immediately if its called with no options and the record is already in the store from loadAll, then reloads it in the background', async function(assert) {
   let serverPost = this.server.create('post', { title: 'My post' });
   let serverCalls = 0;
   this.server.pretender.handledRequest = function() {
@@ -41,11 +44,11 @@ test('findRecord resolves immediately if its called with no options and the reco
   };
 
   await run(() => {
-    return this.storefront.findAll('post');
+    return this.store.loadAll('post');
   });
 
   let post = await run(() => {
-    return this.storefront.findRecord('post', serverPost.id);
+    return this.store.loadRecord('post', serverPost.id);
   });
 
   assert.equal(serverCalls, 1);
@@ -54,7 +57,7 @@ test('findRecord resolves immediately if its called with no options and the reco
   await waitFor(() => serverCalls === 2);
 });
 
-test('findRecord blocks if its called with an includes, even if the record has already been loaded from findAll', async function(assert) {
+test('loadRecord blocks if its called with an includes, even if the record has already been loaded from loadAll', async function(assert) {
   let serverPost = this.server.create('post', { title: 'My post' });
   let serverCalls = 0;
   this.server.pretender.handledRequest = function() {
@@ -62,11 +65,11 @@ test('findRecord blocks if its called with an includes, even if the record has a
   };
 
   await run(() => {
-    return this.storefront.findAll('post');
+    return this.store.loadAll('post');
   });
 
   let post = await run(() => {
-    return this.storefront.findRecord('post', serverPost.id, {
+    return this.store.loadRecord('post', serverPost.id, {
       include: 'comments'
     });
   });

@@ -2594,7 +2594,7 @@ ember-cli-autoprefixer@^0.8.1:
     broccoli-autoprefixer "^5.0.0"
     lodash "^4.0.0"
 
-ember-cli-babel@^5.1.5, ember-cli-babel@^5.1.6, ember-cli-babel@^5.1.7:
+ember-cli-babel@^5.1.5, ember-cli-babel@^5.1.7:
   version "5.2.4"
   resolved "https://registry.yarnpkg.com/ember-cli-babel/-/ember-cli-babel-5.2.4.tgz#5ce4f46b08ed6f6d21e878619fb689719d6e8e13"
   dependencies:
@@ -2787,23 +2787,23 @@ ember-cli-lodash-subset@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/ember-cli-lodash-subset/-/ember-cli-lodash-subset-2.0.1.tgz#20cb68a790fe0fde2488ddfd8efbb7df6fe766f2"
 
-ember-cli-mirage@0.3.4:
-  version "0.3.4"
-  resolved "https://registry.yarnpkg.com/ember-cli-mirage/-/ember-cli-mirage-0.3.4.tgz#eeb9d6e02c0c49c81915762178bab9a42d86ada8"
+ember-cli-mirage@0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/ember-cli-mirage/-/ember-cli-mirage-0.4.1.tgz#bfdfe61e5e74dc3881ed31f12112dae1a29f0d4c"
   dependencies:
     broccoli-funnel "^1.0.2"
     broccoli-merge-trees "^1.1.0"
     broccoli-stew "^1.5.0"
     chalk "^1.1.1"
-    ember-cli-babel "^5.1.7"
+    ember-cli-babel "^6.8.2"
     ember-cli-node-assets "^0.1.4"
-    ember-get-config "0.2.1"
+    ember-get-config "^0.2.2"
     ember-inflector "^2.0.0"
     ember-lodash "^4.17.3"
     exists-sync "0.0.3"
     fake-xml-http-request "^1.4.0"
     faker "^3.0.0"
-    pretender "^1.4.2"
+    pretender "^1.6.1"
     route-recognizer "^0.2.3"
 
 ember-cli-node-assets@^0.1.4:
@@ -3142,12 +3142,12 @@ ember-font-awesome@3.1.1:
     ember-cli-htmlbars "^2.0.2"
     font-awesome "^4.7.0"
 
-ember-get-config@0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/ember-get-config/-/ember-get-config-0.2.1.tgz#a1325cceefcb4534c78fc6ccb2be87a3feda6817"
+ember-get-config@^0.2.2:
+  version "0.2.4"
+  resolved "https://registry.yarnpkg.com/ember-get-config/-/ember-get-config-0.2.4.tgz#118492a2a03d73e46004ed777928942021fe1ecd"
   dependencies:
     broccoli-file-creator "^1.1.1"
-    ember-cli-babel "^5.1.6"
+    ember-cli-babel "^6.3.0"
 
 ember-getowner-polyfill@^2.0.0, ember-getowner-polyfill@^2.0.1:
   version "2.2.0"
@@ -5244,7 +5244,7 @@ linkify-it@~1.2.0:
   dependencies:
     uc.micro "^1.0.1"
 
-liquid-fire@^0.29.0:
+liquid-fire@^0.29.0, liquid-fire@^0.29.1:
   version "0.29.1"
   resolved "https://registry.yarnpkg.com/liquid-fire/-/liquid-fire-0.29.1.tgz#bcfea12db65799def263721a2b9dd6142d426bdf"
   dependencies:
@@ -6594,7 +6594,7 @@ preserve@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/preserve/-/preserve-0.2.0.tgz#815ed1f6ebc65926f865b310c0713bcb3315ce4b"
 
-pretender@^1.4.2:
+pretender@^1.6.1:
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/pretender/-/pretender-1.6.1.tgz#77d1e42ac8c6b298f5cd43534a87645df035db8c"
   dependencies:

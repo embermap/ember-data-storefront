@@ -1,10 +1,11 @@
 import { moduleFor, test } from 'ember-qunit';
+import MirageServer from 'dummy/tests/integration/helpers/mirage-server';
+import { Model, hasMany, belongsTo } from 'ember-cli-mirage';
 import { run } from '@ember/runloop';
 import { waitFor } from 'ember-wait-for-test-helper/wait-for';
-import { Model, hasMany, belongsTo } from 'ember-cli-mirage';
-import MirageServer from 'dummy/tests/integration/helpers/mirage-server';
+import LoadableStore from 'ember-data-storefront/mixins/loadable-store';
 
-moduleFor('service:storefront', 'Integration | Services | Storefront | findRecord', {
+moduleFor('mixin:loadable-store', 'Integration | Mixins | LoadableStore | loadRecord', {
   integration: true,
 
   beforeEach() {
@@ -25,7 +26,9 @@ moduleFor('service:storefront', 'Integration | Services | Storefront | findRecor
         this.resource('posts');
       }
     });
-    this.storefront = this.subject();
+
+    this.inject.service('store')
+    this.store.reopen(LoadableStore);
   },
 
   afterEach() {
@@ -37,7 +40,7 @@ test('it can load a record', async function(assert) {
   let serverPost = this.server.create('post');
 
   let post = await run(() => {
-    return this.storefront.findRecord('post', serverPost.id);
+    return this.store.loadRecord('post', serverPost.id);
   });
 
   assert.equal(post.get('id'), serverPost.id);
@@ -49,11 +52,11 @@ test('it resolves immediately with an already-loaded record, then reloads it in 
   this.server.pretender.handledRequest = () => serverCalls++;
 
   await run(() => {
-    return this.storefront.findRecord('post', serverPost.id);
+    return this.store.loadRecord('post', serverPost.id);
   });
 
   let post = await run(() => {
-    return this.storefront.findRecord('post', serverPost.id);
+    return this.store.loadRecord('post', serverPost.id);
   });
 
   assert.equal(serverCalls, 1);
@@ -68,11 +71,11 @@ test('it forces already-loaded records to fetch with the reload option', async f
   this.server.pretender.handledRequest = () => serverCalls++;
 
   await run(() => {
-    return this.storefront.findRecord('post', serverPost.id, { reload: true });
+    return this.store.loadRecord('post', serverPost.id, { reload: true });
   });
 
   await run(() => {
-    return this.storefront.findRecord('post', serverPost.id, { reload: true });
+    return this.store.loadRecord('post', serverPost.id, { reload: true });
   });
 
   assert.equal(serverCalls, 2);
@@ -83,7 +86,7 @@ test('it can load a record with includes', async function(assert) {
   this.server.createList('comment', 3, { post: serverPost });
 
   let post = await run(() => {
-    return this.storefront.findRecord('post', serverPost.id, {
+    return this.store.loadRecord('post', serverPost.id, {
       include: 'comments'
     });
   });
@@ -101,7 +104,7 @@ test(`it resolves immediately with an already-loaded includes query, then reload
   };
 
   await run(() => {
-    return this.storefront.findRecord('post', serverPost.id, {
+    return this.store.loadRecord('post', serverPost.id, {
       include: 'comments'
     });
   });
@@ -109,7 +112,7 @@ test(`it resolves immediately with an already-loaded includes query, then reload
   assert.equal(serverCalls.length, 1);
 
   let post = await run(() => {
-    return this.storefront.findRecord('post', serverPost.id, {
+    return this.store.loadRecord('post', serverPost.id, {
       include: 'comments'
     });
   });
@@ -130,7 +133,7 @@ test('it blocks when including an association for the first time', async functio
   this.server.pretender.handledRequest = () => serverCalls++;
 
   let post = await run(() => {
-    return this.storefront.findRecord('post', serverPost.id);
+    return this.store.loadRecord('post', serverPost.id);
   });
 
   assert.equal(post.get('id'), serverPost.id);
@@ -138,7 +141,7 @@ test('it blocks when including an association for the first time', async functio
   assert.equal(serverCalls, 1);
 
   post = await run(() => {
-    return this.storefront.findRecord('post', serverPost.id, {
+    return this.store.loadRecord('post', serverPost.id, {
       include: 'comments'
     });
   });
@@ -155,7 +158,7 @@ test('it resolves immediately with an includes-only query whose relationships ha
   this.server.pretender.handledRequest = () => serverCalls++;
 
   let post = await run(() => {
-    return this.storefront.findRecord('post', serverPost.id, {
+    return this.store.loadRecord('post', serverPost.id, {
       include: 'comments'
     });
   });
@@ -164,7 +167,7 @@ test('it resolves immediately with an includes-only query whose relationships ha
   assert.equal(serverCalls, 1);
 
   post = await run(() => {
-    return this.storefront.findRecord('post', serverPost.id, {
+    return this.store.loadRecord('post', serverPost.id, {
       include: 'tags'
     });
   });
@@ -172,7 +175,7 @@ test('it resolves immediately with an includes-only query whose relationships ha
   assert.equal(post.hasMany('tags').value().get('length'), 2);
 
   post = await run(() => {
-    return this.storefront.findRecord('post', serverPost.id, {
+    return this.store.loadRecord('post', serverPost.id, {
       include: 'tags,comments'
     });
   });
