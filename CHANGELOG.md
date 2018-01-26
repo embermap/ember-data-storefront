@@ -1,5 +1,10 @@
-# master
-- [ BREAKING CHANGE ] The force-sync-relationships feature is now implemented as a Babel plugin rather than a run-time monkey patch.
+# 0.11.2
+
+- [ CHANGE ] The `storefront` service has been deprecated. Its methods are now available via the `LoadableStore` mixin which you can use in Ember Data's store. See [the docs](https://embermap.github.io/ember-data-storefront/docs/api/LoadableStore-0.11.1+40effca7) for more.
+
+- [ CHANGE ]The `Loadable` mixin has been renamed to `LoadableModel`. [See the docs](https://embermap.github.io/ember-data-storefront/docs/api/LoadableModel-0.11.1+40effca7).
+
+- [ BREAKING CHANGE ] The force-sync-relationships feature is now implemented as an ESLint warning or Babel plugin. The run-time monkey patch was removed.
 
     Before:
 
@@ -12,6 +17,13 @@
 
     ```
     // ember-cli-build.js
+    module.exports = function(environment) {
+      let ENV = {
+        'ember-data-storefront': {
+          forceSyncRelationships: 'rewrite'
+        }
+      };
+    }
     ```
 
 # 0.11.0 (Dec 5, 2017)
