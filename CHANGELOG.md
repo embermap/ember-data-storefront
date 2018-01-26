@@ -1,4 +1,4 @@
-# 0.11.2
+# 0.12
 
 - [ CHANGE ] The `storefront` service has been deprecated. Its methods are now available via the `LoadableStore` mixin which you can use in Ember Data's store. See [the docs](https://embermap.github.io/ember-data-storefront/docs/api/LoadableStore-0.11.1+40effca7) for more.
 
