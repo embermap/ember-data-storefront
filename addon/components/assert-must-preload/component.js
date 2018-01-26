@@ -39,7 +39,7 @@ export default Ember.Component.extend({
     );
 
     Ember.assert(
-      `You tried to render a ${parentName} that access relationships off of a ${model.constructor.modelName}, but that model didn't have all of its required relationships preloaded ('${includesString}'). Please make sure to preload the association. [ember-data-storefront]`,
+      `You tried to render a ${parentName} that accesses relationships off of a ${model.constructor.modelName}, but that model didn't have all of its required relationships preloaded ('${includesString}'). Please make sure to preload the association. [ember-data-storefront]`,
       model.hasLoaded(includesString)
     );
 

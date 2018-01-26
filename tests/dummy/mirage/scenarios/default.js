@@ -2,7 +2,12 @@
 
 export default function(server) {
   window.server = server;
-  server.create('post', { title: 'Lorem' });
+
+  server.create('post', {
+    title: 'Lorem',
+    comments: server.createList('comment', 3)
+  });
+
   server.create('post', { title: 'Ipsum' });
   server.create('post', { title: 'Dolor' });
   // server.createList('post', 3);

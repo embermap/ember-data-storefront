@@ -2,3 +2,22 @@
 
 $green: #7ED321;
 $green-dark: #417505;
+
+.bg-green {
+  background-color: $green;
+}
+.bg-green-dark-1 {
+  background-color: darken($green, 5%);
+}
+.hover-bg-green-dark-1 {
+  &:hover {
+    background-color: darken($green, 5%);
+  }
+}
+
+.outline-none {
+  outline: none;
+}
+.no-events {
+  pointer-events: none;
+}

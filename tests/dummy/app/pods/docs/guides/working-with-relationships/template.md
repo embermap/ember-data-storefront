@@ -4,7 +4,7 @@ Here are some patterns we recommend to make working with relationships more pred
 
 ## Explicitly load related data
 
-The `Loadable` mixin gives you a simple, expressive way to load related data. This works best when used in conjunction with sync-only relationships.
+The `Loadable` mixin gives you a simple, expressive way to load related data.
 
 ```js
 // models/post.js
@@ -16,15 +16,11 @@ export default DS.Model.extend(Loadable, {
 });
 ```
 
-Now you have an explicit, expressive API for asynchronously loading related data:
+Now you have an explicit, expressive API for asynchronously loading related data.
 
-```js
-post.load('comments');
-```
+{{docs/guides/working-with-relationships/demo-1}}
 
-View the `Loadable` API docs for more.
-
-## Avoid async relationships
+## Avoiding async relationships
 
 **Why avoid async relationships?**
 

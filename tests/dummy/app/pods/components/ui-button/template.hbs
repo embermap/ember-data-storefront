@@ -1,0 +1,12 @@
+<button
+  class='
+    bg-green hover-bg-green-dark-1 white bb br2 f6
+    fw9 bw1 b--dark-green outline-none
+    {{if disabled 'o-50 no-events'}}
+    {{if (eq style 'small') 'pv1 ph2' 'pv2 ph3'}}
+    '
+  disabled={{disabled}}
+  {{action onClick}}
+>
+  {{yield}}
+</button>
