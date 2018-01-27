@@ -4,6 +4,7 @@ import { startMirage } from 'dummy/initializers/ember-cli-mirage';
 import { run } from '@ember/runloop';
 import DS from 'ember-data';
 import LoadableModel from 'ember-data-storefront/mixins/loadable-model';
+import LoadableStore from 'ember-data-storefront/mixins/loadable-store';
 
 moduleFor('mixin:loadable-model', 'Integration | Mixins | LoadableModel', {
   integration: true,
@@ -11,7 +12,10 @@ moduleFor('mixin:loadable-model', 'Integration | Mixins | LoadableModel', {
   beforeEach() {
     DS.Model.reopen(LoadableModel);
     this.server = startMirage();
+    
     this.inject.service('store')
+    this.store.reopen(LoadableStore);
+    this.store.resetCache();
 
     let post = server.create('post', { id: 1 });
     let author = server.create('author');

@@ -5,12 +5,6 @@ import { deprecate } from '@ember/application/deprecations';
 export default Service.extend({
   store: Ember.inject.service(),
 
-  init() {
-    this._super(...arguments);
-
-    this.resetCache(false);
-  },
-
   findAll() {
     deprecate(
       'The storefront service has been deprecated, please use store.loadAll instead. Will be removed in 1.0.',
@@ -61,14 +55,12 @@ export default Service.extend({
     return this.get('store').hasLoadedIncludesForRecord(...arguments);
   },
 
-  resetCache(deprecate=true) {
-    if (deprecate) {
-      deprecate(
-        'The storefront service has been deprecated, please use store.resetCache instead. Will be removed in 1.0.',
-        false,
-        { id: 'ember-data-storefront.storefront-reset-cache', until: '1.0.0' }
-      );
-    }
+  resetCache() {
+    deprecate(
+      'The storefront service has been deprecated, please use store.resetCache instead. Will be removed in 1.0.',
+      false,
+      { id: 'ember-data-storefront.storefront-reset-cache', until: '1.0.0' }
+    );
 
     return this.get('store').resetCache(...arguments);
   }

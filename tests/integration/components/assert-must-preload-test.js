@@ -4,6 +4,7 @@ import { startMirage } from 'dummy/initializers/ember-cli-mirage';
 import hbs from 'htmlbars-inline-precompile';
 import DS from 'ember-data';
 import LoadableModel from 'ember-data-storefront/mixins/loadable-model';
+import LoadableStore from 'ember-data-storefront/mixins/loadable-store';
 
 moduleForComponent('assert-must-preload', 'Integration | Component | assert must preload', {
 
@@ -12,6 +13,8 @@ moduleForComponent('assert-must-preload', 'Integration | Component | assert must
   beforeEach() {
     DS.Model.reopen(LoadableModel);
     this.store = this.container.lookup('service:store')
+    this.store.reopen(LoadableStore);
+    this.store.resetCache();
     this.server = startMirage();
   },
 
