@@ -4,7 +4,7 @@ Follow these patterns to improve your application's data-fetching story.
 
 ## Query-aware caching
 
-Storefront's main service acts as a replacement for Ember Data's `store`. It's built directly on top of Ember Data, but is more intelligent about caching. Another way to say this is that Storefront's `find` methods are query-aware.
+Storefront adds some `load` methods to Ember Data's `store` that can be used in place of `findAll` and `findRecord`. They're built directly on top of Ember Data, but are more intelligent about caching. Another way to say this is that Storefront's `load` methods are query-aware.
 
 ---
 
