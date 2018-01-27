@@ -1,4 +1,10 @@
-# 0.12
+# 0.12.1
+
+The new `LoadableStore` mixin is now automatically mixed into the host application's store.
+
+The deprecated `storefront` service was throwing errors on install, which is now fixed.
+
+# 0.12.0
 
 - [ CHANGE ] The `storefront` service has been deprecated. Its methods are now available via the `LoadableStore` mixin which you can use in Ember Data's store. See [the docs](https://embermap.github.io/ember-data-storefront/docs/api/LoadableStore-0.11.1+40effca7) for more.
 
