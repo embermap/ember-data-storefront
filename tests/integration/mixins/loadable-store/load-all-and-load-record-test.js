@@ -29,6 +29,7 @@ moduleFor('mixin:loadable-store', 'Integration | Mixins | LoadableStore | loadAl
 
     this.inject.service('store')
     this.store.reopen(LoadableStore);
+    this.store.resetCache();
   },
 
   afterEach() {

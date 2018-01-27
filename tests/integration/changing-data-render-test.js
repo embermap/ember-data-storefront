@@ -3,6 +3,7 @@ import hbs from 'htmlbars-inline-precompile';
 import MirageServer from 'dummy/tests/integration/helpers/mirage-server';
 import { Model } from 'ember-cli-mirage';
 import { run } from '@ember/runloop';
+import LoadableStore from 'ember-data-storefront/mixins/loadable-store';
 
 moduleForComponent('Integration | Changing data render test', {
   integration: true,
@@ -17,6 +18,8 @@ moduleForComponent('Integration | Changing data render test', {
       }
     });
     this.store = this.container.lookup('service:store')
+    this.store.reopen(LoadableStore);
+    this.store.resetCache();
   },
 
   afterEach() {
