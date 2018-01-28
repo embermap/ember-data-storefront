@@ -101,7 +101,7 @@ export default Ember.Mixin.create({
     store.loadRecord('post', 1, { reload: true });
     ```
 
-    In most cases, `loadAll` should be a drop-in replacement for `findAll` that eliminates bugs and improves your app's caching.
+    In most cases, `loadRecord` should be a drop-in replacement for `findRecord` that eliminates bugs and improves your app's caching.
 
     @method loadRecord
     @param {String} type type of model to load
