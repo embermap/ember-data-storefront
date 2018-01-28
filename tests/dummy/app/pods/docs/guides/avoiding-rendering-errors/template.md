@@ -1,6 +1,6 @@
-# Avoiding rendering errors
+# Avoiding relationship errors
 
-These patterns minimize the states in which your templates can exist, helping you to avoid FOUC and other surprises.
+These patterns minimize the states in which your application can exist, helping you to avoid FOUC, undefined function calls, and other surprises.
 
 ## Ensure data is loaded at render-time
 
@@ -22,4 +22,32 @@ If this template is rendered with a `post` that has not loaded its `comments.aut
 
 This template assertion is especially useful for reusable components with complex data requirements.
 
-Async relationships can also lead to surprises in templates by adding unnecessary states to your application. Read the section "Avoid async relationships" from the previous guide to learn more about their pitfalls, and how to enforce sync-only relationships in your apps.
+Async relationships can also lead to surprises in actions by adding unnecessary states to your application. Read the section "Avoid async relationships" from the previous guide to learn more about their pitfalls, and how to enforce sync-only relationships in your apps.
+
+# Ensure data is loaded at run time
+
+<aside>
+  &lbrace;&lbrace;hasLoaded&rbrace;&rbrace; only works on models that have included the Loadable mixin.
+</aside>
+
+You can use the `model#hasLoaded` method to throw a dev-time warning if a relationship is not yet loaded. This can help you avoid calling functions on undefined objects.
+
+```js
+Component.extend({
+  post: null, // passed in post
+  currentUser: service(),
+
+  actions: {
+    followAuthor() {
+      Ember.assert(
+        "The author isn't loaded",
+        this.get('post').hasLoaded('author')
+      );
+
+      this.get('currentUser').follow(this.get('post.author'));
+    }
+  }
+});
+```
+
+Similar to `{{assert-must-preload}}`, if the `followAuthor` action is called without the post's author being loaded the developer will see a dev-time error.
