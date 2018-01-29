@@ -46,8 +46,11 @@ script:
   #  to the addon's original dependency state, skipping "cleanup".
   - node_modules/.bin/ember try:one $EMBER_TRY_SCENARIO --skip-cleanup
 
-after_success:
-  - node_modules/.bin/ember deploy production
+deploy:
+  provider: script
+  script: node_modules/.bin/ember deploy production
+  on:
+    branch: master
 
 notifications:
   email: false
