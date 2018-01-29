@@ -1,1 +1,1 @@
-{"data":{"type":"project","id":"ember-data-storefront","attributes":{},"relationships":{"project-versions":{"data":[{"type":"project-version","id":"ember-data-storefront-0.12.0+14533633"}]}}}}
+{"data":{"type":"project","id":"ember-data-storefront","attributes":{},"relationships":{"project-versions":{"data":[{"type":"project-version","id":"ember-data-storefront-0.12.1+24eafa8d"}]}}}}
