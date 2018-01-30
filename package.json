@@ -19,7 +19,8 @@
   "scripts": {
     "build": "ember build",
     "start": "ember server",
-    "test": "ember try:each",
+    "test": "ember test",
+    "test:all": "ember try:each",
     "test:node": "qunit node-tests/**/*-test.js"
   },
   "dependencies": {
