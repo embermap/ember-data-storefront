@@ -1,3 +1,5 @@
+{{docs-navbar logo='ember-data' name='Storefront'}}
+
 {{docs-hero
   logo='ember-data'
   strong-heading='Storefront'
@@ -7,13 +9,13 @@
   <section class='docs-section'>
     <h1>Introduction</h1>
 
-    <p>Ember Data is a powerful and flexible data-loading library, but that flexibility doesn't always make it easy to do the right thing. And as your app grows, it gets harder and harder to keep track of all of your data.</p>
+    <p>Ember Data is powerful and flexible, but that flexibility doesn't always make it easy to do the right thing. As your app grows, it can get harder and harder to keep track of all your app's data.</p>
 
     <p>Here are some common problems that show up while working on apps that use Ember Data:</p>
 
     <ul>
       <li><strong>Missing data.</strong> It's not always clear whether all the data has been loaded for a given state of your application, especially as the number of app states compounds. Incomplete or missing data can cause problems when visiting routes, rendering components, or performing transforms on model relationships.</li>
-      <li><strong>Flashing templates.</strong> Incomplete data that Ember Data attempts to lazily load can cause your template to unexpectedly flash during a render, making your UI disorienting.</li>
+      <li><strong>Flashing templates.</strong> Incomplete data that Ember Data attempts to lazily load can cause your templates to unexpectedly flash during a render, making your UI disorienting.</li>
       <li><strong>Excessive network requests.</strong> The <code>n+1</code> templating bug can cause your app to make unnecessary AJAX requests and slow down your app.</li>
     </ul>
 
