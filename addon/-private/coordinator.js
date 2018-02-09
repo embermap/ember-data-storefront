@@ -11,14 +11,15 @@ export default class Coordinator {
 
   constructor(store) {
     this.store = store;
-    this.cache = new Cache();
+    this.recordCache = new Cache();
+    this.arrayCache = new Cache();
 
     // A materialized view of loaded includes from the cache's queries.
     this.loadedIncludes = {};
   }
 
   recordQueryFor(type, id, params) {
-    let query = this.cache.getRecordQuery(type, id, params);
+    let query = this.recordCache.get(type, id, params);
 
     if (!query) {
       query = this._assembleRecordQuery(type, id, params);
@@ -29,7 +30,7 @@ export default class Coordinator {
   }
 
   recordArrayQueryFor(type, params) {
-    let query = this.cache.getRecordArrayQuery(type, params);
+    let query = this.arrayCache.get(type, params);
 
     if (!query) {
       query = this._assembleRecordArrayQuery(type, params);
@@ -37,6 +38,13 @@ export default class Coordinator {
     }
 
     return query;
+  }
+
+  dump() {
+    let records = this.recordCache.all();
+    let arrays = this.arrayCache.all();
+
+    return records.concat(arrays);
   }
 
   recordHasIncludes(type, id, includesString) {
@@ -88,12 +96,12 @@ export default class Coordinator {
   }
 
   _rememberRecordQuery(query) {
-    this.cache.putRecordQuery(query);
+    this.recordCache.put(query);
     this._updateLoadedIncludesWithQuery(query);
   }
 
   _rememberRecordArrayQuery(query) {
-    this.cache.putRecordArrayQuery(query);
+    this.arrayCache.put(query);
   }
 
   _updateLoadedIncludesWithQuery(query) {
