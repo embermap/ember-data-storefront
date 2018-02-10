@@ -10,7 +10,8 @@ module.exports = function(environment) {
     locationType: 'router-scroll',
     historySupportMiddleware: true,
     routerScroll: {
-      scrollElement: '#docs-viewer__scroll-body'
+      //scrollElement: '#docs-viewer__scroll-body'
+      scrollElement: 'window'
     },
     'ember-cli-mirage': {
       enabled: true
@@ -29,6 +30,10 @@ module.exports = function(environment) {
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
+    },
+
+    fastboot: {
+      hostWhitelist: [/^localhost:\d+$/]
     }
   };
 

@@ -30,6 +30,8 @@ Router.map(function() {
       this.route('class', { path: '/:class_id' });
     });
   });
+
+  this.route('fastboot');
 });
 
 export default Router;
