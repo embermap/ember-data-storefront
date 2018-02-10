@@ -7,42 +7,54 @@ export default Mixin.create({
   fastboot: service(),
 
   query(store, type, query) {
-    let promise;
+    let cachedPayload = this._getStorefrontBoxedQuery(store, type.modelName, query);
+    let addToShoebox = this._makeStorefrontQueryBoxer(store, type.modelName, query);
+
+    return cachedPayload ?
+      resolve(JSON.parse(cachedPayload)) :
+      this._super(...arguments).then(addToShoebox);
+  },
+
+  findRecord(store, type, id, snapshot) {
+    let query = this.buildQuery(snapshot);
+
+    let cachedPayload = this._getStorefrontBoxedQuery(store, type.modelName, id, query);
+    let addToShoebox = this._makeStorefrontQueryBoxer(store, type.modelName, id, query);
+
+    return cachedPayload ?
+      resolve(cachedPayload) :
+      this._super(...arguments).then(addToShoebox);
+  },
+
+  _makeStorefrontQueryBoxer(store, ...args) {
+    let fastboot = this.get('fastboot');
+    let isFastboot = fastboot && fastboot.get('isFastBoot');
+
+    return function(response) {
+      if (isFastboot) {
+        let storefrontQuery = store.coordinator.queryFor(...args);
+        storefrontQuery._adapterPayload = JSON.stringify(response);
+      }
+
+      return response;
+    }
+  },
+
+  _getStorefrontBoxedQuery(store, ...args) {
+    let payload;
     let fastboot = this.get('fastboot');
     let isFastboot = fastboot && fastboot.get('isFastBoot');
     let shoebox = fastboot && fastboot.get('shoebox');
     let box = shoebox && shoebox.retrieve('ember-data-storefront');
 
     if (!isFastboot && box && box.queries && Object.keys(box.queries).length > 0) {
-      // running in browser with fastboot box
-      let storefrontQuery = store.coordinator.recordArrayQueryFor(type.modelName, query);
+      let storefrontQuery = store.coordinator.queryFor(...args);
       let key = shoeboxize(queryCacheKey(storefrontQuery));
-      let json = box.queries[key];
-
-      // if we have the query in the box use it, otherwise call super
-      promise = json ? resolve(JSON.parse(json)) : this._super(...arguments);
-
-      // throw the boxed query away so real network requests will
-      // happen if the user ever wants to force reload
-      delete box.queries[key]
-
-    } else if (!isFastboot) {
-      // running on browser, but no box. make a network request
-      promise = this._super(...arguments);
-
-    } else {
-      // running in fastboot, make a network request and store
-      // the payload
-      promise = this._super(...arguments)
-        .then(response => {
-          let storefrontQuery = store.coordinator.recordArrayQueryFor(type.modelName, query);
-          storefrontQuery._adapterPayload = JSON.stringify(response);
-          return response;
-        });
-
+      payload = box.queries[key];
+      delete box.queries[key];
     }
 
-    return promise;
+    return payload;
   }
 
 })

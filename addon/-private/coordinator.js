@@ -40,6 +40,12 @@ export default class Coordinator {
     return query;
   }
 
+  queryFor(...args) {
+    return args.length === 3 ?
+      this.recordQueryFor(...args) :
+      this.recordArrayQueryFor(...args);
+  }
+
   dump() {
     let records = this.recordCache.all();
     let arrays = this.arrayCache.all();
