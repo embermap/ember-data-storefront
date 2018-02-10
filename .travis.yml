@@ -44,6 +44,11 @@ jobs:
       env: NAME=test
       script: yarn test
 
+    - stage: fastboot tests
+      node_js: "8"
+      env: NAME=fastboot tests
+      script: yarn test:fastboot
+
     - stage: additional tests
       env: NAME=floating dependencies
       install: yarn install --no-lockfile --non-interactive
@@ -57,10 +62,6 @@ jobs:
     - env: EMBER_TRY_SCENARIO=ember-beta
     - env: EMBER_TRY_SCENARIO=ember-canary
     - env: EMBER_TRY_SCENARIO=ember-default
-
-    - stage: fastboot tests
-      env: NAME=fastboot tests
-      script: yarn test:fastboot
 
     - stage: deploy
       if: (branch = master OR tag IS present) AND type = push
