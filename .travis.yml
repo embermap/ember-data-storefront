@@ -33,6 +33,7 @@ stages:
   - test
   - additional tests
   - versioned tests
+  - fastboot tests
   - deploy
 
 jobs:
@@ -56,6 +57,10 @@ jobs:
     - env: EMBER_TRY_SCENARIO=ember-beta
     - env: EMBER_TRY_SCENARIO=ember-canary
     - env: EMBER_TRY_SCENARIO=ember-default
+
+    - stage: fastboot tests
+      env: NAME=fastboot tests
+      script: yarn test:fastboot
 
     - stage: deploy
       if: (branch = master OR tag IS present) AND type = push
