@@ -3326,9 +3326,9 @@ ember-router-scroll@^0.4.0:
     ember-cli-babel "^6.6.0"
     ember-getowner-polyfill "^2.0.1"
 
-ember-router-scroll@^0.5.0:
+ember-router-scroll@ryanto/ember-router-scroll#fastboot-scroll-element:
   version "0.5.0"
-  resolved "https://registry.yarnpkg.com/ember-router-scroll/-/ember-router-scroll-0.5.0.tgz#fae739634d9d8171a7805c83b063b862c7a30ff9"
+  resolved "https://codeload.github.com/ryanto/ember-router-scroll/tar.gz/77f93f7622ac40aec6b05f70b9b72a2b7520da6c"
   dependencies:
     ember-app-scheduler "^0.2.0"
     ember-cli-babel "^6.6.0"

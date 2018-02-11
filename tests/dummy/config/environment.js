@@ -10,8 +10,7 @@ module.exports = function(environment) {
     locationType: 'router-scroll',
     historySupportMiddleware: true,
     routerScroll: {
-      //scrollElement: '#docs-viewer__scroll-body'
-      scrollElement: 'window'
+      scrollElement: '#docs-viewer__scroll-body'
     },
     'ember-cli-mirage': {
       enabled: true
