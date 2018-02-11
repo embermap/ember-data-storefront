@@ -32,8 +32,8 @@ notifications:
 stages:
   - test
   - additional tests
-  - versioned tests
   - fastboot tests
+  - versioned tests
   - deploy
 
 jobs:
@@ -44,15 +44,15 @@ jobs:
       env: NAME=test
       script: yarn test
 
-    - stage: fastboot tests
-      node_js: "8"
-      env: NAME=fastboot tests
-      script: yarn test:fastboot
-
     - stage: additional tests
       env: NAME=floating dependencies
       install: yarn install --no-lockfile --non-interactive
       script: yarn test
+
+    - stage: fastboot tests
+      node_js: "8"
+      env: NAME=fastboot tests
+      script: yarn test:fastboot
 
     - stage: versioned tests
       env: EMBER_TRY_SCENARIO=ember-lts-2.8

@@ -8,12 +8,18 @@ const { JSDOM } = jsdom;
 const postsRouter = require('../server/mocks/posts');
 const express = require('express');
 
+// build the application
+execFileSync('node', ['./node_modules/.bin/ember', 'build']);
+
+let visitOptions = {
+  request: { headers: { host: 'localhost:4201' } }
+};
+
 Qmodule('Fastboot', function(hooks) {
   let fastboot;
   let server;
 
   hooks.before(async function() {
-    execFileSync('node', ['./node_modules/.bin/ember', 'build']);
     fastboot = new FastBoot({
       distPath: 'dist',
       resilient: false
@@ -21,7 +27,6 @@ Qmodule('Fastboot', function(hooks) {
 
     let app = express();
     postsRouter(app);
-
     server = app.listen(4201);
   });
 
@@ -29,12 +34,17 @@ Qmodule('Fastboot', function(hooks) {
     server.close();
   });
 
-  test('A fastboot rendered app should put storefront queries in the shoebox', async function(assert) {
-    let visitOptions = {
-      request: { headers: { host: 'localhost:4201' } }
-    };
+  test('A fastboot rendered app should display data fetched by the server', async function(assert) {
+    let page = await fastboot.visit('/fastboot-tests', visitOptions);
+    let html = await page.html();
+    let dom = new JSDOM(html);
+    let post1 = dom.window.document.querySelector('[data-test-id=post-1]');
 
-    let page = await fastboot.visit('/fastboot', visitOptions);
+    assert.equal(post1.textContent.trim(), 'Hello from Ember CLI HTTP Mocks');
+  });
+
+  test('A fastboot rendered app should put storefront queries in the shoebox', async function(assert) {
+    let page = await fastboot.visit('/fastboot-tests', visitOptions);
     let html = await page.html();
     let dom = new JSDOM(html);
 

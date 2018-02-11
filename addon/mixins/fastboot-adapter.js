@@ -3,6 +3,27 @@ import { inject as service } from '@ember/service';
 import { resolve } from 'rsvp';
 import { queryCacheKey, shoeboxize } from 'ember-data-storefront/-private/utils/get-key';
 
+/**
+  This mixin adds fastboot support to your data adapter. It provides no
+  public API, it only needs to be mixed into your adapter.
+
+  ```js
+  // app/adpaters/application.js
+
+  import JSONAPIAdapter from 'ember-data/adapters/json-api';
+  import FastbootAdapter from 'ember-data-storefront/mixins/fastboot-adapter';
+
+  export default JSONAPIAdapter.extend(
+    FastbootAdapter, {
+
+    // ...
+
+  });
+  ```
+
+  @class FastbootAdapter
+  @public
+*/
 export default Mixin.create({
   fastboot: service(),
 
