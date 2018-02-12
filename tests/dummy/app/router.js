@@ -21,7 +21,11 @@ Router.map(function() {
     });
   });
 
-  this.route('fastboot-tests');
+  this.route('fastboot-tests', function() {
+    this.route('posts', function() {
+      this.route('show', { path: '/:post_id' });
+    })
+  });
 });
 
 export default Router;

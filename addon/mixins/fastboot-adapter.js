@@ -43,7 +43,7 @@ export default Mixin.create({
     let addToShoebox = this._makeStorefrontQueryBoxer(store, type.modelName, id, query);
 
     return cachedPayload ?
-      resolve(cachedPayload) :
+      resolve(JSON.parse(cachedPayload)) :
       this._super(...arguments).then(addToShoebox);
   },
 

@@ -34,17 +34,17 @@ Qmodule('Fastboot', function(hooks) {
     server.close();
   });
 
-  test('A fastboot rendered app should display data fetched by the server', async function(assert) {
-    let page = await fastboot.visit('/fastboot-tests', visitOptions);
+  test('A fastboot rendered app should display loadAll data fetched by the server', async function(assert) {
+    let page = await fastboot.visit('/fastboot-tests/posts', visitOptions);
     let html = await page.html();
     let dom = new JSDOM(html);
-    let post1 = dom.window.document.querySelector('[data-test-id=post-1]');
+    let post1 = dom.window.document.querySelector('[data-test-id=post-title-1]');
 
     assert.equal(post1.textContent.trim(), 'Hello from Ember CLI HTTP Mocks');
   });
 
-  test('A fastboot rendered app should put storefront queries in the shoebox', async function(assert) {
-    let page = await fastboot.visit('/fastboot-tests', visitOptions);
+  test('A fastboot rendered app should put storefront loadAll queries in the shoebox', async function(assert) {
+    let page = await fastboot.visit('/fastboot-tests/posts', visitOptions);
     let html = await page.html();
     let dom = new JSDOM(html);
 
@@ -57,6 +57,31 @@ Qmodule('Fastboot', function(hooks) {
 
     assert.equal(keys.length, 1);
     assert.ok(cache.queries['post::filter[popular]=true']);
+  });
+
+  test('A fastboot rendered app should display loadRecord data fetched by the server', async function(assert) {
+    let page = await fastboot.visit('/fastboot-tests/posts/1', visitOptions);
+    let html = await page.html();
+    let dom = new JSDOM(html);
+    let post1 = dom.window.document.querySelector('[data-test-id=post-title]');
+
+    assert.equal(post1.textContent.trim(), 'Hello from Ember CLI HTTP Mocks');
+  });
+
+  test('A fastboot rendered app should put storefront loadRecords queries in the shoebox', async function(assert) {
+    let page = await fastboot.visit('/fastboot-tests/posts/1', visitOptions);
+    let html = await page.html();
+    let dom = new JSDOM(html);
+
+    let shoebox = dom.window.document
+      .querySelector('#shoebox-ember-data-storefront')
+      .textContent;
+
+    let cache = JSON.parse(shoebox);
+    let keys = Object.keys(cache.queries);
+
+    assert.equal(keys.length, 1);
+    assert.ok(cache.queries['post::1']);
   });
 
 });

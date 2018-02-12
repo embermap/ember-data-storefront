@@ -19,5 +19,17 @@ module.exports = function(app) {
     });
   });
 
+  postsRouter.get('/1', function(req, res) {
+    res.send({
+      data: {
+        type: 'posts',
+        id: 1,
+        attributes: {
+          title: 'Hello from Ember CLI HTTP Mocks'
+        }
+      }
+    });
+  });
+
   app.use('/posts', postsRouter);
 };
