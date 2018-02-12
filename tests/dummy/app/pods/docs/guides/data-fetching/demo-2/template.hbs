@@ -30,14 +30,14 @@
         {{else}}
           {{#if (eq activeRoute '/posts/1')}}
             <p>
-              {{!-- BEGIN-SNIPPET demo2-posts1-template --}}
+              {{!-- BEGIN-SNIPPET demo2-posts1-template.hbs --}}
               {{! template }}
               {{model.title}}
               {{!-- END-SNIPPET --}}
             </p>
           {{else if (eq activeRoute '/posts')}}
             <ul class='demo2__list'>
-              {{!-- BEGIN-SNIPPET demo2-posts-template --}}
+              {{!-- BEGIN-SNIPPET demo2-posts-template.hbs --}}
               {{! template }}
               {{#each model as |post|}}
                 <li>{{post.title}}</li>

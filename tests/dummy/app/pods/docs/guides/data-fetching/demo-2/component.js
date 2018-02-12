@@ -22,7 +22,7 @@ export default Component.extend({
 
   routes: {
     '/posts': {
-      // BEGIN-SNIPPET demo2-posts-route
+      // BEGIN-SNIPPET demo2-posts-route.js
       // route
       model() {
         return this.get('store').loadAll('post');
@@ -30,7 +30,7 @@ export default Component.extend({
       // END-SNIPPET
     },
     '/posts/1': {
-      // BEGIN-SNIPPET demo2-posts1-route
+      // BEGIN-SNIPPET demo2-posts1-route.js
       // route
       model() {
         return this.get('store').loadRecord('post', 1);
