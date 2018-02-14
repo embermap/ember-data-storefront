@@ -22,9 +22,9 @@ Router.map(function() {
   });
 
   this.route('fastboot-tests', function() {
-    this.route('posts', function() {
-      this.route('show', { path: '/:post_id' });
-    })
+    this.route('load-all-posts');
+    this.route('load-record-post', { path: 'load-record-post/:post_id' });
+    this.route('find-all-posts');
   });
 });
 

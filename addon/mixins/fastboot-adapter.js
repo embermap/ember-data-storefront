@@ -1,7 +1,7 @@
 import Mixin from '@ember/object/mixin';
 import { inject as service } from '@ember/service';
 import { resolve } from 'rsvp';
-import { queryCacheKey, shoeboxize } from 'ember-data-storefront/-private/utils/get-key';
+import { cacheKey, shoeboxize } from 'ember-data-storefront/-private/utils/get-key';
 
 /**
   This mixin adds fastboot support to your data adapter. It provides no
@@ -26,42 +26,34 @@ import { queryCacheKey, shoeboxize } from 'ember-data-storefront/-private/utils/
 */
 export default Mixin.create({
   fastboot: service(),
+  storefront: service(),
 
-  query(store, type, query) {
-    let cachedPayload = this._getStorefrontBoxedQuery(store, type.modelName, query);
-    let addToShoebox = this._makeStorefrontQueryBoxer(store, type.modelName, query);
+  ajax(url, type, options) {
+    let key = shoeboxize(cacheKey([type, url, options.data]));
 
-    return cachedPayload ?
-      resolve(JSON.parse(cachedPayload)) :
-      this._super(...arguments).then(addToShoebox);
-  },
-
-  findRecord(store, type, id, snapshot) {
-    let query = this.buildQuery(snapshot);
-
-    let cachedPayload = this._getStorefrontBoxedQuery(store, type.modelName, id, query);
-    let addToShoebox = this._makeStorefrontQueryBoxer(store, type.modelName, id, query);
+    let cachedPayload = this._getStorefrontBoxedQuery(key);
+    let maybeAddToShoebox = this._makeStorefrontQueryBoxer(key);
 
     return cachedPayload ?
       resolve(JSON.parse(cachedPayload)) :
-      this._super(...arguments).then(addToShoebox);
+      this._super(...arguments).then(maybeAddToShoebox);
   },
 
-  _makeStorefrontQueryBoxer(store, ...args) {
+  _makeStorefrontQueryBoxer(key) {
     let fastboot = this.get('fastboot');
     let isFastboot = fastboot && fastboot.get('isFastBoot');
+    let cache = this.get('storefront.fastbootDataRequests');
 
     return function(response) {
       if (isFastboot) {
-        let storefrontQuery = store.coordinator.queryFor(...args);
-        storefrontQuery._adapterPayload = JSON.stringify(response);
+        cache[key] = JSON.stringify(response);
       }
 
       return response;
     }
   },
 
-  _getStorefrontBoxedQuery(store, ...args) {
+  _getStorefrontBoxedQuery(key) {
     let payload;
     let fastboot = this.get('fastboot');
     let isFastboot = fastboot && fastboot.get('isFastBoot');
@@ -69,8 +61,6 @@ export default Mixin.create({
     let box = shoebox && shoebox.retrieve('ember-data-storefront');
 
     if (!isFastboot && box && box.queries && Object.keys(box.queries).length > 0) {
-      let storefrontQuery = store.coordinator.queryFor(...args);
-      let key = shoeboxize(queryCacheKey(storefrontQuery));
       payload = box.queries[key];
       delete box.queries[key];
     }

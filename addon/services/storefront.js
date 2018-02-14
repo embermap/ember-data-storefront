@@ -2,8 +2,17 @@ import Ember from 'ember';
 import Service from '@ember/service';
 import { deprecate } from '@ember/application/deprecations';
 
+// do not delete this service! it's being used to communicte cached payloads
+// between the client and the browser
 export default Service.extend({
   store: Ember.inject.service(),
+
+  fastbootDataRequests: null,
+
+  init() {
+    this._super(...arguments);
+    this.set('fastbootDataRequests', {});
+  },
 
   findAll() {
     deprecate(

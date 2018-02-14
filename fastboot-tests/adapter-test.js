@@ -35,7 +35,7 @@ Qmodule('Fastboot', function(hooks) {
   });
 
   test('A fastboot rendered app should display loadAll data fetched by the server', async function(assert) {
-    let page = await fastboot.visit('/fastboot-tests/posts', visitOptions);
+    let page = await fastboot.visit('/fastboot-tests/load-all-posts', visitOptions);
     let html = await page.html();
     let dom = new JSDOM(html);
     let post1 = dom.window.document.querySelector('[data-test-id=post-title-1]');
@@ -44,7 +44,7 @@ Qmodule('Fastboot', function(hooks) {
   });
 
   test('A fastboot rendered app should put storefront loadAll queries in the shoebox', async function(assert) {
-    let page = await fastboot.visit('/fastboot-tests/posts', visitOptions);
+    let page = await fastboot.visit('/fastboot-tests/load-all-posts', visitOptions);
     let html = await page.html();
     let dom = new JSDOM(html);
 
@@ -56,11 +56,11 @@ Qmodule('Fastboot', function(hooks) {
     let keys = Object.keys(cache.queries);
 
     assert.equal(keys.length, 1);
-    assert.ok(cache.queries['post::filter[popular]=true']);
+    assert.ok(cache.queries['GET::/posts::filter[popular]=true']);
   });
 
   test('A fastboot rendered app should display loadRecord data fetched by the server', async function(assert) {
-    let page = await fastboot.visit('/fastboot-tests/posts/1', visitOptions);
+    let page = await fastboot.visit('/fastboot-tests/load-record-post/1', visitOptions);
     let html = await page.html();
     let dom = new JSDOM(html);
     let post1 = dom.window.document.querySelector('[data-test-id=post-title]');
@@ -69,7 +69,7 @@ Qmodule('Fastboot', function(hooks) {
   });
 
   test('A fastboot rendered app should put storefront loadRecords queries in the shoebox', async function(assert) {
-    let page = await fastboot.visit('/fastboot-tests/posts/1', visitOptions);
+    let page = await fastboot.visit('/fastboot-tests/load-record-post/1', visitOptions);
     let html = await page.html();
     let dom = new JSDOM(html);
 
@@ -81,7 +81,32 @@ Qmodule('Fastboot', function(hooks) {
     let keys = Object.keys(cache.queries);
 
     assert.equal(keys.length, 1);
-    assert.ok(cache.queries['post::1']);
+    assert.ok(cache.queries['GET::/posts/1']);
+  });
+
+  test('A fastboot rendered app should display findAll data fetched by the server', async function(assert) {
+    let page = await fastboot.visit('/fastboot-tests/find-all-posts', visitOptions);
+    let html = await page.html();
+    let dom = new JSDOM(html);
+    let post1 = dom.window.document.querySelector('[data-test-id=post-title-1]');
+
+    assert.equal(post1.textContent.trim(), 'Hello from Ember CLI HTTP Mocks');
+  });
+
+  test('A fastboot rendered app should put findAll queries in the shoebox', async function(assert) {
+    let page = await fastboot.visit('/fastboot-tests/find-all-posts', visitOptions);
+    let html = await page.html();
+    let dom = new JSDOM(html);
+
+    let shoebox = dom.window.document
+      .querySelector('#shoebox-ember-data-storefront')
+      .textContent;
+
+    let cache = JSON.parse(shoebox);
+    let keys = Object.keys(cache.queries);
+
+    assert.equal(keys.length, 1);
+    assert.ok(cache.queries['GET::/posts::include=comments']);
   });
 
 });
