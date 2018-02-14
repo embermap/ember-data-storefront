@@ -10,7 +10,7 @@ let _serializeParams = function(params={}, prefix) {
         key = (prefix ? `${prefix}[${key}]` : key);
       }
 
-      if (typeof value === 'object') {
+      if (typeof value === 'object' && value !== null) {
         return _serializeParams(value, key);
       } else {
         return `${key}=${encodeURIComponent(value)}`;

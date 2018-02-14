@@ -28,24 +28,23 @@ export default Mixin.create({
   fastboot: service(),
   storefront: service(),
 
-  ajax(url, type, options) {
-    let key = shoeboxize(cacheKey([type, url, options.data]));
-
-    let cachedPayload = this._getStorefrontBoxedQuery(key);
-    let maybeAddToShoebox = this._makeStorefrontQueryBoxer(key);
+  ajax(url, type, options = {}) {
+    let cachedPayload = this._getStorefrontBoxedQuery(type, url, options.data);
+    let maybeAddToShoebox = this._makeStorefrontQueryBoxer(type, url, options.data);
 
     return cachedPayload ?
       resolve(JSON.parse(cachedPayload)) :
       this._super(...arguments).then(maybeAddToShoebox);
   },
 
-  _makeStorefrontQueryBoxer(key) {
+  _makeStorefrontQueryBoxer(type, url, params) {
     let fastboot = this.get('fastboot');
     let isFastboot = fastboot && fastboot.get('isFastBoot');
     let cache = this.get('storefront.fastbootDataRequests');
 
     return function(response) {
       if (isFastboot) {
+        let key = shoeboxize(cacheKey([type, url, params]));
         cache[key] = JSON.stringify(response);
       }
 
@@ -53,7 +52,7 @@ export default Mixin.create({
     }
   },
 
-  _getStorefrontBoxedQuery(key) {
+  _getStorefrontBoxedQuery(type, url, params) {
     let payload;
     let fastboot = this.get('fastboot');
     let isFastboot = fastboot && fastboot.get('isFastBoot');
@@ -61,6 +60,7 @@ export default Mixin.create({
     let box = shoebox && shoebox.retrieve('ember-data-storefront');
 
     if (!isFastboot && box && box.queries && Object.keys(box.queries).length > 0) {
+      let key = shoeboxize(cacheKey([type, url, params]));
       payload = box.queries[key];
       delete box.queries[key];
     }
