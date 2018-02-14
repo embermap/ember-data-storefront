@@ -11,7 +11,7 @@
     "doc": "doc",
     "test": "tests"
   },
-  "repository": "https://github.com/EmberMap/ember-data-storefront",
+  "repository": "https://github.com/embermap/ember-data-storefront",
   "contributors": [
     "Sam Selkoff <sam.selikoff@gmail.com> (https://embermap.com)",
     "Ryan Toronto <ryanto@gmail.com> (https://embermap.com)"
