@@ -1,3 +1,7 @@
+# 0.12.2
+
+Added the Fastboot Adapter mixin.
+
 # 0.12.1
 
 The new `LoadableStore` mixin is now automatically mixed into the host application's store.
