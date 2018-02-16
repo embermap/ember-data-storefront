@@ -22,7 +22,7 @@ export default Component.extend({
 
   setup() {
     let tasks = {
-      // BEGIN-SNIPPET working-with-relationships-demo-1
+      // BEGIN-SNIPPET working-with-relationships-demo-1.js
       loadComments: task(function*() {
         yield this.get('post').load('comments');
       })
