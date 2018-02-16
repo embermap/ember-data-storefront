@@ -33,8 +33,8 @@ That's it! Once mixed-in it will prevent your application from making unnecessar
 
 ## Under the hood
 
-The `FastbootAdapter` works by storing the results of storefront queries into fastboot's shoebox. When the application is rendered on the client any data request that exists in the shoebox will be used and no network request will be made.
+The `FastbootAdapter` works by storing the results of AJAX requests into fastboot's shoebox. When the application is rendered on the client any data request that exists in the shoebox will be used and no network request will be made.
 
-The adapter will then delete queries from the shoebox as soon as they are used. This ensures that if your application ever tries to re-make a network request in the future, it will not be served the cached version.
+The adapter will delete queries from the shoebox as soon as they are used. This ensures that if your application ever tries to re-make a network request in the future, it will not be served a cached version.
 
 Fastboot rendered pages need to be generated quickly, since they are rendered on the server in an HTTP request-resposne cycle. Because of this, they tend to not make many network requests. This means that a few seconds after the browser re-renders a fastboot page, the query cache should be empty since the client rendered application will have re-fetched all of the fastboot data.
