@@ -4,14 +4,14 @@ Here are some patterns we recommend to make working with relationships more pred
 
 ## Explicitly load related data
 
-The `Loadable` mixin gives you a simple, expressive way to load related data.
+The `LoadableModel` mixin gives you a simple, expressive way to load related data from your models:
 
 ```js
 // models/post.js
 import DS from 'ember-data';
-import Loadable from 'ember-data-storefront/mixins/loadable';
+import LoadableModel from 'ember-data-storefront/mixins/loadable-model';
 
-export default DS.Model.extend(Loadable, {
+export default DS.Model.extend(LoadableModel, {
   comments: DS.hasMany()
 });
 ```
