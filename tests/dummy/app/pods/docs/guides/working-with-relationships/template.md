@@ -42,7 +42,7 @@ There a few ways you can avoid async relationships:
 
     https://github.com/embermap/eslint-plugin-ember-data-sync-relationships
 
-    You'll see the linting errors in your editor and console, and if you set the rule to `error`, your test suite will fast if any relationships are async.
+    You'll see the linting errors in your editor and console, and if you set the rule to `error`, your test suite will fail if any relationships are async.
 
   - **Use the included Babel plugin to rewrite all relationships to `async: false`.** This is a stronger but less apparent way to enforce sync relationships, so use it with caution.
 
