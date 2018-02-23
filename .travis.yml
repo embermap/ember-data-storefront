@@ -26,6 +26,10 @@ before_install:
 install:
   - yarn install
 
+before_script:
+  - ember version
+  - yarn list
+
 notifications:
   email: false
 
@@ -35,6 +39,9 @@ stages:
   - fastboot tests
   - versioned tests
   - deploy
+
+script:
+  - node_modules/.bin/ember try:one $EMBER_TRY_SCENARIO --skip-cleanup
 
 jobs:
   fail_fast: true
