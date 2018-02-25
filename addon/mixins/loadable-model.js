@@ -22,7 +22,7 @@ import Ember from 'ember';
   import DS from 'ember-data';
   import LoadableModel from 'ember-data-storefront/mixins/loadable-model';
 
-  DS.Model.reopen(Loadable);
+  DS.Model.reopen(LoadableModel);
   ```
 
   @class LoadableModel
