@@ -3331,9 +3331,9 @@ ember-router-scroll@^0.4.0:
     ember-cli-babel "^6.6.0"
     ember-getowner-polyfill "^2.0.1"
 
-ember-router-scroll@ryanto/ember-router-scroll#fastboot-scroll-element:
+ember-router-scroll@ryanto/ember-router-scroll#983cb421f5295f6d88119be16aec4dcf662a948f:
   version "0.5.0"
-  resolved "https://codeload.github.com/ryanto/ember-router-scroll/tar.gz/77f93f7622ac40aec6b05f70b9b72a2b7520da6c"
+  resolved "https://codeload.github.com/ryanto/ember-router-scroll/tar.gz/983cb421f5295f6d88119be16aec4dcf662a948f"
   dependencies:
     ember-app-scheduler "^0.2.0"
     ember-cli-babel "^6.6.0"
@@ -3353,8 +3353,8 @@ ember-runtime-enumerable-includes-polyfill@^2.0.0:
     ember-cli-version-checker "^2.1.0"
 
 ember-source@~2.16.0:
-  version "2.16.2"
-  resolved "https://registry.yarnpkg.com/ember-source/-/ember-source-2.16.2.tgz#ebc29ce36dec3ecc80f6b1b02218d63ca5041088"
+  version "2.16.4"
+  resolved "https://registry.yarnpkg.com/ember-source/-/ember-source-2.16.4.tgz#d8d7317306a59a6981e151d5771c8976914b7738"
   dependencies:
     broccoli-funnel "^1.2.0"
     broccoli-merge-trees "^2.0.0"
@@ -5146,8 +5146,8 @@ jquery-deferred@^0.3.0:
   resolved "https://registry.yarnpkg.com/jquery-deferred/-/jquery-deferred-0.3.1.tgz#596eca1caaff54f61b110962b23cafea74c35355"
 
 jquery@^3.2.1:
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.2.1.tgz#5c4d9de652af6cd0a770154a631bba12b015c787"
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.3.1.tgz#958ce29e81c9790f31be7792df5d4d95fc57fbca"
 
 js-base64@^2.1.8, js-base64@^2.1.9:
   version "2.4.0"
