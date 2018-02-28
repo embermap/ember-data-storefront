@@ -41,7 +41,6 @@ stages:
   - deploy
 
 script:
-  - npm run lint:js
   - node_modules/.bin/ember try:one $EMBER_TRY_SCENARIO --skip-cleanup
 
 jobs:
@@ -54,7 +53,7 @@ jobs:
 
     - stage: additional tests
       env: NAME=floating dependencies
-      install: yarn install --no-lockfile --non-interactive
+      install: yarn install --no-lockile --non-interactive
       script: yarn test
 
     - stage: fastboot tests
