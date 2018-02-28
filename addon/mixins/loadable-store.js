@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import Mixin from '@ember/object/mixin';
 import { resolve } from 'rsvp';
 import Coordinator from 'ember-data-storefront/-private/coordinator';
 
@@ -10,7 +10,7 @@ import Coordinator from 'ember-data-storefront/-private/coordinator';
   @class LoadableStore
   @public
 */
-export default Ember.Mixin.create({
+export default Mixin.create({
 
   init() {
     this._super(...arguments);

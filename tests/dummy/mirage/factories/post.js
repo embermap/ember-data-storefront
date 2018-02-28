@@ -1,5 +1,5 @@
+import { dasherize } from '@ember/string';
 import { Factory, trait } from 'ember-cli-mirage';
-import Ember from 'ember';
 
 export default Factory.extend({
   title(i) {
@@ -9,7 +9,7 @@ export default Factory.extend({
   text: "This is the text of the post.",
 
   afterCreate(post) {
-    post.update({ slug: Ember.String.dasherize(post.title) });
+    post.update({ slug: dasherize(post.title) });
   },
 
   withComments: trait({

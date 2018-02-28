@@ -1,9 +1,9 @@
-import Ember from 'ember';
+import Mixin from '@ember/object/mixin';
 import { deprecate } from '@ember/application/deprecations';
 import { on } from '@ember/object/evented';
 import LoadableModel from './loadable-model';
 
-export default Ember.Mixin.create(LoadableModel, {
+export default Mixin.create(LoadableModel, {
 
   showDeprecations: on('init', function() {
     deprecate(

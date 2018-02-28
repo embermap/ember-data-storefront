@@ -1,4 +1,5 @@
-import Ember from 'ember';
+import { assert } from '@ember/debug';
+import Component from '@ember/component';
 
 /**
   _This component relies on JSON:API, and assumes that your server supports JSON:API includes._
@@ -24,7 +25,7 @@ import Ember from 'ember';
   @class AssertMustPreload
   @public
 */
-export default Ember.Component.extend({
+export default Component.extend({
   tagName: '',
 
   didReceiveAttrs() {
@@ -33,12 +34,12 @@ export default Ember.Component.extend({
     let parentName = parentComponent ? parentComponent._debugContainerKey : 'template';
     let includesString = includes.join(',');
 
-    Ember.assert(
+    assert(
       `You passed a ${model.constructor.modelName} model into an {{assert-must-preload}}, but that model is not using the Loadable mixin. [ember-data-storefront]`,
       model.hasLoaded
     );
 
-    Ember.assert(
+    assert(
       `You tried to render a ${parentName} that accesses relationships off of a ${model.constructor.modelName}, but that model didn't have all of its required relationships preloaded ('${includesString}'). Please make sure to preload the association. [ember-data-storefront]`,
       model.hasLoaded(includesString)
     );
