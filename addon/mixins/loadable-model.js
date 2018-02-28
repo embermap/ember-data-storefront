@@ -1,4 +1,3 @@
-import { inject as service } from '@ember/service';
 import Mixin from '@ember/object/mixin';
 
 /**
@@ -31,9 +30,7 @@ import Mixin from '@ember/object/mixin';
 */
 export default Mixin.create({
 
-  store: service(),
-
- /**
+   /**
     `load` gives you an explicit way to asynchronously load related data.
 
     ```js

@@ -21,6 +21,10 @@ async function domHasChanged(selector) {
 module('Acceptance | load all', function(hooks) {
   setupApplicationTest(hooks);
 
+  hooks.afterEach(function() {
+    server.shutdown();
+  });
+
   test('visiting /load-all', async function(assert) {
     server.create('post', { id: '1', title: 'Post 1 title' });
     server.create('post');
