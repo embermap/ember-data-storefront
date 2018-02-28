@@ -54,7 +54,7 @@ jobs:
 
     - stage: additional tests
       env: NAME=floating dependencies
-      install: yarn install --no-lockile --non-interactive
+      install: yarn install --no-lockfile --non-interactive
       script: yarn test
 
     - stage: fastboot tests
