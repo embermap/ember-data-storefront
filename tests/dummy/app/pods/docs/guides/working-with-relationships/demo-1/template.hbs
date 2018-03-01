@@ -11,13 +11,16 @@
 
       {{#liquid-if loadComments.lastSuccessful}}
 
-        <p>The post has {{post.comments.length}} comments.</p>
+        <p data-test-id="comments-count">
+          The post has {{post.comments.length}} comments.
+        </p>
 
       {{else}}
 
         {{#ui-button
           onClick=(perform loadComments)
-          disabled=loadComments.isRunning}}
+          disabled=loadComments.isRunning
+          data-test-id='load-comments'}}
           {{if loadComments.isIdle 'Load comments' 'Loading...'}}
         {{/ui-button}}
 
