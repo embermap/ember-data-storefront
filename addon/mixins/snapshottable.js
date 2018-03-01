@@ -1,6 +1,8 @@
-import Ember from 'ember';
+import { assert } from '@ember/debug';
+import { isArray } from '@ember/array';
+import Mixin from '@ember/object/mixin';
 
-export default Ember.Mixin.create({
+export default Mixin.create({
 
   /*
     Graph for a post looks like
@@ -36,7 +38,7 @@ export default Ember.Mixin.create({
     Object.keys(graph).forEach(key => {
       let node = graph[key];
       let relationship = this.get(key);
-      if (Ember.isArray(relationship)) {
+      if (isArray(relationship)) {
         snapshot.relationships[key] = relationship.map(model => ({ model, relationships: {} }));
       } else {
         snapshot.relationships[key] = { model: relationship, relationships: {} };
@@ -47,11 +49,11 @@ export default Ember.Mixin.create({
         Object.keys(node).forEach(subkey => {
           let namedRelationshipMeta = snapshot.relationships[key];
           if (namedRelationshipMeta) {
-            if (Ember.isArray(namedRelationshipMeta)) {
+            if (isArray(namedRelationshipMeta)) {
               namedRelationshipMeta.forEach(relationshipSnapshot => {
                 let nestedRelationship = relationshipSnapshot.model.get(subkey);
 
-                if (Ember.isArray(nestedRelationship)) {
+                if (isArray(nestedRelationship)) {
                   relationshipSnapshot.relationships[subkey] = nestedRelationship.map(model => ({ model, relationships: {} }));
                 } else {
                   relationshipSnapshot.relationships[subkey] = { model: nestedRelationship, relationships: {} };
@@ -98,13 +100,13 @@ export default Ember.Mixin.create({
 
     Object.keys(snapshot.relationships).forEach(key => {
       let relationshipSnapshot = snapshot.relationships[key];
-      if (Ember.isArray(relationshipSnapshot)) {
+      if (isArray(relationshipSnapshot)) {
         this.set(key, relationshipSnapshot.map(meta => meta.model));
         relationshipSnapshot.forEach(rSnapshot => {
           let model = rSnapshot.model;
           model.rollbackAttributes();
           if (Object.keys(rSnapshot.relationships).length) {
-            Ember.assert(`You're trying to restore a snapshot on a ${model._debugContainerKey} but that model isn't snapshottable. Be sure to include the Snapshottable mixin.`, model.restoreSnapshot !== undefined);
+            assert(`You're trying to restore a snapshot on a ${model._debugContainerKey} but that model isn't snapshottable. Be sure to include the Snapshottable mixin.`, model.restoreSnapshot !== undefined);
             model.restoreSnapshot(rSnapshot);
           }
         });
@@ -118,7 +120,7 @@ export default Ember.Mixin.create({
         }
 
         if (Object.keys(relationshipSnapshot.relationships).length) {
-          Ember.assert(`You're trying to restore a snapshot on a ${model._debugContainerKey} but that model isn't snapshottable. Be sure to include the Snapshottable mixin.`, model.restoreSnapshot !== undefined);
+          assert(`You're trying to restore a snapshot on a ${model._debugContainerKey} but that model isn't snapshottable. Be sure to include the Snapshottable mixin.`, model.restoreSnapshot !== undefined);
           model.restoreSnapshot(relationshipSnapshot);
         }
       }

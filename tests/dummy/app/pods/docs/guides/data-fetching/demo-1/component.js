@@ -20,24 +20,26 @@ export default Component.extend({
   model: readOnly('visit.last.value'),
   activeRoute: readOnly('visitedRoutes.lastObject'),
 
-  routes: {
-    '/posts': {
-      // BEGIN-SNIPPET demo1-posts-route.js
-      // route
-      model() {
-        return this.get('store').findAll('post');
+  routes: computed(function() {
+    return {
+      '/posts': {
+        // BEGIN-SNIPPET demo1-posts-route.js
+        // route
+        model() {
+          return this.get('store').findAll('post');
+        }
+        // END-SNIPPET
+      },
+      '/posts/1': {
+        // BEGIN-SNIPPET demo1-posts1-route.js
+        // route
+        model() {
+          return this.get('store').findRecord('post', 1);
+        }
+        // END-SNIPPET
       }
-      // END-SNIPPET
-    },
-    '/posts/1': {
-      // BEGIN-SNIPPET demo1-posts1-route.js
-      // route
-      model() {
-        return this.get('store').findRecord('post', 1);
-      }
-      // END-SNIPPET
-    }
-  },
+    };
+  }),
 
   didInsertElement() {
     this._super(...arguments);

@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import Mixin from '@ember/object/mixin';
 
 /**
   _This mixin relies on JSON:API, and assumes that your server supports JSON:API includes._
@@ -28,11 +28,9 @@ import Ember from 'ember';
   @class LoadableModel
   @public
 */
-export default Ember.Mixin.create({
+export default Mixin.create({
 
-  store: Ember.inject.service(),
-
- /**
+   /**
     `load` gives you an explicit way to asynchronously load related data.
 
     ```js
