@@ -2,6 +2,7 @@ import { module, test } from 'qunit';
 import { visit, click, find } from "@ember/test-helpers";
 import { setupApplicationTest } from 'ember-qunit';
 import { waitFor } from 'ember-wait-for-test-helper/wait-for';
+import { startMirage } from 'dummy/initializers/ember-cli-mirage';
 
 function t(...args) {
   return args
@@ -19,7 +20,13 @@ async function domHasChanged(selector) {
 }
 
 module('Acceptance | load all', function(hooks) {
+  let server;
+
   setupApplicationTest(hooks);
+
+  hooks.beforeEach(function() {
+    server = startMirage();
+  });
 
   hooks.afterEach(function() {
     server.shutdown();
