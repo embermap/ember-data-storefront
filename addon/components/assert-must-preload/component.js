@@ -4,7 +4,7 @@ import Component from '@ember/component';
 /**
   _This component relies on JSON:API, and assumes that your server supports JSON:API includes._
 
-  _{{assert-must-preload}} only works on models that have included the Loadable mixin._
+  _{{assert-must-preload}} only works on models that have included the LoadableModel mixin._
 
   Use this when authoring a component that requires a model to be passed in with
   certain relationships already loaded.
