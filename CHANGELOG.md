@@ -1,3 +1,7 @@
+# 0.13.1
+
+Use Object assign polyfill from Ember. Fixes IE11 bug.
+
 # 0.13.0
 
 The `store` service is no longer injected into the LoadableModel mixin. Since this mixin is made to be used with an Ember Data model we can rely on the store property being present. This fixes a bug when directly using the mixin on a model would error.
