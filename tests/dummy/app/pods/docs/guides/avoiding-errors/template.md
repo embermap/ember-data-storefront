@@ -5,7 +5,7 @@ These patterns minimize the states in which your application can exist, helping 
 ## Ensuring data is loaded within templates
 
 <aside>
-  &lbrace;&lbrace;assert-must-preload&rbrace;&rbrace; only works on models that have included the Loadable mixin.
+  &lbrace;&lbrace;assert-must-preload&rbrace;&rbrace; only works on models that have included the {{docs-link 'LoadableModel' 'docs.api.item' 'mixins/loadable-model'}} mixin.
 </aside>
 
 You can use the `{{assert-must-preload}}` component to throw a dev-time warning if a template is rendered without all of its requisite data. This can help you avoid FOUC and the `n+1` query bug.
@@ -27,7 +27,7 @@ Async relationships can also lead to surprises in actions by adding unnecessary 
 ## Ensuring data is loaded within JavaScript files
 
 <aside>
-  `#hasLoaded` only works on models that have included the Loadable mixin.
+  `#hasLoaded` only works on models that have included the {{docs-link 'LoadableModel' 'docs.api.item' 'mixins/loadable-model'}} mixin.
 </aside>
 
 You can use the `model#hasLoaded` method to throw a dev-time warning if a relationship is not yet loaded. This can help you avoid calling functions on undefined objects.
@@ -50,4 +50,4 @@ Component.extend({
 });
 ```
 
-If the `followAuthor` action is called without the post's author being loaded the developer will see a dev-time error.
+If the `followAuthor` action is called without the post's author being loaded, the developer will see a dev-time error.
