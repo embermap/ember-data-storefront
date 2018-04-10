@@ -5,7 +5,7 @@ module.exports = function(deployTarget) {
   let ENV = {
     build: {},
     git: {
-      repo: 'git@github.com:EmberMap/ember-data-storefront.git'
+      repo: 'git@github.com:embermap/ember-data-storefront.git'
     }
   };
 
@@ -22,7 +22,6 @@ module.exports = function(deployTarget) {
   if (deployTarget === 'production') {
     ENV.build.environment = 'production';
     // configure other plugins for production deploy target here
-    ENV.rootURL = '/ember-data-storefront';
   }
 
   // Note: if you need to build some configuration asynchronously, you can return
