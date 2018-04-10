@@ -8,5 +8,5 @@
     "assets/vendor.js": "assets/vendor-d8ecf9ac3d372855c86383591d95a73b.js",
     "ember-fetch/fastboot-fetch.js": "ember-fetch/fastboot-fetch-805e176077930c98aec5834ae48bd0f2.js"
   },
-  "prepend": "/ember-data-storefront/"
+  "prepend": ""
 }
