@@ -10,5 +10,11 @@
     "tag": null,
     "path": "fix-docs-site",
     "name": "fix-docs-site"
+  },
+  "latest": {
+    "sha": "dcd1434ae2d39ff5c56b3e91949dd3df59e85d21",
+    "tag": null,
+    "path": "latest",
+    "name": "latest"
   }
 }
