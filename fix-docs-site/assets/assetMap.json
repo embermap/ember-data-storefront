@@ -1,0 +1,12 @@
+{
+  "assets": {
+    "assets/assetMap.json": "assets/assetMap.json",
+    "assets/dummy-fastboot.js": "assets/dummy-fastboot-47197a8aa593f2cdf876e5337889b769.js",
+    "assets/dummy.css": "assets/dummy-05405dea9a9f9eb2c59a64fa0a70793e.css",
+    "assets/dummy.js": "assets/dummy-c6d6de066c38f69c3dd6d1fd99c791b3.js",
+    "assets/vendor.css": "assets/vendor-38f4e966bdc2574232e827e406468461.css",
+    "assets/vendor.js": "assets/vendor-658bb4c4e408f94f3f413b1203fa28e4.js",
+    "ember-fetch/fastboot-fetch.js": "ember-fetch/fastboot-fetch-805e176077930c98aec5834ae48bd0f2.js"
+  },
+  "prepend": "/ember-data-storefront/"
+}
