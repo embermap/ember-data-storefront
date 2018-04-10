@@ -4,13 +4,7 @@
     "tag": null,
     "path": "master",
     "name": "master"
-  },
-  "fix-docs-site": {
-    "sha": "b16e44abe2c49e6d8f0c9466bc5e2ee4ad84a75c",
-    "tag": null,
-    "path": "fix-docs-site",
-    "name": "fix-docs-site"
-  },
+  }
   "latest": {
     "sha": "dcd1434ae2d39ff5c56b3e91949dd3df59e85d21",
     "tag": null,
