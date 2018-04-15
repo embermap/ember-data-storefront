@@ -14,6 +14,7 @@ Router.map(function() {
       this.route('working-with-relationships');
       this.route('avoiding-errors');
       this.route('fastboot');
+      this.route('common-data-issues');
     });
 
     this.route('api', function() {
