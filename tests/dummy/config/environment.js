@@ -8,9 +8,6 @@ module.exports = function(environment) {
     rootURL: '/',
     locationType: 'router-scroll',
     historySupportMiddleware: true,
-    routerScroll: {
-      scrollElement: '#docs-viewer__scroll-body'
-    },
     'ember-cli-mirage': {
       enabled: true
     },
@@ -60,7 +57,8 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
-    ENV.rootURL = '/ember-data-storefront';
+    // Allow ember-cli-addon-docs to update the rootURL in compiled assets
+    ENV.rootURL = 'ADDON_DOCS_ROOT_URL';
   }
 
   return ENV;

@@ -1,3 +1,5 @@
+import { assign } from '@ember/polyfills';
+
 export default class RecordQuery {
 
   constructor(store, type, id, params) {
@@ -13,7 +15,7 @@ export default class RecordQuery {
     // If the query has params, we force a reload, since Ember Data treats all
     // findRecords the same.
     let hasParams = Object.keys(this.params).length > 0;
-    let options = Object.assign(
+    let options = assign(
       { reload: hasParams },
       this.params
     );

@@ -1,23 +1,18 @@
 {{#docs-viewer as |viewer|}}
 
   {{#viewer.nav as |nav|}}
+    {{nav.section 'Introduction'}}
     {{nav.item 'Overview' 'docs.index'}}
-    {{nav.item 'Guides' 'docs.guides'}}
-    {{#nav.subnav as |nav|}}
-      {{nav.item 'Data fetching' 'docs.guides.data-fetching'}}
-      {{nav.item 'Working with relationships' 'docs.guides.working-with-relationships'}}
-      {{nav.item 'Avoiding errors' 'docs.guides.avoiding-errors'}}
-      {{nav.item 'Fastboot support' 'docs.guides.fastboot'}}
-      {{nav.item 'Good to know' 'docs.guides.good-to-know'}}
-    {{/nav.subnav}}
+
+    {{nav.section 'Guides'}}
+    {{nav.item 'Data fetching' 'docs.guides.data-fetching'}}
+    {{nav.item 'Working with relationships' 'docs.guides.working-with-relationships'}}
+    {{nav.item 'Avoiding errors' 'docs.guides.avoiding-errors'}}
+    {{nav.item 'Fastboot support' 'docs.guides.fastboot'}}
   {{/viewer.nav}}
 
   {{#viewer.main}}
-    <div class="docs-container docs__center">
-      <div class="docs-section">
-        {{outlet}}
-      </div>
-    </div>
+    {{outlet}}
   {{/viewer.main}}
 
 {{/docs-viewer}}
