@@ -38,6 +38,7 @@ export default Mixin.create({
     Object.keys(graph).forEach(key => {
       let node = graph[key];
       let relationship = this.get(key);
+
       if (isArray(relationship)) {
         snapshot.relationships[key] = relationship.map(model => ({ model, relationships: {} }));
       } else {
@@ -63,6 +64,13 @@ export default Mixin.create({
               });
             } else {
               // Deal with object case
+              let nestedRelationship = namedRelationshipMeta.model.get(subkey);
+
+              if (isArray(nestedRelationship)) {
+                namedRelationshipMeta.relationships[subkey] = nestedRelationship.map(model => ({ model, relationships: {} }));
+              } else {
+                namedRelationshipMeta.relationships[subkey] = { model: nestedRelationship, relationships: {} };
+              }
             }
           }
         });
