@@ -25,6 +25,7 @@
       var segmentCount = 2;
       var l = window.location;
       var segments = l.pathname.split('/');
+
       // Avoid an infinite loop if we try to direct to a location that doesn't exist
       if (!/^\?p=\/.*&q=.*/.test(l.search)) {
         l.replace(
@@ -37,5 +38,5 @@
       }
     </script>
   </head>
-  <body>The request page wasn't found.</body>
+  <body>The requested page wasn't found.</body>
 </html>
