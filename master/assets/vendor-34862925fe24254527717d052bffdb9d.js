@@ -10792,7 +10792,7 @@ Object.defineProperty(e,"__esModule",{value:!0})
 e.default=Ember.Mixin.create({scheduler:Ember.inject.service("scheduler"),service:Ember.inject.service("router-scroll"),isFastBoot:Ember.computed(function(){var e=Ember.getOwner(this).lookup("service:fastboot")
 return!!e&&e.get("isFastBoot")}),willTransition:function(){this._super.apply(this,arguments),Ember.get(this,"isFastBoot")||Ember.get(this,"service").update()},didTransition:function(e){for(var t=this,n=arguments.length,r=Array(n>1?n-1:0),a=1;a<n;a++)r[a-1]=arguments[a]
 this._super.apply(this,[e].concat(function(e){if(Array.isArray(e)){for(var t=0,n=Array(e.length);t<e.length;t++)n[t]=e[t]
-return n}return Array.from(e)}(r))),Ember.get(this,"isFastBoot")||this.get("scheduler").scheduleWork("afterContentPaint",function(){t.updateScrollPosition(e)})},updateScrollPosition:function(e){var t=e[e.length-1],n=Ember.get(t,"handler.router.currentURL"),r=document.getElementById(n.split("#").pop()),a=void 0
+return n}return Array.from(e)}(r))),Ember.get(this,"isFastBoot")||this.get("scheduler").scheduleWork("afterContentPaint",function(){t.updateScrollPosition(e)})},updateScrollPosition:function(e){var t=e[e.length-1],n=Ember.get(t,"handler.router.currentURL"),r=n?document.getElementById(n.split("#").pop()):null,a=void 0
 a=n&&n.indexOf("#")>-1&&r?{x:r.offsetLeft,y:r.offsetTop}:Ember.get(this,"service.position")
 var i=Ember.get(this,"service.scrollElement")
 if(!Ember.get(t,"handler.controller.preserveScrollPosition"))if("window"===i)window.scrollTo(a.x,a.y)
