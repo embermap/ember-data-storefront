@@ -12,7 +12,7 @@ import Mixin from '@ember/object/mixin';
   import DS from 'ember-data';
   import LoadableModel from 'ember-data-storefront/mixins/loadable-model';
 
-  export default DS.Store.extend(LoadableModel);
+  export default DS.Model.extend(LoadableModel);
   ```
 
   Once you understand how `LoadableModel` works We suggest adding it to every model in your app. You can do this by reopening `DS.Model` in `app.js.` and mixing it in:
