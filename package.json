@@ -82,7 +82,7 @@
     "tachyons": "4.9.0"
   },
   "engines": {
-    "node": "6.* || >= 7.* || >= 10.*"
+    "node": ">= 6.0.0"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"
