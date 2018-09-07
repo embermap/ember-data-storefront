@@ -41,10 +41,10 @@ export default Mixin.create({
   },
 
    /**
-    `sideload` gives you an explicit way to asynchronously sideload related data.
+    `loadWith` gives you an explicit way to asynchronously loadWith related data.
 
     ```js
-    post.sideload('comments');
+    post.loadWith('comments');
     ```
 
     The above uses Storefront's `loadRecord` method to query your backend for the post along with its comments.
@@ -52,25 +52,25 @@ export default Mixin.create({
     You can also use JSON:API's dot notation to load additional related relationships.
 
     ```js
-    post.sideload('comments.author');
+    post.loadWith('comments.author');
     ```
 
-    Every call to `sideload()` will return a promise.
+    Every call to `loadWith()` will return a promise.
 
     ```js
-    post.sideload('comments').then(() => console.log('loaded comments!'));
+    post.loadWith('comments').then(() => console.log('loaded comments!'));
     ```
 
-    If a relationship has never been loaded, the promise will block until the data is loaded. However, if a relationship has already been loaded (even from calls to `loadRecord` elsewhere in your application), the promise will resolve synchronously with the data from Storefront's cache. This means you don't have to worry about overcalling `sideload()`.
+    If a relationship has never been loaded, the promise will block until the data is loaded. However, if a relationship has already been loaded (even from calls to `loadRecord` elsewhere in your application), the promise will resolve synchronously with the data from Storefront's cache. This means you don't have to worry about overcalling `loadWith()`.
 
     This feature works best when used on relationships that are defined with `{ async: false }` because it allows `load()` to load the data, and `get()` to access the data that has already been loaded.
 
-    @method sideload
+    @method loadWith
     @param {String} includesString a JSON:API includes string representing the relationships to check
     @return {Promise} a promise resolving with the record
     @public
   */
-  sideload(...includes) {
+  loadWith(...includes) {
     let modelName = this.constructor.modelName;
 
     return this.get('store').loadRecord(modelName, this.get('id'), {
@@ -102,7 +102,7 @@ export default Mixin.create({
   */
   load(name, options = {}) {
     assert(
-      `The #load method only works with a single relationship, if you need to load multiple relationships in one request please use the #sideload method [ember-data-storefront]`,
+      `The #load method only works with a single relationship, if you need to load multiple relationships in one request please use the #loadWith method [ember-data-storefront]`,
       !isArray(name) && !name.includes(',') && !name.includes('.')
     );
 

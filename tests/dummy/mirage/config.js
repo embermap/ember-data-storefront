@@ -14,11 +14,11 @@ export default function() {
   window.server = this;
 
   this.get('posts', {
-    timing: 100
+    timing: 1000
   });
 
   this.get('/posts/:id', {
-    timing: 100
+    timing: 1000
   });
 
   this.get('/posts/:id/relationships/:relationship', genericRelationshipRouteHandler);

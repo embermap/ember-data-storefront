@@ -112,7 +112,7 @@ test('#load should fetch if the relationship has already been loaded, but the re
   assert.equal(requests[1].url, '/posts/1/relationships/comments');
 });
 
-test('#sideload can load includes', async function(assert) {
+test('#loadWith can load includes', async function(assert) {
   let requests = [];
   server.pretender.handledRequest = (...args) => {
     requests.push(args[2]);
@@ -125,7 +125,7 @@ test('#sideload can load includes', async function(assert) {
   assert.equal(post.hasMany('comments').value(), null);
 
   post = await run(() => {
-    return post.sideload('comments');
+    return post.loadWith('comments');
   });
 
   assert.equal(post.hasMany('comments').value().get('length'), 2);
@@ -133,7 +133,7 @@ test('#sideload can load includes', async function(assert) {
   assert.equal(requests[1].url, '/posts/1?include=comments');
 });
 
-test('#sideload returns a resolved promise if its already loaded includes, and reloads in the background', async function(assert) {
+test('#loadWith returns a resolved promise if its already loaded includes, and reloads in the background', async function(assert) {
   let serverCalls = 0;
   server.pretender.handledRequest = () => serverCalls++;
 
@@ -144,7 +144,7 @@ test('#sideload returns a resolved promise if its already loaded includes, and r
   assert.equal(serverCalls, 1);
 
   await run(() => {
-    return post.sideload('comments');
+    return post.loadWith('comments');
   });
 
   assert.equal(serverCalls, 2);
@@ -152,7 +152,7 @@ test('#sideload returns a resolved promise if its already loaded includes, and r
   server.create('comment', { postId: 1 });
 
   await run(() => {
-    return post.sideload('comments');
+    return post.loadWith('comments');
   });
 
   await waitFor(() => serverCalls === 3);
@@ -178,7 +178,7 @@ test('#hasLoaded returns true if a relationship has been sideloaded', async func
   });
 
   await run(() => {
-    return post.sideload('comments');
+    return post.loadWith('comments');
   });
 
   assert.ok(post.hasLoaded('comments'));
@@ -190,7 +190,7 @@ test('#hasLoaded returns true if the relationship chain has been sideloaded', as
   });
 
   await run(() => {
-    return post.sideload('comments.author');
+    return post.loadWith('comments.author');
   });
 
   assert.ok(post.hasLoaded('comments.author'));
@@ -210,7 +210,7 @@ test('#hasLoaded returns false if another relationship has not been sideloaded',
   });
 
   await run(() => {
-    return post.sideload('comments');
+    return post.loadWith('comments');
   });
 
   assert.notOk(post.hasLoaded('tags'));
@@ -222,7 +222,7 @@ test('#hasLoaded returns false if a relationship chain has not been fully sidelo
   });
 
   await run(() => {
-    return post.sideload('comments');
+    return post.loadWith('comments');
   });
 
   assert.notOk(post.hasLoaded('comments.author'));
@@ -234,7 +234,7 @@ test('#hasLoaded returns false for similarly named relationships', async functio
   });
 
   await run(() => {
-    return post.sideload('comments.author');
+    return post.loadWith('comments.author');
   });
 
   assert.notOk(post.hasLoaded('author'));
