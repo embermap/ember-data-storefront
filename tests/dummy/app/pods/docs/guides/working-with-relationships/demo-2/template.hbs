@@ -1,0 +1,39 @@
+{{#if post}}
+
+  {{#docs-demo as |demo|}}
+    {{#demo.example name='working-with-relationships-demo-2.hbs'}}
+
+      <div class="tr">
+        {{#ui-button style='small' onClick=(action 'reset')}}
+          Reset
+        {{/ui-button}}
+      </div>
+
+      {{#liquid-if reloadWithComments.lastSuccessful}}
+
+        <p data-test-id="reload-with-comments-count">
+          The post has {{post.comments.length}} comments.
+        </p>
+
+      {{else}}
+
+        {{#ui-button
+          onClick=(perform reloadWithComments)
+          disabled=reloadWithComments.isRunning
+          data-test-id='reload-with-comments'}}
+          {{if reloadWithComments.isIdle 'Reload with comments' 'Loading...'}}
+        {{/ui-button}}
+
+      {{/liquid-if}}
+
+    {{/demo.example}}
+
+    {{demo.snippet 'working-with-relationships-demo-2.js'}}
+    {{demo.snippet 'working-with-relationships-demo-2.hbs'}}
+  {{/docs-demo}}
+
+{{else}}
+
+  <p>Loading demo...</p>
+
+{{/if}}

@@ -20,6 +20,12 @@ Now you have an explicit, expressive API for asynchronously loading related data
 
 {{docs/guides/working-with-relationships/demo-1}}
 
+## Explicitly reload with related data
+
+The `LoadableModel` mixin also gives you a way to side load related data by reloading your existing loaded models.
+
+{{docs/guides/working-with-relationships/demo-2}}
+
 ## Avoiding async relationships
 
 **Why avoid async relationships?**

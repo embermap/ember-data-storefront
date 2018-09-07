@@ -41,10 +41,10 @@ export default Mixin.create({
   },
 
    /**
-    `loadWith` gives you an explicit way to asynchronously loadWith related data.
+    `reloadWith` gives you an explicit way to asynchronously reloadWith related data.
 
     ```js
-    post.loadWith('comments');
+    post.reloadWith('comments');
     ```
 
     The above uses Storefront's `loadRecord` method to query your backend for the post along with its comments.
@@ -52,25 +52,25 @@ export default Mixin.create({
     You can also use JSON:API's dot notation to load additional related relationships.
 
     ```js
-    post.loadWith('comments.author');
+    post.reloadWith('comments.author');
     ```
 
-    Every call to `loadWith()` will return a promise.
+    Every call to `reloadWith()` will return a promise.
 
     ```js
-    post.loadWith('comments').then(() => console.log('loaded comments!'));
+    post.reloadWith('comments').then(() => console.log('loaded comments!'));
     ```
 
-    If a relationship has never been loaded, the promise will block until the data is loaded. However, if a relationship has already been loaded (even from calls to `loadRecord` elsewhere in your application), the promise will resolve synchronously with the data from Storefront's cache. This means you don't have to worry about overcalling `loadWith()`.
+    If a relationship has never been loaded, the promise will block until the data is loaded. However, if a relationship has already been loaded (even from calls to `loadRecord` elsewhere in your application), the promise will resolve synchronously with the data from Storefront's cache. This means you don't have to worry about overcalling `reloadWith()`.
 
     This feature works best when used on relationships that are defined with `{ async: false }` because it allows `load()` to load the data, and `get()` to access the data that has already been loaded.
 
-    @method loadWith
+    @method reloadWith
     @param {String} includesString a JSON:API includes string representing the relationships to check
     @return {Promise} a promise resolving with the record
     @public
   */
-  loadWith(...includes) {
+  reloadWith(...includes) {
     let modelName = this.constructor.modelName;
 
     return this.get('store').loadRecord(modelName, this.get('id'), {
@@ -102,14 +102,17 @@ export default Mixin.create({
   */
   load(name, options = {}) {
     assert(
-      `The #load method only works with a single relationship, if you need to load multiple relationships in one request please use the #loadWith method [ember-data-storefront]`,
+      `The #load method only works with a single relationship, if you need to load multiple relationships in one request please use the #reloadWith method [ember-data-storefront]`,
       !isArray(name) && !name.includes(',') && !name.includes('.')
     );
 
     let reference = this._getReference(name);
     let value = reference.value();
-    let shouldFetch = !value || options.reload;
-    let promise = shouldFetch ? reference.reload() : resolve(value);
+    let shouldBlock = !(value || this._loadedReferences[name]) || options.reload;
+    let loadMethod = this._getLoadMethod(name);
+    let load = reference[loadMethod].call(reference);
+
+    let promise = shouldBlock ? load : resolve(value);
 
     return promise.then(data => {
       // need to track that we loaded this relationship, since relying on the reference's
@@ -122,16 +125,59 @@ export default Mixin.create({
   /**
     @private
   */
-  _getReference(name) {
+  _getRelationshipInfo(name) {
     let relationshipInfo = get(this.constructor, `relationshipsByName`).get(name);
 
     assert(
       `You tried to load the relationship ${name} for a ${this.constructor.modelName}, but that relationship does not exist [ember-data-storefront]`,
       relationshipInfo
-    )
+    );
 
+    return relationshipInfo;
+  },
+
+  /**
+    @private
+  */
+  _getReference(name) {
+    let relationshipInfo = this._getRelationshipInfo(name);
     let referenceMethod = relationshipInfo.kind;
     return this[referenceMethod](name);
+  },
+
+  /**
+    @private
+
+    Given a relationship name this method will return the best way to load
+    that relationship.
+  */
+  _getLoadMethod(name) {
+    let relationshipInfo = this._getRelationshipInfo(name);
+    let reference = this._getReference(name);
+    let hasData;
+    let hasLoaded;
+    let isAsync;
+
+    if (relationshipInfo.kind === 'hasMany') {
+       hasData = reference.hasManyRelationship.hasData;
+       hasLoaded = reference.hasManyRelationship.hasLoaded;
+       isAsync = reference.hasManyRelationship.isAsync;
+
+    } else if (relationshipInfo.kind === 'belongsTo') {
+       hasData = reference.belongsToRelationship.hasData;
+       hasLoaded = reference.belongsToRelationship.hasLoaded;
+       isAsync = reference.belongsToRelationship.isAsync;
+
+    } else {
+      // shrug... not sure what to do here.
+      // setup for a reload, which will always get us data so it's safest.
+      // only downside is that it could double request
+      hasData = false;
+      hasLoaded = false;
+
+    }
+
+    return isAsync && !(hasData || hasLoaded) ? 'load' : 'reload';
   },
 
   /**

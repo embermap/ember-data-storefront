@@ -27,6 +27,8 @@ Router.map(function() {
     this.route('load-record-post', { path: 'load-record-post/:post_id' });
     this.route('find-all-posts');
   });
+
+  this.route('playground');
 });
 
 export default Router;
