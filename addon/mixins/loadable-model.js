@@ -123,6 +123,7 @@ export default Mixin.create({
   },
 
   /**
+    @method _getRelationshipInfo
     @private
   */
   _getRelationshipInfo(name) {
@@ -137,6 +138,7 @@ export default Mixin.create({
   },
 
   /**
+    @method _getReference
     @private
   */
   _getReference(name) {
@@ -146,10 +148,11 @@ export default Mixin.create({
   },
 
   /**
-    @private
-
     Given a relationship name this method will return the best way to load
     that relationship.
+
+    @method _getLoadMethod
+    @private
   */
   _getLoadMethod(name) {
     let relationshipInfo = this._getRelationshipInfo(name);
@@ -181,6 +184,7 @@ export default Mixin.create({
   },
 
   /**
+    @method _hasLoadedReference
     @private
   */
   _hasLoadedReference(name) {

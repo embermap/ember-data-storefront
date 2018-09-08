@@ -147,6 +147,7 @@ export default Mixin.create({
   },
 
   /**
+    @method resetCache
     @private
   */
   resetCache() {
