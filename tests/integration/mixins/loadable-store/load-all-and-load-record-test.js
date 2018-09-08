@@ -1,6 +1,6 @@
 import { module, test, setupTest } from 'ember-qunit';
+import { waitUntil } from '@ember/test-helpers';
 import { run } from '@ember/runloop';
-import { waitFor } from 'ember-wait-for-test-helper/wait-for';
 import { Model, hasMany, belongsTo } from 'ember-cli-mirage';
 import MirageServer from 'dummy/tests/integration/helpers/mirage-server';
 import LoadableStore from 'ember-data-storefront/mixins/loadable-store';
@@ -54,7 +54,7 @@ module('Integration | Mixins | LoadableStore | loadAll and loadRecord', function
     assert.equal(serverCalls, 1);
     assert.equal(post.get('title'), 'My post');
 
-    await waitFor(() => serverCalls === 2);
+    await waitUntil(() => serverCalls === 2);
   });
 
   test('loadRecord blocks if its called with an includes, even if the record has already been loaded from loadAll', async function(assert) {

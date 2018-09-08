@@ -25,6 +25,9 @@ module.exports = function() {
             devDependencies: {
               'ember-source': null,
               'ember-data': "~2.8.0"
+            },
+            resolutions: {
+              'ember-data': "~2.8.0"
             }
           }
         },
@@ -33,6 +36,9 @@ module.exports = function() {
           npm: {
             devDependencies: {
               'ember-source': '~2.12.0',
+              'ember-data': "~2.12.0"
+            },
+            resolutions: {
               'ember-data': "~2.12.0"
             }
           }
@@ -43,6 +49,9 @@ module.exports = function() {
             devDependencies: {
               'ember-source': '~2.16.0',
               'ember-data': "~2.16.0"
+            },
+            resolutions: {
+              'ember-data': "~2.16.0"
             }
           }
         },
@@ -52,6 +61,21 @@ module.exports = function() {
             devDependencies: {
               'ember-source': '~2.18.0',
               'ember-data': "~2.18.0"
+            },
+            resolutions: {
+              'ember-data': "~2.18.0"
+            }
+          }
+        },
+        {
+          name: 'ember-3.4',
+          npm: {
+            devDependencies: {
+              'ember-source': '~3.4.0',
+              'ember-data': "~3.4.0"
+            },
+            resolutions: {
+              'ember-data': "~3.4.0"
             }
           }
         },
@@ -59,7 +83,11 @@ module.exports = function() {
           name: 'ember-release',
           npm: {
             devDependencies: {
-              'ember-source': urls[0]
+              'ember-source': urls[0],
+              'ember-data': 'emberjs/data#release'
+            },
+            resolutions: {
+              'ember-data': 'emberjs/data#release'
             }
           }
         },
@@ -69,6 +97,9 @@ module.exports = function() {
             devDependencies: {
               'ember-source': urls[1],
               'ember-data': 'beta'
+            },
+            resolutions: {
+              'ember-data': 'beta'
             }
           }
         },
@@ -77,7 +108,10 @@ module.exports = function() {
           npm: {
             devDependencies: {
               'ember-source': urls[2],
-              'ember-data': 'canary'
+              'ember-data': 'emberjs/data'
+            },
+            resolutions: {
+              'ember-data': 'emberjs/data'
             }
           }
         },

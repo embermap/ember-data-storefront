@@ -1,8 +1,8 @@
 import { module, test, setupTest } from 'ember-qunit';
+import { waitUntil } from '@ember/test-helpers';
 import MirageServer from 'dummy/tests/integration/helpers/mirage-server';
 import { Model, hasMany, belongsTo } from 'ember-cli-mirage';
 import { run } from '@ember/runloop';
-import { waitFor } from 'ember-wait-for-test-helper/wait-for';
 import LoadableStore from 'ember-data-storefront/mixins/loadable-store';
 
 module('Integration | Mixins | LoadableStore | loadRecord', function(hooks) {
@@ -62,7 +62,7 @@ module('Integration | Mixins | LoadableStore | loadRecord', function(hooks) {
     assert.equal(serverCalls, 1);
     assert.equal(post.get('title'), 'My post');
 
-    await waitFor(() => serverCalls === 2);
+    await waitUntil(() => serverCalls === 2);
   });
 
   test('it forces already-loaded records to fetch with the reload option', async function(assert) {
@@ -121,7 +121,7 @@ module('Integration | Mixins | LoadableStore | loadRecord', function(hooks) {
     assert.equal(serverCalls[0], '/posts/1?include=comments');
     assert.equal(post.get('comments.length'), 3);
 
-    await waitFor(() => serverCalls.length === 2);
+    await waitUntil(() => serverCalls.length === 2);
 
     assert.equal(serverCalls[1], '/posts/1?include=comments');
   });

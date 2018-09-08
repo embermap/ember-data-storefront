@@ -1,7 +1,7 @@
 import { module, test, setupTest } from 'ember-qunit';
+import { waitUntil } from '@ember/test-helpers';
 import MirageServer from 'dummy/tests/integration/helpers/mirage-server';
 import { Model, hasMany, belongsTo } from 'ember-cli-mirage';
-import { waitFor } from 'ember-wait-for-test-helper/wait-for';
 import LoadableStore from 'ember-data-storefront/mixins/loadable-store';
 
 module('Integration | Mixins | LoadableStore | loadAll', function(hooks) {
@@ -60,7 +60,7 @@ module('Integration | Mixins | LoadableStore | loadAll', function(hooks) {
     assert.equal(serverCalls, 1);
     assert.equal(posts.get('length'), 2);
 
-    await waitFor(() => serverCalls === 2);
+    await waitUntil(() => serverCalls === 2);
     assert.equal(posts.get('length'), 3);
   });
 

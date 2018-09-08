@@ -63,12 +63,11 @@
     "ember-maybe-import-regenerator": "^0.1.6",
     "ember-qunit-assert-helpers": "^0.2.1",
     "ember-resolver": "^4.0.0",
-    "ember-router-scroll": "ryanto/ember-router-scroll#983cb421f5295f6d88119be16aec4dcf662a948f",
+    "ember-router-scroll": "~1.0.0",
     "ember-source": "~3.1.0",
     "ember-source-channel-url": "^1.0.1",
     "ember-test-selectors": "^0.3.8",
     "ember-try": "^0.2.23",
-    "ember-wait-for-test-helper": "^2.1.1",
     "eslint-plugin-ember": "^5.0.0",
     "eslint-plugin-node": "^6.0.1",
     "express": "^4.8.5",
@@ -80,6 +79,9 @@
     "qunit": "^2.5.0",
     "strip-indent": "^2.0.0",
     "tachyons": "4.9.0"
+  },
+  "resolutions": {
+    "ember-data": "~3.1.0"
   },
   "engines": {
     "node": ">= 6.0.0"

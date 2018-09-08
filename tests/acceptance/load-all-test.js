@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
-import { visit, click, find } from "@ember/test-helpers";
+import { visit, click, find, waitUntil } from "@ember/test-helpers";
 import { setupApplicationTest } from 'ember-qunit';
-import { waitFor } from 'ember-wait-for-test-helper/wait-for';
 import { startMirage } from 'dummy/initializers/ember-cli-mirage';
 
 function t(...args) {
@@ -12,7 +11,7 @@ function t(...args) {
 
 async function domHasChanged(selector) {
   let previousUi = find(selector).textContent;
-  return await waitFor(() => {
+  return await waitUntil(() => {
     let currentUi = find(selector).textContent;
 
     return currentUi !== previousUi;

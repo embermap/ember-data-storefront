@@ -1,5 +1,5 @@
 import { module, test, setupTest } from 'ember-qunit';
-import { waitFor } from 'ember-wait-for-test-helper/wait-for';
+import { waitUntil } from '@ember/test-helpers';
 import { startMirage } from 'dummy/initializers/ember-cli-mirage';
 import { run } from '@ember/runloop';
 import DS from 'ember-data';
@@ -27,10 +27,6 @@ module('Integration | Mixins | LoadableModel', function(hooks) {
     this.store = null;
   });
 
-  test('is it the setup', async function(assert) {
-    assert.ok(true);
-  });
-
   test('#load errors when attempting to load multiple relationships', async function(assert) {
     let post = await run(() => {
       return this.store.findRecord('post', 1)
@@ -55,7 +51,7 @@ module('Integration | Mixins | LoadableModel', function(hooks) {
 
   test('#load can load a belongsTo relationship', async function(assert) {
     let requests = [];
-    server.pretender.handledRequest = (...args) => {
+    server.pretender.handledRequest = function(...args) {
       requests.push(args[2]);
     };
 
@@ -71,7 +67,7 @@ module('Integration | Mixins | LoadableModel', function(hooks) {
 
   test('#load can load a hasMany relationship', async function(assert) {
     let requests = [];
-    server.pretender.handledRequest = (...args) => {
+    server.pretender.handledRequest = function(...args) {
       requests.push(args[2]);
     };
 
@@ -87,7 +83,7 @@ module('Integration | Mixins | LoadableModel', function(hooks) {
 
   test('#load should not use a blocking fetch if the relationship has already been loaded', async function(assert) {
     let requests = [];
-    server.pretender.handledRequest = (...args) => {
+    server.pretender.handledRequest = function(...args) {
       requests.push(args[2]);
     };
 
@@ -106,12 +102,12 @@ module('Integration | Mixins | LoadableModel', function(hooks) {
     assert.equal(requests.length, 1);
 
     // dont let test finish until second test does a background reload
-    await waitFor(() => requests.length === 2);
+    await waitUntil(() => requests.length === 2);
   });
 
   test('#load should use a blocking fetch if the relationship has already been loaded, but the reload option is true', async function(assert) {
     let requests = [];
-    server.pretender.handledRequest = (...args) => {
+    server.pretender.handledRequest = function(...args) {
       requests.push(args[2]);
     };
 
@@ -136,12 +132,12 @@ module('Integration | Mixins | LoadableModel', function(hooks) {
     run(() => post.load('comments'));
 
     assert.equal(comments.length, 2);
-    await waitFor(() => comments.length === 3);
+    await waitUntil(() => comments.length === 3);
   });
 
   test('#reloadWith can load includes', async function(assert) {
     let requests = [];
-    server.pretender.handledRequest = (...args) => {
+    server.pretender.handledRequest = function(...args) {
       requests.push(args[2]);
     };
 
@@ -162,7 +158,7 @@ module('Integration | Mixins | LoadableModel', function(hooks) {
 
   test('#reloadWith returns a resolved promise if its already loaded includes, and reloads in the background', async function(assert) {
     let serverCalls = 0;
-    server.pretender.handledRequest = () => serverCalls++;
+    server.pretender.handledRequest = function() { serverCalls++ };
 
     let post = await run(() => {
       return this.store.findRecord('post', 1)
@@ -183,7 +179,7 @@ module('Integration | Mixins | LoadableModel', function(hooks) {
     });
 
     assert.equal(serverCalls, 2);
-    await waitFor(() => serverCalls === 3);
+    await waitUntil(() => serverCalls === 3);
 
     assert.equal(post.hasMany('comments').value().get('length'), 3);
   });

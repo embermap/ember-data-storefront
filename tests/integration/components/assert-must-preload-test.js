@@ -1,4 +1,5 @@
 import { module, test, setupRenderingTest } from 'ember-qunit';
+import { render } from '@ember/test-helpers';
 import { run } from '@ember/runloop';
 import { startMirage } from 'dummy/initializers/ember-cli-mirage';
 import hbs from 'htmlbars-inline-precompile';
@@ -13,6 +14,8 @@ module('Integration | Component | assert must preload', function(hooks) {
   // keep an eye on this issue:
   // https://github.com/emberjs/ember-test-helpers/issues/310
   let onerror;
+  let adapterException;
+  let loggerError;
 
   hooks.beforeEach(function() {
     DS.Model.reopen(LoadableModel);
@@ -21,11 +24,19 @@ module('Integration | Component | assert must preload', function(hooks) {
     this.store.resetCache();
     this.server = startMirage();
     onerror = Ember.onerror;
+    adapterException = Ember.Test.adapter.exception
+    loggerError = Ember.Logger.error;
+
+    // the next line doesn't work in 2.x due to an eslint rule
+    // eslint-disable-next-line
+    [ this.major, this.minor ] = Ember.VERSION.split(".");
   });
 
   hooks.afterEach(function() {
-    this.server.shutdown();
     Ember.onerror = onerror;
+    Ember.Test.adapter.exception = adapterException;
+    Ember.Logger.error = loggerError;
+    this.server.shutdown();
   });
 
   test('it errors if the relationship has not yet be loaded', async function(assert) {
@@ -34,12 +45,19 @@ module('Integration | Component | assert must preload', function(hooks) {
       return this.store.loadRecord('post', 1);
     });
 
-    Ember.onerror = function(e) {
+    let assertError = function(e) {
       let regexp = /You tried to render a .+ that accesses relationships off of a post, but that model didn't have all of its required relationships preloaded ('comments')*/;
       assert.ok(e.message.match(regexp));
     };
 
-    this.render(hbs`
+    if (this.major === "2" && (this.minor === "12" || this.minor === "16")) {
+      Ember.Logger.error = function() {};
+      Ember.Test.adapter.exception = assertError;
+    } else {
+      Ember.onerror = assertError;
+    }
+
+    await render(hbs`
       {{assert-must-preload post "comments"}}
     `);
   });
@@ -50,12 +68,19 @@ module('Integration | Component | assert must preload', function(hooks) {
       return this.store.loadRecord('post', 1, { include: 'author' });
     });
 
-    Ember.onerror = function(e) {
+    let assertError = function(e) {
       let regexp = /You tried to render a .+ that accesses relationships off of a post, but that model didn't have all of its required relationships preloaded ('comments')*/;
       assert.ok(e.message.match(regexp));
     };
 
-    this.render(hbs`
+    if (this.major === "2" && (this.minor === "12" || this.minor === "16")) {
+      Ember.Logger.error = function() {};
+      Ember.Test.adapter.exception = assertError;
+    } else {
+      Ember.onerror = assertError;
+    }
+
+    await render(hbs`
       {{assert-must-preload post "author,comments"}}
     `);
   });
@@ -66,12 +91,19 @@ module('Integration | Component | assert must preload', function(hooks) {
       return this.store.loadRecord('post', 1, { include: 'comments' });
     });
 
-    Ember.onerror = function(e) {
+    let assertError = function(e) {
       let regexp = /You tried to render a .+ that accesses relationships off of a post, but that model didn't have all of its required relationships preloaded ('comments.author')*/;
       assert.ok(e.message.match(regexp));
     };
 
-    this.render(hbs`
+    if (this.major === "2" && (this.minor === "12" || this.minor === "16")) {
+      Ember.Logger.error = function() {};
+      Ember.Test.adapter.exception = assertError;
+    } else {
+      Ember.onerror = assertError;
+    }
+
+    await render(hbs`
       {{assert-must-preload post "comments.author"}}
     `);
   });
@@ -82,7 +114,7 @@ module('Integration | Component | assert must preload', function(hooks) {
       return this.store.loadRecord('post', 1, { include: 'comments' });
     });
 
-    this.render(hbs`
+    await render(hbs`
       {{assert-must-preload post "comments"}}
     `);
 
