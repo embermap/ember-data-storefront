@@ -33,7 +33,7 @@
     "broccoli-asset-rev": "^2.4.5",
     "ember-ajax": "^3.0.0",
     "ember-cli": "~3.1.0",
-    "ember-cli-addon-docs": "^0.5.0",
+    "ember-cli-addon-docs": "ryanto/ember-cli-addon-docs#97dcf3bc8478e45c217a38d15e2117df2e18c32e",
     "ember-cli-addon-docs-yuidoc": "^0.1.1",
     "ember-cli-dependency-checker": "^2.0.0",
     "ember-cli-deploy": "^1.0.2",
@@ -79,9 +79,6 @@
     "qunit": "^2.5.0",
     "strip-indent": "^2.0.0",
     "tachyons": "4.9.0"
-  },
-  "resolutions": {
-    "ember-data": "~3.1.0"
   },
   "engines": {
     "node": ">= 6.0.0"
