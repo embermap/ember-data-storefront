@@ -108,11 +108,16 @@ export default Mixin.create({
 
     let reference = this._getReference(name);
     let value = reference.value();
-    let shouldBlock = !(value || this._loadedReferences[name]) || options.reload;
-    let loadMethod = this._getLoadMethod(name);
-    let load = reference[loadMethod].call(reference);
+    let shouldBlock = !(value || this.hasLoaded(name)) || options.reload;
+    let promise;
 
-    let promise = shouldBlock ? load : resolve(value);
+    if (shouldBlock) {
+      let loadMethod = this._getLoadMethod(name, options);
+      promise = reference[loadMethod].call(reference);
+    } else {
+      promise = resolve(value);
+      reference.reload();
+    }
 
     return promise.then(data => {
       // need to track that we loaded this relationship, since relying on the reference's
@@ -154,33 +159,20 @@ export default Mixin.create({
     @method _getLoadMethod
     @private
   */
-  _getLoadMethod(name) {
+  _getLoadMethod(name, options) {
     let relationshipInfo = this._getRelationshipInfo(name);
     let reference = this._getReference(name);
-    let hasData;
-    let hasLoaded;
+    let hasLoaded = this._hasLoadedReference(name);
+    let forceReload = options.reload;
     let isAsync;
 
     if (relationshipInfo.kind === 'hasMany') {
-       hasData = reference.hasManyRelationship.hasData;
-       hasLoaded = reference.hasManyRelationship.hasLoaded;
-       isAsync = reference.hasManyRelationship.isAsync;
-
+      isAsync = reference.hasManyRelationship.isAsync;
     } else if (relationshipInfo.kind === 'belongsTo') {
-       hasData = reference.belongsToRelationship.hasData;
-       hasLoaded = reference.belongsToRelationship.hasLoaded;
-       isAsync = reference.belongsToRelationship.isAsync;
-
-    } else {
-      // shrug... not sure what to do here.
-      // setup for a reload, which will always get us data so it's safest.
-      // only downside is that it could double request
-      hasData = false;
-      hasLoaded = false;
-
+      isAsync = reference.belongsToRelationship.isAsync;
     }
 
-    return isAsync && !(hasData || hasLoaded) ? 'load' : 'reload';
+    return !forceReload && isAsync && !hasLoaded ? 'load' : 'reload';
   },
 
   /**

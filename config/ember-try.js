@@ -56,13 +56,19 @@ module.exports = function() {
           }
         },
         {
+          name: 'ember-3.1',
+          npm: {
+            devDependencies: {
+              'ember-source': '~3.1.0',
+              'ember-data': "~3.1.0"
+            }
+          }
+        },
+        {
           name: 'ember-3.4',
           npm: {
             devDependencies: {
               'ember-source': '~3.4.0',
-              'ember-data': "~3.4.0"
-            },
-            resolutions: {
               'ember-data': "~3.4.0"
             }
           }
@@ -81,9 +87,6 @@ module.exports = function() {
           npm: {
             devDependencies: {
               'ember-source': urls[1],
-              'ember-data': 'beta'
-            },
-            resolutions: {
               'ember-data': 'beta'
             }
           }
