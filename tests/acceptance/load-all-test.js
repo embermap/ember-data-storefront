@@ -32,6 +32,9 @@ module('Acceptance | load all', function(hooks) {
   });
 
   test('visiting /load-all', async function(assert) {
+    // need our data fetching to be slow for these tests.
+    server.timing = 1000;
+
     server.create('post', { id: '1', title: 'Post 1 title' });
     server.create('post');
 

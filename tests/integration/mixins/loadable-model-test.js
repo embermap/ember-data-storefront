@@ -171,6 +171,10 @@ module('Integration | Mixins | LoadableModel', function(hooks) {
 
     assert.equal(serverCalls, 1);
 
+    // kind of britle, but we want to slow the server down a little
+    // so we can be sure our test is blocked by the next call to load.
+    server.timing = 500;
+
     await run(() => {
       return post.reloadWith('comments');
     });

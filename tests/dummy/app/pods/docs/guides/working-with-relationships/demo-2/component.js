@@ -2,6 +2,7 @@ import Component from '@ember/component';
 import { task } from 'ember-concurrency';
 import { inject as service } from '@ember/service';
 import { readOnly } from '@ember/object/computed';
+import { defineProperty } from '@ember/object';
 
 export default Component.extend({
 
@@ -31,7 +32,8 @@ export default Component.extend({
 
     this.get('store').resetCache();
     // We do this to reset loadComments state
-    this.set('reloadWithComments', tasks.reloadWithComments);
+    defineProperty(this, 'reloadWithComments', tasks.reloadWithComments);
+    this.notifyPropertyChange('reloadWithComments');
   },
 
   actions: {

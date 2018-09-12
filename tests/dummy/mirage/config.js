@@ -17,9 +17,7 @@ export default function() {
     timing: 1000
   });
 
-  this.get('/posts/:id', {
-    timing: 1000
-  });
+  this.get('/posts/:id');
 
   this.get('/posts/:id/relationships/:relationship', genericRelationshipRouteHandler);
 
