@@ -146,7 +146,8 @@ export default Mixin.create({
     return this.coordinator.recordHasIncludes(type, id, includesString);
   },
 
-/**
+  /**
+    @method resetCache
     @private
   */
   resetCache() {

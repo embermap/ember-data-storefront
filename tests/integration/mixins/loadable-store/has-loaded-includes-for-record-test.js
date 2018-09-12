@@ -1,13 +1,13 @@
-import { moduleFor, test } from 'ember-qunit';
+import { module, test, setupTest } from 'ember-qunit';
 import { Model, hasMany, belongsTo } from 'ember-cli-mirage';
 import MirageServer from 'dummy/tests/integration/helpers/mirage-server';
 import { run } from '@ember/runloop';
 import LoadableStore from 'ember-data-storefront/mixins/loadable-store';
 
-moduleFor('mixin:loadable-store', 'Integration | Mixins | LoadableStore | hasLoadedIncludesForRecord', {
-  integration: true,
+module('Integration | Mixins | LoadableStore | hasLoadedIncludesForRecord', function(hooks) {
+  setupTest(hooks);
 
-  beforeEach() {
+  hooks.beforeEach(function() {
     this.server = new MirageServer({
       models: {
         post: Model.extend({
@@ -26,36 +26,36 @@ moduleFor('mixin:loadable-store', 'Integration | Mixins | LoadableStore | hasLoa
       }
     });
 
-    this.inject.service('store')
+    this.store = this.owner.lookup('service:store')
     this.store.reopen(LoadableStore);
     this.store.resetCache();
-  },
+  });
 
-  afterEach() {
+  hooks.afterEach(function() {
     this.server.shutdown();
-  }
-});
+  });
 
-test('it returns true if the relationship has been loaded', async function(assert) {
-  let serverPost = this.server.create('post');
-  this.server.createList('comment', 3, { post: serverPost });
+  test('it returns true if the relationship has been loaded', async function(assert) {
+    let serverPost = this.server.create('post');
+    this.server.createList('comment', 3, { post: serverPost });
 
-  await run(() => {
-    return this.store.loadRecord('post', serverPost.id, {
-      include: 'comments'
+    await run(() => {
+      return this.store.loadRecord('post', serverPost.id, {
+        include: 'comments'
+      });
     });
+
+    assert.ok(this.store.hasLoadedIncludesForRecord('post', serverPost.id, 'comments'));
   });
 
-  assert.ok(this.store.hasLoadedIncludesForRecord('post', serverPost.id, 'comments'));
-});
+  test('it returns false if the relationship has not been loaded', async function(assert) {
+    let serverPost = this.server.create('post');
+    this.server.createList('comment', 3, { post: serverPost });
 
-test('it returns false if the relationship has not been loaded', async function(assert) {
-  let serverPost = this.server.create('post');
-  this.server.createList('comment', 3, { post: serverPost });
+    await run(() => {
+      return this.store.loadRecord('post', serverPost.id);
+    });
 
-  await run(() => {
-    return this.store.loadRecord('post', serverPost.id);
+    assert.notOk(this.store.hasLoadedIncludesForRecord('post', serverPost.id, 'comments'));
   });
-
-  assert.notOk(this.store.hasLoadedIncludesForRecord('post', serverPost.id, 'comments'));
 });

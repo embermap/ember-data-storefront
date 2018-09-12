@@ -16,24 +16,24 @@ export default Component.extend({
   },
 
   loadPost: task(function*() {
-    return yield this.get('store').findRecord('post', 1);
+    return yield this.get('store').findRecord('post', 2);
   }),
 
   post: readOnly('loadPost.lastSuccessful.value'),
 
   setup() {
     let tasks = {
-      // BEGIN-SNIPPET working-with-relationships-demo-1.js
-      loadComments: task(function*() {
-        yield this.get('post').load('comments');
+      // BEGIN-SNIPPET working-with-relationships-demo-2.js
+      reloadWithComments: task(function*() {
+        yield this.get('post').reloadWith('comments');
       })
       // END-SNIPPET
     };
 
     this.get('store').resetCache();
     // We do this to reset loadComments state
-    defineProperty(this, 'loadComments', tasks.loadComments);
-    this.notifyPropertyChange('loadComments');
+    defineProperty(this, 'reloadWithComments', tasks.reloadWithComments);
+    this.notifyPropertyChange('reloadWithComments');
   },
 
   actions: {

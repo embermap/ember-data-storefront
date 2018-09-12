@@ -2,9 +2,9 @@
 
 Here are some patterns we recommend to make working with relationships more predictable.
 
-## Explicitly load related data
+## Explicitly loading related data
 
-The `LoadableModel` mixin gives you a simple, expressive way to load related data from your models:
+Storefront provides an expressive way to load related data from your models. To get started, you'll first need to add the `LoadableModel` mixin your models.
 
 ```js
 // models/post.js
@@ -16,9 +16,25 @@ export default DS.Model.extend(LoadableModel, {
 });
 ```
 
-Now you have an explicit, expressive API for asynchronously loading related data.
+### Load related data
+
+Your models now have a `load` method that loads a relationship by name. Take a look at the following demo:
 
 {{docs/guides/working-with-relationships/demo-1}}
+
+When called the first time, the `load` method will return a blocking promise that fulfills once the related data has been loaded into Ember Data's store.
+
+However, subsequent calls to `load` will instantly fulfill while a background reload refreshes the related data. Storefront tries to be as smart as possible and not return a blocking promises if it knows that it has already loaded the related data.
+
+This allows you to declare the data that you need data loaded for a specific component, while not having to worry about overcalling `load`.
+
+### Reload with related data
+
+Your models also have a way to side load related data by reloading themselves with a compound document.
+
+{{docs/guides/working-with-relationships/demo-2}}
+
+Similar to `load`, the first call to `reloadWith` will return a blocking promise. Subsequent calls will instantly fulfill while the model and relationship are reloaded in the background.
 
 ## Avoiding async relationships
 
