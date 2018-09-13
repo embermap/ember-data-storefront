@@ -6,8 +6,6 @@ import { get } from '@ember/object';
 import { camelize } from '@ember/string';
 
 /**
-  _This mixin relies on JSON:API, and assumes that your server supports JSON:API includes._
-
   This mixin adds new data-loading methods to your Ember Data models.
 
   To use it, extend a model and mix it in:
@@ -41,7 +39,7 @@ export default Mixin.create({
   },
 
    /**
-    `reloadWith` gives you an explicit way to asynchronously reloadWith related data.
+    `reloadWith` gives you an explicit way to asynchronously sideload related data.
 
     ```js
     post.reloadWith('comments');
@@ -64,6 +62,8 @@ export default Mixin.create({
     If a relationship has never been loaded, the promise will block until the data is loaded. However, if a relationship has already been loaded (even from calls to `loadRecord` elsewhere in your application), the promise will resolve synchronously with the data from Storefront's cache. This means you don't have to worry about overcalling `reloadWith()`.
 
     This feature works best when used on relationships that are defined with `{ async: false }` because it allows `load()` to load the data, and `get()` to access the data that has already been loaded.
+
+    This method relies on JSON:API and assumes that your server supports JSON:API includes.
 
     @method reloadWith
     @param {String} includesString a JSON:API includes string representing the relationships to check
