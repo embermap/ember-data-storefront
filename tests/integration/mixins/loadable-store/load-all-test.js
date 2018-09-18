@@ -67,7 +67,12 @@ module('Integration | Mixins | LoadableStore | loadAll', function(hooks) {
   test('it forces an already-loaded collection to fetch with the reload options', async function(assert) {
     this.server.createList('post', 3);
     let serverCalls = 0;
-    this.server.pretender.handledRequest = () => serverCalls++;
+    this.server.pretender.handledRequest = function(method, url, request) {
+      serverCalls++;
+
+      // the reload qp should not be sent
+      assert.ok(!request.queryParams.reload);
+    };
 
     await this.store.loadAll('post', { reload: true });
     let posts = await this.store.loadAll('post', { reload: true });

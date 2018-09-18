@@ -68,7 +68,12 @@ module('Integration | Mixins | LoadableStore | loadRecord', function(hooks) {
   test('it forces already-loaded records to fetch with the reload option', async function(assert) {
     let serverPost = this.server.create('post');
     let serverCalls = 0;
-    this.server.pretender.handledRequest = () => serverCalls++;
+    this.server.pretender.handledRequest = function(method, url, request) {
+      serverCalls++;
+
+      // the reload qp should not be sent
+      assert.ok(!request.queryParams.reload);
+    };
 
     await run(() => {
       return this.store.loadRecord('post', serverPost.id, { reload: true });
@@ -181,6 +186,48 @@ module('Integration | Mixins | LoadableStore | loadRecord', function(hooks) {
     });
 
     assert.equal(serverCalls, 2);
+  });
+
+  test('loadRecord resolves immediately if its called with no options and the record is already in the store from loadAll, then reloads it in the background', async function(assert) {
+    let serverPost = this.server.create('post', { title: 'My post' });
+    let serverCalls = 0;
+    this.server.pretender.handledRequest = function() {
+      serverCalls++;
+    };
+
+    await run(() => {
+      return this.store.loadAll('post');
+    });
+
+    let post = await run(() => {
+      return this.store.loadRecord('post', serverPost.id);
+    });
+
+    assert.equal(serverCalls, 1);
+    assert.equal(post.get('title'), 'My post');
+
+    await waitUntil(() => serverCalls === 2);
+  });
+
+  test('loadRecord blocks if its called with an includes, even if the record has already been loaded from loadAll', async function(assert) {
+    let serverPost = this.server.create('post', { title: 'My post' });
+    let serverCalls = 0;
+    this.server.pretender.handledRequest = function() {
+      serverCalls++;
+    };
+
+    await run(() => {
+      return this.store.loadAll('post');
+    });
+
+    let post = await run(() => {
+      return this.store.loadRecord('post', serverPost.id, {
+        include: 'comments'
+      });
+    });
+
+    assert.equal(serverCalls, 2);
+    assert.equal(post.get('title'), 'My post');
   });
 
 });

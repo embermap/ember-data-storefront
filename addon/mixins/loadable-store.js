@@ -57,8 +57,9 @@ export default Mixin.create({
     @public
   */
   loadAll(type, options={}) {
-    let query = this.coordinator.recordArrayQueryFor(type, options);
     let forceReload = options.reload;
+    delete options.reload;
+    let query = this.coordinator.recordArrayQueryFor(type, options);
     let promise;
 
     if (forceReload || !query.value) {
