@@ -81,7 +81,7 @@ module('Integration | Mixins | LoadableModel', function(hooks) {
     assert.equal(requests[1].url, '/posts/1/relationships/comments');
   });
 
-  test('#load should not use a blocking fetch if the relationship has already been loaded', async function(assert) {
+  test('#load should do a background reload if the relationship has already been loaded', async function(assert) {
     let requests = [];
 
     server.pretender.handledRequest = function(...args) {
@@ -106,6 +106,32 @@ module('Integration | Mixins | LoadableModel', function(hooks) {
 
     // dont let test finish until second test does a background reload
     await waitUntil(() => requests.length === 2, { timeout: 5000 });
+  });
+
+  test('#load should not do anything if relationship has already been loaded and we dont allow background reloading', async function(assert) {
+    let requests = [];
+
+    server.pretender.handledRequest = function(...args) {
+      requests.push(args[2]);
+    };
+
+    // first load waits and blocks
+    let post = await run(() => {
+      return this.store.findRecord('post', 1, { include: 'comments' });
+    });
+    assert.equal(post.hasMany('comments').value().length, 2);
+
+    // second load doesnt block, instantly returns
+    await run(() => {
+      return post.load('comments', { backgroundReload: false });
+    });
+    assert.equal(requests.length, 1);
+
+    // lets sleep for 500 ms and make sure no background ajax requests were made
+    await new Promise(resolve => setTimeout(resolve, 500));
+
+    // still should only have one request
+    assert.equal(requests.length, 1);
   });
 
   test('#load should use a blocking fetch if the relationship has already been loaded, but the reload option is true', async function(assert) {

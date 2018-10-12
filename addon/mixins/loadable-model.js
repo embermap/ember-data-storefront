@@ -100,7 +100,7 @@ export default Mixin.create({
     @return {Promise} a promise resolving with the related data
     @public
   */
-  load(name, options = {}) {
+  load(name, options = { reload: false, backgroundReload: true }) {
     assert(
       `The #load method only works with a single relationship, if you need to load multiple relationships in one request please use the #reloadWith method [ember-data-storefront]`,
       !isArray(name) && !name.includes(',') && !name.includes('.')
@@ -116,7 +116,9 @@ export default Mixin.create({
       promise = reference[loadMethod].call(reference);
     } else {
       promise = resolve(value);
-      reference.reload();
+      if (options.backgroundReload) {
+        reference.reload();
+      }
     }
 
     return promise.then(data => {

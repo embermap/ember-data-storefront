@@ -1,9 +1,7 @@
-import JSONAPIAdapter from 'ember-data/adapters/json-api';
+import ApplicationAdapter from './application';
 import FastbootAdapter from 'ember-data-storefront/mixins/fastboot-adapter';
 
-export default JSONAPIAdapter.extend(
+export default ApplicationAdapter.extend(
   FastbootAdapter, {
-
-  // namespace: 'foo'
 
 });
