@@ -7,5 +7,6 @@ najax(e)}
 e.default={name:"ajax-service",initialize:function(e){e.register("ajax:node",r,{instantiate:!1}),e.inject("adapter","_ajaxRequest","ajax:node"),e.inject("adapter","fastboot","service:fastboot")}}}),define("dummy/initializers/error-handler",["exports"],function(e){"use strict"
 Object.defineProperty(e,"__esModule",{value:!0}),e.default={name:"error-handler",initialize:function(e){Ember.onerror||(Ember.onerror=function(e){var t="There was an error running your app in fastboot. More info about the error: \n "+(e.stack||e)
 Ember.Logger.error(t)})}}}),define("dummy/instance-initializers/ember-data-storefront",["exports"],function(e){"use strict"
+Object.defineProperty(e,"__esModule",{value:!0}),e.initialize=t
 function t(e){var t=e.lookup("service:fastboot").get("shoebox"),r=e.lookup("service:storefront")
-t.put("ember-data-storefront",{get queries(){return r.get("fastbootDataRequests")}})}Object.defineProperty(e,"__esModule",{value:!0}),e.initialize=t,e.default={name:"ember-data-storefront",initialize:t}})
+t.put("ember-data-storefront",{get queries(){return r.get("fastbootDataRequests")}})}e.default={name:"ember-data-storefront",initialize:t}})
