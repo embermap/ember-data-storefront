@@ -10,6 +10,8 @@ To install Storefront, run
 ember install ember-data-storefront
 ```
 
+Once installed you'll be able to use the mixins in your app. See the LoadableModel and LoadableStore pages in the docs. 
+
 ## Benefits
 
 ### Better data fetching
