@@ -56,7 +56,7 @@ There a few ways you can avoid async relationships:
 
   - **Use our ESLint plugin.** Follow the instructions and add the `force-sync-relationships` rule from our custom ESLint plugin to your app:
 
-    https://github.com/embermap/eslint-plugin-ember-data-sync-relationships
+    [https://github.com/embermap/eslint-plugin-ember-data-sync-relationships](https://github.com/embermap/eslint-plugin-ember-data-sync-relationships)
 
     You'll see the linting errors in your editor and console, and if you set the rule to `error`, your test suite will fail if any relationships are async.
 
