@@ -14,7 +14,7 @@ You can use the `{{assert-must-preload}}` component to throw a dev-time warning 
 {{assert-must-preload post 'comments.author'}}
 
 {{#each post.comments as |comment|}}
-  This comment was from {{coment.author.name}}
+  This comment was from {{comment.author.name}}
 {{/each}}
 ```
 
