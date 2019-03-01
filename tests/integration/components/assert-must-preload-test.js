@@ -1,4 +1,5 @@
-import { module, test, setupRenderingTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import { run } from '@ember/runloop';
 import { startMirage } from 'dummy/initializers/ember-cli-mirage';
@@ -119,7 +120,7 @@ module('Integration | Component | assert must preload', function(hooks) {
     `);
 
     // if nothing renders, we're ok
-    assert.equal(this.$().text().trim(), "");
+    assert.dom('*').hasText('');
   });
 
 });

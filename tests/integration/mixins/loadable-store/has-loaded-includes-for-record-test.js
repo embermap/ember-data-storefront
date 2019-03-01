@@ -1,4 +1,5 @@
-import { module, test, setupTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import { Model, hasMany, belongsTo } from 'ember-cli-mirage';
 import MirageServer from 'dummy/tests/integration/helpers/mirage-server';
 import { run } from '@ember/runloop';
