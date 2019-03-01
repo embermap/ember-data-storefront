@@ -189,7 +189,7 @@ module('Integration | Mixins | LoadableStore | loadRecord', function(hooks) {
     assert.equal(serverCalls, 2);
   });
 
-  test('loadRecord resolves immediately if its called with no options and the record is already in the store from loadAll, then reloads it in the background', async function(assert) {
+  test('loadRecord resolves immediately if its called with no options and the record is already in the store from loadRecords, then reloads it in the background', async function(assert) {
     let serverPost = this.server.create('post', { title: 'My post' });
     let serverCalls = 0;
     this.server.pretender.handledRequest = function() {
@@ -197,7 +197,7 @@ module('Integration | Mixins | LoadableStore | loadRecord', function(hooks) {
     };
 
     await run(() => {
-      return this.store.loadAll('post');
+      return this.store.loadRecords('post');
     });
 
     let post = await run(() => {
@@ -210,7 +210,7 @@ module('Integration | Mixins | LoadableStore | loadRecord', function(hooks) {
     await waitUntil(() => serverCalls === 2);
   });
 
-  test('loadRecord blocks if its called with an includes, even if the record has already been loaded from loadAll', async function(assert) {
+  test('loadRecord blocks if its called with an includes, even if the record has already been loaded from loadRecords', async function(assert) {
     let serverPost = this.server.create('post', { title: 'My post' });
     let serverCalls = 0;
     this.server.pretender.handledRequest = function() {
@@ -218,7 +218,7 @@ module('Integration | Mixins | LoadableStore | loadRecord', function(hooks) {
     };
 
     await run(() => {
-      return this.store.loadAll('post');
+      return this.store.loadRecords('post');
     });
 
     let post = await run(() => {

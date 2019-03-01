@@ -29,7 +29,7 @@ Storefront's modified version of `findAll` was designed to avoid re-rendering pr
 ```diff
   model() {
 -   return this.get('store').findAll('post');
-+   return this.get('store').loadAll('post');
++   return this.get('store').loadRecords('post');
   }
 
   model() {

@@ -1,4 +1,5 @@
 import Mixin from '@ember/object/mixin';
+import { deprecate } from '@ember/application/deprecations';
 import { resolve } from 'rsvp';
 import Coordinator from 'ember-data-storefront/-private/coordinator';
 
@@ -19,44 +20,40 @@ export default Mixin.create({
   },
 
   /**
-    `loadAll` can be used in place of `store.findAll` to fetch a collection of records for the given type and options.
+    `loadRecords` can be used in place of `store.query` to fetch a collection of records for the given type and options.
 
     ```diff
       this.get('store')
-    -   .findAll('post', { filter: { popular: true } })
-    +   .loadAll('post', { filter: { popular: true } })
+    -   .query('post', { filter: { popular: true } })
+    +   .loadRecords('post', { filter: { popular: true } })
         .then(models => models);
     ```
 
-    `loadAll` caches based on the query you provide, so each of the following examples would return a blocking promise the first time they are called, and synchronously resolve from the cache thereafter.
+    `loadRecords` caches based on the query you provide, so each of the following examples would return a blocking promise the first time they are called, and instantly resolve from the cache thereafter.
 
     ```js
     // filters
-    store.loadAll('post', { filter: { popular: true }});
+    store.loadRecords('post', { filter: { popular: true }});
 
     // pagination
-    store.loadAll('post', { page: { limit: 10, offset: 0 }});
+    store.loadRecords('post', { page: { limit: 10, offset: 0 }});
 
     // includes
-    store.loadAll('post', { include: 'comments' });
-    ```
+    store.loadRecords('post', { include: 'comments' });
 
-    Similar to `store.findAll`, you can force a query to reload using `reload: true`:
-
-    ```
     // force an already loaded set to reload (blocking promise)
-    store.loadAll('post', { reload: true });
+    store.loadRecords('post', { reload: true });
     ```
 
-    In most cases, `loadAll` should be a drop-in replacement for `findAll` that eliminates bugs and improves your app's caching.
+    In most cases, `loadRecords` should be a drop-in replacement for `query` that eliminates bugs and improves your app's caching.
 
-    @method loadAll
+    @method loadRecords
     @param {String} type type of model to load
     @param {Object} options (optional) a hash of options
     @return {Promise} a promise resolving with the record array
     @public
   */
-  loadAll(type, options={}) {
+  loadRecords(type, options={}) {
     let forceReload = options.reload;
     delete options.reload;
     let query = this.coordinator.recordArrayQueryFor(type, options);
@@ -67,10 +64,20 @@ export default Mixin.create({
 
     } else {
       promise = resolve(query.value);
-      query.run(); // background reload. TODO: swap for expires/stale
+      query.run(); // background reload. TODO: expose option to control this
     }
 
     return promise;
+  },
+
+  loadAll(...args) {
+    deprecate(
+      'loadAll has been renamed to loadRecords. Please change all instances of loadAll in your app to loadRecords. loadAll will be removed in 1.0.',
+      false,
+      { id: 'ember-data-storefront.loadAll', until: '1.0.0' }
+    );
+
+    return this.loadRecords(...args);
   },
 
   /**

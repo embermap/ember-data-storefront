@@ -34,7 +34,7 @@ Qmodule('Fastboot', function(hooks) {
     server.close();
   });
 
-  test('A fastboot rendered app should display loadAll data fetched by the server', async function(assert) {
+  test('A fastboot rendered app should display loadRecords data fetched by the server', async function(assert) {
     let page = await fastboot.visit('/fastboot-tests/load-all-posts', visitOptions);
     let html = await page.html();
     let dom = new JSDOM(html);
@@ -43,7 +43,7 @@ Qmodule('Fastboot', function(hooks) {
     assert.equal(post1.textContent.trim(), 'Hello from Ember CLI HTTP Mocks');
   });
 
-  test('A fastboot rendered app should put storefront loadAll queries in the shoebox', async function(assert) {
+  test('A fastboot rendered app should put storefront loadRecords queries in the shoebox', async function(assert) {
     let page = await fastboot.visit('/fastboot-tests/load-all-posts', visitOptions);
     let html = await page.html();
     let dom = new JSDOM(html);

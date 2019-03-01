@@ -59,7 +59,7 @@ module('Integration | Changing data render test', function(hooks) {
     this.server.createList('post', 2);
 
     await run(() => {
-      return this.store.loadAll('post')
+      return this.store.loadRecords('post')
         .then(posts => {
           this.set('model', posts);
         });
