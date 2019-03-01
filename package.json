@@ -80,6 +80,7 @@
     "morgan": "^1.9.1",
     "qunit": "^2.9.2",
     "qunit-dom": "^0.8.4",
+    "sass": "^1.17.2",
     "strip-indent": "^2.0.0",
     "tachyons": "4.11.1"
   },
