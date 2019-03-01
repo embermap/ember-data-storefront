@@ -1,4 +1,4 @@
-import { module, test } from 'ember-qunit';
+import { module, test } from 'qunit';
 import Cache from 'ember-data-storefront/-private/cache';
 import RecordQuery from 'ember-data-storefront/-private/record-query';
 

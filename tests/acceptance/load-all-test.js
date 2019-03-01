@@ -43,15 +43,15 @@ module('Acceptance | load all', function(hooks) {
     // Click post1-link, see loading, then see post1
     click(t('demo2', 'post1-link'));
     await domHasChanged(t('demo2', 'app-ui'));
-    assert.equal(find(t('demo2', 'app-ui')).textContent.trim(), 'Loading /posts/1...');
+    assert.dom(t('demo2', 'app-ui')).hasText('Loading /posts/1...');
 
     await domHasChanged(t('demo2', 'app-ui'));
-    assert.equal(find(t('demo2', 'app-ui')).textContent.trim(), 'Post 1 title');
+    assert.dom(t('demo2', 'app-ui')).hasText('Post 1 title');
 
     // Click posts-link, see loading, then see list
     click(t('demo2', 'posts-link'));
     await domHasChanged(t('demo2', 'app-ui'));
-    assert.equal(find(t('demo2', 'app-ui')).textContent.trim(), 'Loading /posts...');
+    assert.dom(t('demo2', 'app-ui')).hasText('Loading /posts...');
 
     await domHasChanged(t('demo2', 'app-ui'));
     assert.equal(find(t('demo2', 'app-ui')).querySelectorAll('li').length, 2);
@@ -59,6 +59,6 @@ module('Acceptance | load all', function(hooks) {
     // Click posts1-link again, and only see post1 (no loading)
     click(t('demo2', 'post1-link'));
     await domHasChanged(t('demo2', 'app-ui'));
-    assert.equal(find(t('demo2', 'app-ui')).textContent.trim(), 'Post 1 title');
+    assert.dom(t('demo2', 'app-ui')).hasText('Post 1 title');
   });
 });

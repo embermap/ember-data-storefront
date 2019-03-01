@@ -1,14 +1,16 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import MirageServer from 'dummy/tests/integration/helpers/mirage-server';
 import { Model } from 'ember-cli-mirage';
 import { run } from '@ember/runloop';
 import LoadableStore from 'ember-data-storefront/mixins/loadable-store';
 
-moduleForComponent('Integration | Changing data render test', {
-  integration: true,
+module('Integration | Changing data render test', function(hooks) {
+  setupRenderingTest(hooks);
 
-  beforeEach() {
+  hooks.beforeEach(function() {
     this.server = new MirageServer({
       models: {
         post: Model.extend()
@@ -17,63 +19,65 @@ moduleForComponent('Integration | Changing data render test', {
         this.resource('posts');
       }
     });
-    this.store = this.container.lookup('service:store')
+    this.store = this.owner.lookup('service:store')
     this.store.reopen(LoadableStore);
     this.store.resetCache();
-  },
+  });
 
-  afterEach() {
+  hooks.afterEach(function() {
     this.server.shutdown();
-  }
-});
-
-test('record queries trigger template rerenders', async function(assert) {
-  let serverPost = this.server.create('post', { title: 'Lorem' });
-  let postId = serverPost.id;
-
-  await run(() => {
-    return this.store.loadRecord('post', postId)
-      .then(post => {
-        this.set('model', post);
-      });
   });
 
-  this.render(hbs`
-    {{model.title}}
-  `);
+  test('record queries trigger template rerenders', async function(assert) {
+    let serverPost = this.server.create('post', { title: 'Lorem' });
+    let postId = serverPost.id;
 
-  assert.equal(this.$().text().trim(), "Lorem");
+    await run(() => {
+      return this.store.loadRecord('post', postId)
+        .then(post => {
+          this.set('model', post);
+        });
+    });
 
-  this.server.schema.posts.find(serverPost.id).update('title', 'ipsum');
-  await run(() => {
-    return this.store.loadRecord('post', postId, { reload: true });
+    await render(hbs`
+      <div data-test-title>
+        {{model.title}}
+      </div>
+    `);
+
+    assert.dom('[data-test-title]').hasText('Lorem');
+
+    this.server.schema.posts.find(serverPost.id).update('title', 'ipsum');
+    await run(() => {
+      return this.store.loadRecord('post', postId, { reload: true });
+    });
+
+    assert.dom('[data-test-title]').hasText('ipsum');
   });
 
-  assert.equal(this.$().text().trim(), "ipsum");
-});
+  test('record array queries trigger template rerenders', async function(assert) {
+    this.server.createList('post', 2);
 
-test('record array queries trigger template rerenders', async function(assert) {
-  this.server.createList('post', 2);
+    await run(() => {
+      return this.store.loadAll('post')
+        .then(posts => {
+          this.set('model', posts);
+        });
+    });
 
-  await run(() => {
-    return this.store.loadAll('post')
-      .then(posts => {
-        this.set('model', posts);
-      });
+    await render(hbs`
+      <ul>
+        {{#each model as |post|}}
+          <li>{{post.id}}</li>
+        {{/each}}
+      </ul>
+    `);
+
+    assert.dom('li').exists({ count: 2 });
+
+    this.server.create('post');
+    await this.get('model').update();
+
+    assert.dom('li').exists({ count: 3 });
   });
-
-  this.render(hbs`
-    <ul>
-      {{#each model as |post|}}
-        <li>{{post.id}}</li>
-      {{/each}}
-    </ul>
-  `);
-
-  assert.equal(this.$('li').length, 2);
-
-  this.server.create('post');
-  await this.get('model').update();
-
-  assert.equal(this.$('li').length, 3);
 });

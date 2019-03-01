@@ -1,4 +1,5 @@
-import { module, test, setupTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import { waitUntil } from '@ember/test-helpers';
 import { startMirage } from 'dummy/initializers/ember-cli-mirage';
 import { run } from '@ember/runloop';
