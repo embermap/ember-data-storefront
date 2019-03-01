@@ -4,7 +4,7 @@ module.exports = {
   name: 'ember-data-storefront',
 
   isDevelopingAddon() {
-    return true;
+    return false;
   },
 
   included() {
