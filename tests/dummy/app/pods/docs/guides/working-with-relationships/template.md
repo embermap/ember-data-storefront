@@ -41,7 +41,7 @@ Similar to `load`, the first call to `reloadWith` will return a blocking promise
 **Why avoid async relationships?**
 
 <aside>
-  Read "[The Case against Async Relationships](https://embermap.com/notes/83-the-case-against-async-relationships)" to learn more about our thinking on this topic.
+  Read <a href="https://embermap.com/notes/83-the-case-against-async-relationships" class="docs-text-grey-darker">The Case against Async Relationships</a> to learn more about our thinking on this topic.
 </aside>
 
 We're of the opinion that many data-loading issues can be solved by avoiding async relationships.
