@@ -4,7 +4,7 @@ Follow these patterns to improve your application's data-fetching story.
 
 ## Query-aware caching
 
-Storefront adds some `load` methods to Ember Data's `store` that can be used in place of `findAll` and `findRecord`. They're built directly on top of Ember Data, but are more intelligent about caching. Another way to say this is that Storefront's `load` methods are query-aware.
+Storefront adds some `load` methods to Ember Data's `store` that can be used in place of `findAll`, `query`, and `findRecord`. They're built directly on top of Ember Data, but are more intelligent about caching. Another way to say this is that Storefront's `load` methods are query-aware.
 
 ---
 
@@ -24,7 +24,7 @@ This is because the `/posts/1` route had already loaded the `post:1` record into
 
 Ember Data's `findAll` method accepts a `reload` option that we can use to force the promise to block, but then we'd lose the benefits of caching. (Note how after visiting `/posts` for the first time, it's fast on all subsequent visits.)
 
-Storefront's modified version of `findAll` was designed to avoid re-rendering problems like this. Let's make one small change to our routes: we'll replace `store.findAll` with `store.loadAll`:
+Storefront's `loadRecords` was designed to avoid re-rendering problems like this. Let's make a change to our routes: we'll replace `store.findAll` with `store.loadRecords`:
 
 ```diff
   model() {
@@ -42,6 +42,19 @@ Now let's take a look at our app (be sure to click reset first):
 
 {{docs/guides/data-fetching/demo-2}}
 
-Notice that the behavior for the second scenario has changed. If we visit `/posts/1` first, and then click on `/posts`, we get a blocking promise. Storefront knows you've never called `findAll` for the `post` model yet, so instead of resolving instantly with the one post you happen to have in the store, it issues a network request for all posts and returns a blocking promise. In this way, you avoid the index route being in a state that you as the developer didn't intend.
+Notice that the behavior for the second scenario has changed. If we visit `/posts/1` first, and then click on `/posts`, we get a blocking promise. Storefront knows you haven't loaded all the `post` models yet, so instead of resolving instantly with the one post you happen to have in the store, it issues a network request for all posts and returns a blocking promise. In this way, you avoid the index route being in a state that you as the developer didn't intend.
+
+Storefront accomplishes this by tracking each query and its results individually. If you had previously been using `store.findAll` as a way of rendering all models in Ember Data's store, regardless of how they were loaded, then you should be aware that `loadRecords` is not a drop-in replacement for `findAll`.
+
+To correctly replace all calls to `findAll` with `loadRecords` you should also use `store.peekAll`:
+
+
+```diff
+  async model() {
+-   return this.get('store').findAll('post');
++   await this.get('store').loadRecords('post');
++   return this.get('store').peekAll('posts');
+  }
+```
 
 Philosophically, Storefront's position is that routes (and other data-loading parts of your application) should be as declarative as possible. If you return `findAll('post')` from your route, you are declaring that this route needs a list of all posts in order to render. If your application has never made that network request, then it should block until it has made it for the first time. On subsequent visits, the page will render instantly using the cached value, as you can see by clicking around in the demo above.
