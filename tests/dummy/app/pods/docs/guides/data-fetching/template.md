@@ -53,7 +53,7 @@ To correctly replace all calls to `findAll` with `loadRecords` you'll need to al
   async model() {
 -   return this.get('store').findAll('post');
 +   await this.get('store').loadRecords('post');
-+   return this.get('store').peekAll('posts');
++   return this.get('store').peekAll('post');
   }
 ```
 
