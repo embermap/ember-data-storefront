@@ -44,9 +44,9 @@ Now let's take a look at our app (be sure to click reset first):
 
 Notice that the behavior for the second scenario has changed. If we visit `/posts/1` first, and then click on `/posts`, we get a blocking promise. Storefront knows you haven't loaded all the `post` models yet, so instead of resolving instantly with the one post you happen to have in the store, it issues a network request for all posts and returns a blocking promise. In this way, you avoid the index route being in a state that you as the developer didn't intend.
 
-Storefront accomplishes this by tracking each query and its results individually. If you had previously been using `store.findAll` as a way of rendering all models in Ember Data's store, regardless of how they were loaded, then you should be aware that `loadRecords` is not a drop-in replacement for `findAll`.
+Storefront accomplishes this by tracking each query and its results individually. If you had previously been using `findAll` as a way of rendering all models in Ember Data's store, regardless of how they were loaded, then you should be aware that `loadRecords` is not a drop-in replacement for `findAll`.
 
-To correctly replace all calls to `findAll` with `loadRecords` you should also use `store.peekAll`:
+To correctly replace all calls to `findAll` with `loadRecords` you'll need to also use `store.peekAll`:
 
 
 ```diff
@@ -56,5 +56,7 @@ To correctly replace all calls to `findAll` with `loadRecords` you should also u
 +   return this.get('store').peekAll('posts');
   }
 ```
+
+Returning `peekAll` will ensure that the route is aware of any new posts created or loaded since its model hook ran. This matches the behavior of `findAll`, which is to load all posts and then return a live binding to all posts in Ember Data's store.
 
 Philosophically, Storefront's position is that routes (and other data-loading parts of your application) should be as declarative as possible. If you return `findAll('post')` from your route, you are declaring that this route needs a list of all posts in order to render. If your application has never made that network request, then it should block until it has made it for the first time. On subsequent visits, the page will render instantly using the cached value, as you can see by clicking around in the demo above.
