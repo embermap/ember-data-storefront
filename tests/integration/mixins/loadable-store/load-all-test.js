@@ -5,7 +5,7 @@ import MirageServer from 'dummy/tests/integration/helpers/mirage-server';
 import { Model, hasMany, belongsTo } from 'ember-cli-mirage';
 import LoadableStore from 'ember-data-storefront/mixins/loadable-store';
 
-module('Integration | Mixins | LoadableStore | loadAll', function(hooks) {
+module('Integration | Mixins | LoadableStore | loadRecords', function(hooks) {
   setupTest(hooks);
 
   hooks.beforeEach(function() {
@@ -39,7 +39,7 @@ module('Integration | Mixins | LoadableStore | loadAll', function(hooks) {
   test('it can load a collection', async function(assert) {
     let post = this.server.create('post');
 
-    let posts = await this.store.loadAll('post');
+    let posts = await this.store.loadRecords('post');
 
     assert.equal(posts.get('length'), 1);
     assert.equal(posts.get('firstObject.id'), post.id);
@@ -50,13 +50,13 @@ module('Integration | Mixins | LoadableStore | loadAll', function(hooks) {
     let serverCalls = 0;
     this.server.pretender.handledRequest = () => serverCalls++;
 
-    let posts = await this.store.loadAll('post', serverPost.id);
+    let posts = await this.store.loadRecords('post', serverPost.id);
 
     assert.equal(serverCalls, 1);
     assert.equal(posts.get('length'), 2);
 
     this.server.create('post');
-    posts = await this.store.loadAll('post', serverPost.id);
+    posts = await this.store.loadRecords('post', serverPost.id);
 
     assert.equal(serverCalls, 1);
     assert.equal(posts.get('length'), 2);
@@ -75,8 +75,8 @@ module('Integration | Mixins | LoadableStore | loadAll', function(hooks) {
       assert.ok(!request.queryParams.reload);
     };
 
-    await this.store.loadAll('post', { reload: true });
-    let posts = await this.store.loadAll('post', { reload: true });
+    await this.store.loadRecords('post', { reload: true });
+    let posts = await this.store.loadRecords('post', { reload: true });
 
     assert.equal(serverCalls, 2);
     assert.equal(posts.get('length'), 3);
@@ -89,7 +89,7 @@ module('Integration | Mixins | LoadableStore | loadAll', function(hooks) {
       serverCalls.push(args);
     };
 
-    let posts = await this.store.loadAll('post', {
+    let posts = await this.store.loadRecords('post', {
       filter: {
         testing: 123
       }
@@ -110,7 +110,7 @@ module('Integration | Mixins | LoadableStore | loadAll', function(hooks) {
       serverCalls.push(arguments);
     };
 
-    let posts = await this.store.loadAll('post', {
+    let posts = await this.store.loadRecords('post', {
       include: 'comments'
     });
 

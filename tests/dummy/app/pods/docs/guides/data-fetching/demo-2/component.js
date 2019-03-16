@@ -26,7 +26,7 @@ export default Component.extend({
         // BEGIN-SNIPPET demo2-posts-route.js
         // route
         model() {
-          return this.get('store').loadAll('post');
+          return this.get('store').loadRecords('post');
         }
         // END-SNIPPET
       },
