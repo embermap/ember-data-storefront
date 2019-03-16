@@ -6648,10 +6648,10 @@ return"hasMany"===r.kind?n=a.hasManyRelationship.isAsync:"belongsTo"===r.kind&&(
 return r||n}})
 e.default=t}),define("ember-data-storefront/mixins/loadable-store",["exports","ember-data-storefront/-private/coordinator"],function(e,t){"use strict"
 Object.defineProperty(e,"__esModule",{value:!0}),e.default=void 0
-var n=Ember.Mixin.create({init:function(){this._super.apply(this,arguments),this.resetCache()},loadAll:function(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{},n=t.reload
+var n=Ember.Mixin.create({init:function(){this._super.apply(this,arguments),this.resetCache()},loadRecords:function(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{},n=t.reload
 delete t.reload
 var r,a=this.coordinator.recordArrayQueryFor(e,t)
-return n||!a.value?r=a.run():(r=Ember.RSVP.resolve(a.value),a.run()),r},loadRecord:function(e,t){var n,r=arguments.length>2&&void 0!==arguments[2]?arguments[2]:{},a=this.coordinator.recordQueryFor(e,t,r)
+return n||!a.value?r=a.run():(r=Ember.RSVP.resolve(a.value),a.run()),r},loadAll:function(){return Ember.deprecate("loadAll has been renamed to loadRecords. Please change all instances of loadAll in your app to loadRecords. loadAll will be removed in 1.0.",!1,{id:"ember-data-storefront.loadAll",until:"1.0.0"}),this.loadRecords.apply(this,arguments)},loadRecord:function(e,t){var n,r=arguments.length>2&&void 0!==arguments[2]?arguments[2]:{},a=this.coordinator.recordQueryFor(e,t,r)
 return r.reload||!a.value?n=a.run():(n=Ember.RSVP.resolve(a.value),a.run()),n},hasLoadedIncludesForRecord:function(e,t,n){return this.coordinator.recordHasIncludes(e,t,n)},resetCache:function(){this.coordinator=new t.default(this)}})
 e.default=n}),define("ember-data-storefront/mixins/loadable",["exports","ember-data-storefront/mixins/loadable-model"],function(e,t){"use strict"
 Object.defineProperty(e,"__esModule",{value:!0}),e.default=void 0
