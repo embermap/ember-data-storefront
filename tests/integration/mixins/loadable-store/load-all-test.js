@@ -82,6 +82,23 @@ module('Integration | Mixins | LoadableStore | loadRecords', function(hooks) {
     assert.equal(posts.get('length'), 3);
   });
 
+  test('!!!!it should not make a network request ', async function(assert) {
+    this.server.createList('post', 3);
+    let serverCalls = 0;
+    this.server.pretender.handledRequest = function(method, url, request) {
+      serverCalls++;
+
+      // the reload qp should not be sent
+      assert.ok(!request.queryParams.reload);
+    };
+
+    await this.store.loadRecords('post', { reload: true });
+    let posts = await this.store.loadRecords('post', { reload: true });
+
+    assert.equal(serverCalls, 2);
+    assert.equal(posts.get('length'), 3);
+  });
+
   test('it can load a collection with a query object', async function(assert) {
     let serverPosts = this.server.createList('post', 2);
     let serverCalls = [];

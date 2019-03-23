@@ -24,16 +24,16 @@ export default Component.extend({
   setup() {
     let tasks = {
       // BEGIN-SNIPPET working-with-relationships-demo-2.js
-      reloadWithComments: task(function*() {
-        yield this.get('post').reloadWith('comments');
+      sideloadComments: task(function*() {
+        yield this.get('post').sideload('comments');
       })
       // END-SNIPPET
     };
 
     this.get('store').resetCache();
     // We do this to reset loadComments state
-    defineProperty(this, 'reloadWithComments', tasks.reloadWithComments);
-    this.notifyPropertyChange('reloadWithComments');
+    defineProperty(this, 'sideloadComments', tasks.sideloadComments);
+    this.notifyPropertyChange('sideloadComments');
   },
 
   actions: {
