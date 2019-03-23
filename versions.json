@@ -34,5 +34,11 @@
     "name": "v0.15.0",
     "sha": "ab674c530601b2263b9a9a3f192f29ca95200d33",
     "tag": "v0.15.0"
+  },
+  "load-options": {
+    "path": "versions/load-options",
+    "name": "load-options",
+    "sha": "e7cad04a2cd312da1d52d83bfef3f291c1b5b997",
+    "tag": null
   }
 }
