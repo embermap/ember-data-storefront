@@ -101,6 +101,22 @@ module.exports = function() {
           }
         },
         {
+          name: 'ember-octane',
+          env: {
+            EMBER_OPTIONAL_FEATURES: JSON.stringify({
+              'jquery-integration': false
+            })
+          },
+          npm: {
+            devDependencies: {
+              '@ember/jquery': null,
+              'ember-ajax': null,
+              'ember-data': 'emberjs/data',
+              'ember-source': urls[2]
+            }
+          }
+        },
+        {
           name: 'ember-default',
           npm: {
             devDependencies: {}
