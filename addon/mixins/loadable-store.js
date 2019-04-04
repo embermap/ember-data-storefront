@@ -54,17 +54,20 @@ export default Mixin.create({
     @public
   */
   loadRecords(type, options={}) {
-    let forceReload = options.reload;
-    delete options.reload;
     let query = this.coordinator.recordArrayQueryFor(type, options);
+    let shouldBlock = options.reload || !query.value;
+    let shouldBackgroundReload = !options.hasOwnProperty('backgroundReload') || options.backgroundReload;
     let promise;
 
-    if (forceReload || !query.value) {
+    if (shouldBlock) {
       promise = query.run();
 
     } else {
       promise = resolve(query.value);
-      query.run(); // background reload. TODO: expose option to control this
+
+      if (shouldBackgroundReload) {
+        query.run();
+      }
     }
 
     return promise;
@@ -120,15 +123,19 @@ export default Mixin.create({
   */
   loadRecord(type, id, options={}) {
     let query = this.coordinator.recordQueryFor(type, id, options);
-    let forceReload = options.reload;
+    let shouldBlock = options.reload || !query.value;
+    let shouldBackgroundReload = !options.hasOwnProperty('backgroundReload') || options.backgroundReload;
     let promise;
 
-    if (forceReload || !query.value) {
+    if (shouldBlock) {
       promise = query.run();
 
     } else {
       promise = resolve(query.value);
-      query.run(); // background reload. TODO: swap for expires/stale
+
+      if (shouldBackgroundReload) {
+        query.run();
+      }
     }
 
     return promise;

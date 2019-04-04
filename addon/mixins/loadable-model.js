@@ -72,7 +72,7 @@ export default Mixin.create({
 
     If a relationship has never been loaded, the promise will block until the data is loaded. However, if a relationship has already been loaded (even from calls to `loadRecord` elsewhere in your application), the promise will resolve synchronously with the data from Storefront's cache. This means you don't have to worry about overcalling `sideload()`.
 
-    When relationship data has already been loaded, `sideload` will use a background refresh to update the relationship. To prevent sideload from making network requests use the `{ backgroundReload: false }` option.
+    When relationship data has already been loaded, `sideload` will use a background refresh to update the relationship. To prevent sideload from making network requests for data that has already been loaded, use the `{ backgroundReload: false }` option.
 
     ```js
     post.sideload('comments', { backgroundReload: false });
@@ -129,6 +129,18 @@ export default Mixin.create({
     ```
 
     If a relationship has never been loaded, the promise will block until the data is loaded. However, if a relationship has already been loaded, the promise will resolve synchronously with the data from the cache. This means you don't have to worry about overcalling `load()`.
+
+    When relationship data has already been loaded, `load` will use a background refresh to update the relationship. To prevent load from making network requests for data that has already been loaded, use the `{ backgroundReload: false }` option.
+
+    ```js
+    post.load('comments', { backgroundReload: false });
+    ```
+
+    If you would like calls to `load` to always return a blocking promise, use the `{ reload: true }` option.
+
+    ```js
+    post.load('comments', { reload: true })
+    ```
 
     @method load
     @param {String} name the name of the relationship to load

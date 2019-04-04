@@ -82,21 +82,25 @@ module('Integration | Mixins | LoadableStore | loadRecords', function(hooks) {
     assert.equal(posts.get('length'), 3);
   });
 
-  test('!!!!it should not make a network request ', async function(assert) {
+  test('it should not make a network request for an already loaded collection that has background reload false', async function(assert) {
     this.server.createList('post', 3);
     let serverCalls = 0;
     this.server.pretender.handledRequest = function(method, url, request) {
       serverCalls++;
 
-      // the reload qp should not be sent
-      assert.ok(!request.queryParams.reload);
+      // the background reload qp should not be sent
+      assert.ok(!request.queryParams.backgroundReload);
     };
 
-    await this.store.loadRecords('post', { reload: true });
-    let posts = await this.store.loadRecords('post', { reload: true });
+    await this.store.loadRecords('post');
+    await this.store.loadRecords('post', { backgroundReload: false });
 
-    assert.equal(serverCalls, 2);
-    assert.equal(posts.get('length'), 3);
+    assert.equal(serverCalls, 1);
+
+    // wait 500ms and make sure there's no network request
+    await new Promise(resolve => setTimeout(resolve, 500));
+
+    assert.equal(serverCalls, 1);
   });
 
   test('it can load a collection with a query object', async function(assert) {

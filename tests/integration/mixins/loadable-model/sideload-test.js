@@ -7,7 +7,7 @@ import DS from 'ember-data';
 import LoadableModel from 'ember-data-storefront/mixins/loadable-model';
 import LoadableStore from 'ember-data-storefront/mixins/loadable-store';
 
-module('Integration | Mixins | LoadableModel | loadWith', function(hooks) {
+module('Integration | Mixins | LoadableModel | sideload', function(hooks) {
   setupTest(hooks);
 
   hooks.beforeEach(function() {
@@ -113,6 +113,31 @@ module('Integration | Mixins | LoadableModel | loadWith', function(hooks) {
     });
 
     assert.equal(serverCalls, 2);
+  });
+
+  test('#sideload should not make a network request if the relationship is loaded, but backgroundReload is false', async function(assert) {
+    let requests = [];
+
+    server.pretender.handledRequest = function(...args) {
+      requests.push(args[2]);
+    };
+
+    // first load waits and blocks
+    let post = await run(() => {
+      return this.store.loadRecord('post', 1, { include: 'comments' });
+    });
+    assert.equal(post.hasMany('comments').value().length, 2);
+
+    // second load doesnt block, instantly returns
+    await run(() => {
+      return post.sideload('comments', { backgroundReload: false });
+    });
+    assert.equal(requests.length, 1);
+
+    // wait 500ms and make sure there's no network request
+    await new Promise(resolve => setTimeout(resolve, 500));
+
+    assert.equal(requests.length, 1);
   });
 
 });

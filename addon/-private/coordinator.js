@@ -3,6 +3,15 @@ import RecordQuery from './record-query';
 import RecordArrayQuery from './record-array-query';
 import { get } from '@ember/object';
 
+// cleans options so that the resulting object only contains
+// data we want to send to the server as query params.
+let _cleanParams = function(options) {
+  let clean = { ...{}, ...options };
+  delete clean.reload;
+  delete clean.backgroundReload;
+  return clean;
+}
+
 /*
   I know how to retrieve queries from the cache, and also assemble queries that
   are not in the cache but can be derived from them.
@@ -19,10 +28,11 @@ export default class Coordinator {
   }
 
   recordQueryFor(type, id, params) {
-    let query = this.recordCache.get(type, id, params);
+    let safeParams = _cleanParams(params);
+    let query = this.recordCache.get(type, id, safeParams);
 
     if (!query) {
-      query = this._assembleRecordQuery(type, id, params);
+      query = this._assembleRecordQuery(type, id, safeParams);
       this._rememberRecordQuery(query);
     }
 
@@ -30,10 +40,11 @@ export default class Coordinator {
   }
 
   recordArrayQueryFor(type, params) {
-    let query = this.arrayCache.get(type, params);
+    let safeParams = _cleanParams(params);
+    let query = this.arrayCache.get(type, safeParams);
 
     if (!query) {
-      query = this._assembleRecordArrayQuery(type, params);
+      query = this._assembleRecordArrayQuery(type, safeParams);
       this._rememberRecordArrayQuery(query);
     }
 

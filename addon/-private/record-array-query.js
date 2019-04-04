@@ -1,6 +1,6 @@
 export default class RecordArrayQuery {
 
-  constructor(store, type, params) {
+  constructor(store, type, params = {}) {
     this.store = store;
     this.type = type;
     this.params = params;
