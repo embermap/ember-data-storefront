@@ -4,7 +4,9 @@ import RecordQuery from 'ember-data-storefront/-private/record-query';
 
 module('Integration | Cache test', function(hooks) {
   hooks.beforeEach(function() {
-    this.mockStore = {};
+    this.mockStore = {
+      peekRecord() {}
+    };
   });
 
   hooks.afterEach(function() {

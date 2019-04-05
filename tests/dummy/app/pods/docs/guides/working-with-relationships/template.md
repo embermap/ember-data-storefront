@@ -34,7 +34,7 @@ Your models also have a way to side load related data by reloading themselves wi
 
 {{docs/guides/working-with-relationships/demo-2}}
 
-Similar to `load`, the first call to `reloadWith` will return a blocking promise. Subsequent calls will instantly fulfill while the model and relationship are reloaded in the background.
+Similar to `load`, the first call to `sideload` will return a blocking promise. Subsequent calls will instantly fulfill while the model and relationship are reloaded in the background.
 
 ## Avoiding async relationships
 

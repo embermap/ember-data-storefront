@@ -9,19 +9,19 @@
         {{/ui-button}}
       </div>
 
-      {{#liquid-if reloadWithComments.lastSuccessful}}
+      {{#liquid-if sideloadComments.lastSuccessful}}
 
-        <p data-test-id="reload-with-comments-count">
+        <p data-test-id="sideload-comments-count">
           The post has {{post.comments.length}} comments.
         </p>
 
       {{else}}
 
         {{#ui-button
-          onClick=(perform reloadWithComments)
-          disabled=reloadWithComments.isRunning
-          data-test-id='reload-with-comments'}}
-          {{if reloadWithComments.isIdle 'Reload with comments' 'Loading...'}}
+          onClick=(perform sideloadComments)
+          disabled=sideloadComments.isRunning
+          data-test-id='sideload-comments'}}
+          {{if sideloadComments.isIdle 'Reload with comments' 'Loading...'}}
         {{/ui-button}}
 
       {{/liquid-if}}

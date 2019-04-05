@@ -15,11 +15,11 @@ module('Acceptance | load relationship', function(hooks) {
     assert.dom('[data-test-id=load-comments-count]').hasText('The post has 3 comments.');
   });
 
-  test('the reloadWith demo works', async function(assert) {
+  test('the sideload demo works', async function(assert) {
     await visit('/docs/guides/working-with-relationships');
 
-    await click('[data-test-id=reload-with-comments]');
+    await click('[data-test-id=sideload-comments]');
 
-    assert.dom('[data-test-id=reload-with-comments-count]').hasText('The post has 5 comments.');
+    assert.dom('[data-test-id=sideload-comments-count]').hasText('The post has 5 comments.');
   });
 });

@@ -1,4 +1,5 @@
 import Mixin from '@ember/object/mixin';
+import { deprecate } from '@ember/application/deprecations';
 import { assert } from '@ember/debug';
 import { resolve } from 'rsvp';
 import { isArray } from '@ember/array';
@@ -38,11 +39,21 @@ export default Mixin.create({
     this.set('_loadedReferences', {});
   },
 
+  reloadWith(...args) {
+    deprecate(
+      'reloadWith has been renamed to sideload. Please change all instances of reloadWith in your app to sideload. reloadWith will be removed in 1.0',
+      false,
+      { id: 'ember-data-storefront.reloadWith', until: '1.0.0' }
+    );
+
+    return this.sideload(...args);
+  },
+
    /**
-    `reloadWith` gives you an explicit way to asynchronously sideload related data.
+    `sideload` gives you an explicit way to asynchronously sideload related data.
 
     ```js
-    post.reloadWith('comments');
+    post.sideload('comments');
     ```
 
     The above uses Storefront's `loadRecord` method to query your backend for the post along with its comments.
@@ -50,32 +61,56 @@ export default Mixin.create({
     You can also use JSON:API's dot notation to load additional related relationships.
 
     ```js
-    post.reloadWith('comments.author');
+    post.sideload('comments.author');
     ```
 
-    Every call to `reloadWith()` will return a promise.
+    Every call to `sideload()` will return a promise.
 
     ```js
-    post.reloadWith('comments').then(() => console.log('loaded comments!'));
+    post.sideload('comments').then((post) => console.log('loaded comments!'));
     ```
 
-    If a relationship has never been loaded, the promise will block until the data is loaded. However, if a relationship has already been loaded (even from calls to `loadRecord` elsewhere in your application), the promise will resolve synchronously with the data from Storefront's cache. This means you don't have to worry about overcalling `reloadWith()`.
+    If a relationship has never been loaded, the promise will block until the data is loaded. However, if a relationship has already been loaded (even from calls to `loadRecord` elsewhere in your application), the promise will resolve synchronously with the data from Storefront's cache. This means you don't have to worry about overcalling `sideload()`.
+
+    When relationship data has already been loaded, `sideload` will use a background refresh to update the relationship. To prevent sideload from making network requests for data that has already been loaded, use the `{ backgroundReload: false }` option.
+
+    ```js
+    post.sideload('comments', { backgroundReload: false });
+    ```
+
+    If you would like calls to `sideload` to always return a blocking promise, use the `{ reload: true }` option.
+
+    ```js
+    post.sideload('comments', { reload: true })
+    ```
 
     This feature works best when used on relationships that are defined with `{ async: false }` because it allows `load()` to load the data, and `get()` to access the data that has already been loaded.
 
     This method relies on JSON:API and assumes that your server supports JSON:API includes.
 
-    @method reloadWith
+    @method sideload
     @param {String} includesString a JSON:API includes string representing the relationships to check
+    @param {Object} options (optional) a hash of options
     @return {Promise} a promise resolving with the record
     @public
   */
-  reloadWith(...includes) {
+  sideload(...args) {
     let modelName = this.constructor.modelName;
+    let possibleOptions = args[args.length - 1];
+    let options;
 
-    return this.get('store').loadRecord(modelName, this.get('id'), {
-      include: includes.join(',')
-    });
+    if (typeof possibleOptions === 'string') {
+      options = {
+        include: args.join(',')
+      };
+    } else {
+      options = {
+        ...possibleOptions,
+        ...{ include: args.slice(0,-1).join(',') }
+      };
+    }
+
+    return this.get('store').loadRecord(modelName, this.get('id'), options);
   },
 
   /**
@@ -95,12 +130,24 @@ export default Mixin.create({
 
     If a relationship has never been loaded, the promise will block until the data is loaded. However, if a relationship has already been loaded, the promise will resolve synchronously with the data from the cache. This means you don't have to worry about overcalling `load()`.
 
+    When relationship data has already been loaded, `load` will use a background refresh to update the relationship. To prevent load from making network requests for data that has already been loaded, use the `{ backgroundReload: false }` option.
+
+    ```js
+    post.load('comments', { backgroundReload: false });
+    ```
+
+    If you would like calls to `load` to always return a blocking promise, use the `{ reload: true }` option.
+
+    ```js
+    post.load('comments', { reload: true })
+    ```
+
     @method load
     @param {String} name the name of the relationship to load
     @return {Promise} a promise resolving with the related data
     @public
   */
-  load(name, options = {}) {
+  load(name, options = { reload: false, backgroundReload: true }) {
     assert(
       `The #load method only works with a single relationship, if you need to load multiple relationships in one request please use the #reloadWith method [ember-data-storefront]`,
       !isArray(name) && !name.includes(',') && !name.includes('.')
@@ -116,7 +163,9 @@ export default Mixin.create({
       promise = reference[loadMethod].call(reference);
     } else {
       promise = resolve(value);
-      reference.reload();
+      if (options.backgroundReload) {
+        reference.reload();
+      }
     }
 
     return promise.then(data => {

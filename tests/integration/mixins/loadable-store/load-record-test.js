@@ -231,4 +231,28 @@ module('Integration | Mixins | LoadableStore | loadRecord', function(hooks) {
     assert.equal(post.get('title'), 'My post');
   });
 
+  test('loadRecord should not refresh the model in the background if background reload is false', async function(assert) {
+    let serverPost = this.server.create('post', { title: 'My post' });
+    let serverCalls = 0;
+
+    this.server.pretender.handledRequest = function() {
+      serverCalls++;
+    };
+
+    await run(() => {
+      return this.store.loadRecord('post', serverPost.id);
+    });
+
+    await run(() => {
+      return this.store.loadRecord('post', serverPost.id, { backgroundReload: false });
+    });
+
+    assert.equal(serverCalls, 1);
+
+    // wait 500ms and make sure there's no network request
+    await new Promise(resolve => setTimeout(resolve, 500));
+
+    assert.equal(serverCalls, 1);
+  });
+
 });

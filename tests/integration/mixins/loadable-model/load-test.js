@@ -7,7 +7,7 @@ import DS from 'ember-data';
 import LoadableModel from 'ember-data-storefront/mixins/loadable-model';
 import LoadableStore from 'ember-data-storefront/mixins/loadable-store';
 
-module('Integration | Mixins | LoadableModel', function(hooks) {
+module('Integration | Mixins | LoadableModel | load', function(hooks) {
   setupTest(hooks);
 
   hooks.beforeEach(function() {
@@ -127,6 +127,49 @@ module('Integration | Mixins | LoadableModel', function(hooks) {
     assert.equal(requests[1].url, '/posts/1/relationships/comments');
   });
 
+  test('#load should not make a network request if the relationship is loaded, but backgroundReload is false', async function(assert) {
+    let requests = [];
+
+    server.pretender.handledRequest = function(...args) {
+      requests.push(args[2]);
+    };
+
+    // first load waits and blocks
+    let post = await run(() => {
+      return this.store.findRecord('post', 1, { include: 'comments' });
+    });
+    assert.equal(post.hasMany('comments').value().length, 2);
+
+    // second load doesnt block, instantly returns
+    await run(() => {
+      return post.load('comments', { backgroundReload: false });
+    });
+    assert.equal(requests.length, 1);
+
+    // wait 500ms and make sure there's no network request
+    await new Promise(resolve => setTimeout(resolve, 500));
+
+    assert.equal(requests.length, 1);
+  });
+
+  test('#load should make a network request if the relationship has not been loaded, but the backgroundReload option is false', async function(assert) {
+    let requests = [];
+    server.pretender.handledRequest = function(...args) {
+      requests.push(args[2]);
+    };
+
+    let post = await run(() => this.store.findRecord('post', 1));
+    assert.equal(post.hasMany('comments').value(), null);
+
+    let comments = await run(() => {
+      return post.load('comments', { backgroundReload: false });
+    });
+
+    assert.equal(post.hasMany('comments').value(), comments);
+    assert.equal(requests.length, 2);
+    assert.equal(requests[1].url, '/posts/1/relationships/comments');
+  });
+
   test('#load should update the reference from an earlier load call', async function(assert) {
     let post = await run(() => this.store.findRecord('post', 1));
 
@@ -141,136 +184,4 @@ module('Integration | Mixins | LoadableModel', function(hooks) {
     await waitUntil(() => comments.length === 3);
   });
 
-  test('#reloadWith can load includes', async function(assert) {
-    let requests = [];
-    server.pretender.handledRequest = function(...args) {
-      requests.push(args[2]);
-    };
-
-    let post = await run(() => {
-      return this.store.findRecord('post', 1)
-    });
-
-    assert.equal(post.hasMany('comments').value(), null);
-
-    post = await run(() => {
-      return post.reloadWith('comments');
-    });
-
-    assert.equal(post.hasMany('comments').value().get('length'), 2);
-    assert.equal(requests.length, 2);
-    assert.equal(requests[1].url, '/posts/1?include=comments');
-  });
-
-  test('#reloadWith returns a resolved promise if its already loaded includes, and reloads in the background', async function(assert) {
-    let serverCalls = 0;
-    server.pretender.handledRequest = function() { serverCalls++ };
-
-    let post = await run(() => {
-      return this.store.findRecord('post', 1)
-    });
-
-    assert.equal(serverCalls, 1);
-
-    // kind of britle, but we want to slow the server down a little
-    // so we can be sure our test is blocked by the next call to load.
-    server.timing = 500;
-
-    await run(() => {
-      return post.reloadWith('comments');
-    });
-
-    assert.equal(serverCalls, 2);
-    assert.equal(post.hasMany('comments').value().get('length'), 2);
-    server.create('comment', { postId: 1 });
-
-    await run(() => {
-      return post.reloadWith('comments');
-    });
-
-    assert.equal(serverCalls, 2);
-    await waitUntil(() => serverCalls === 3);
-
-    assert.equal(post.hasMany('comments').value().get('length'), 3);
-  });
-
-  test('#hasLoaded returns true if a relationship has been loaded', async function(assert) {
-    let post = await run(() => {
-      return this.store.findRecord('post', 1)
-    });
-
-    await run(() => {
-      return post.load('comments');
-    });
-
-    assert.ok(post.hasLoaded('comments'));
-  });
-
-  test('#hasLoaded returns true if a relationship has been sideloaded', async function(assert) {
-    let post = await run(() => {
-      return this.store.findRecord('post', 1)
-    });
-
-    await run(() => {
-      return post.reloadWith('comments');
-    });
-
-    assert.ok(post.hasLoaded('comments'));
-  });
-
-  test('#hasLoaded returns true if the relationship chain has been sideloaded', async function(assert) {
-    let post = await run(() => {
-      return this.store.findRecord('post', 1)
-    });
-
-    await run(() => {
-      return post.reloadWith('comments.author');
-    });
-
-    assert.ok(post.hasLoaded('comments.author'));
-  });
-
-  test('#hasLoaded returns false if the relationship has not been sideloaded', async function(assert) {
-    let post = await run(() => {
-      return this.store.findRecord('post', 1)
-    });
-
-    assert.notOk(post.hasLoaded('comments'));
-  });
-
-  test('#hasLoaded returns false if another relationship has not been sideloaded', async function(assert) {
-    let post = await run(() => {
-      return this.store.findRecord('post', 1)
-    });
-
-    await run(() => {
-      return post.reloadWith('comments');
-    });
-
-    assert.notOk(post.hasLoaded('tags'));
-  });
-
-  test('#hasLoaded returns false if a relationship chain has not been fully sideloaded', async function(assert) {
-    let post = await run(() => {
-      return this.store.findRecord('post', 1)
-    });
-
-    await run(() => {
-      return post.reloadWith('comments');
-    });
-
-    assert.notOk(post.hasLoaded('comments.author'));
-  });
-
-  test('#hasLoaded returns false for similarly named relationships', async function(assert) {
-    let post = await run(() => {
-      return this.store.findRecord('post', 1)
-    });
-
-    await run(() => {
-      return post.reloadWith('comments.author');
-    });
-
-    assert.notOk(post.hasLoaded('author'));
-  });
 });
