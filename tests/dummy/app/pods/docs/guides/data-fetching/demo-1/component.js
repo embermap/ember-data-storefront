@@ -13,9 +13,9 @@ export default Component.extend({
     return window.server.db.dump().posts;
   },
 
-  get clientPosts() {
-   return this.get('store').peekAll('post');
-  },
+  clientPosts: computed(function() {
+    return this.get('store').peekAll('post');
+  }),
 
   model: readOnly('visit.last.value'),
   activeRoute: readOnly('visitedRoutes.lastObject'),
