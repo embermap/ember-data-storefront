@@ -9,13 +9,13 @@ export default Component.extend({
 
   store: service(),
 
-  serverPosts: computed(function() {
+  get serverPosts() {
     return window.server.db.dump().posts;
-  }),
+  },
 
-  clientPosts: computed(function() {
-    return this.get('store').peekAll('post');
-  }),
+  get clientPosts() {
+   return this.get('store').peekAll('post');
+  },
 
   model: readOnly('visit.last.value'),
   activeRoute: readOnly('visitedRoutes.lastObject'),

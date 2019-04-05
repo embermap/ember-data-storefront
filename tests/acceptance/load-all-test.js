@@ -18,7 +18,7 @@ async function domHasChanged(selector) {
   })
 }
 
-module('Acceptance | load all', function(hooks) {
+module('Acceptance | data fetching docs', function(hooks) {
   let server;
 
   setupApplicationTest(hooks);
@@ -31,7 +31,7 @@ module('Acceptance | load all', function(hooks) {
     server.shutdown();
   });
 
-  test('visiting /load-all', async function(assert) {
+  test('data fetching guide', async function(assert) {
     // need our data fetching to be slow for these tests.
     server.timing = 1000;
 
