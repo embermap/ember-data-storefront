@@ -4,7 +4,7 @@ Here are some patterns we recommend to make working with relationships more pred
 
 ## Explicitly loading related data
 
-Storefront provides an expressive way to load related data from your models. To get started, you'll first need to add the `LoadableModel` mixin your models.
+Storefront provides an expressive way to load related data from your models. To get started, you'll first need to add the `LoadableModel` mixin to your models.
 
 ```js
 // models/post.js
