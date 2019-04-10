@@ -13,12 +13,18 @@ module('Integration | Mixins | LoadableStore | loadRecords', function(hooks) {
       models: {
         post: Model.extend({
           comments: hasMany(),
+          author: belongsTo(),
           tags: hasMany()
         }),
         comment: Model.extend({
-          post: belongsTo()
+          post: belongsTo(),
+          author: belongsTo()
         }),
         tag: Model.extend({
+          posts: hasMany()
+        }),
+        author: Model.extend({
+          comments: hasMany(),
           posts: hasMany()
         })
       },
@@ -138,5 +144,46 @@ module('Integration | Mixins | LoadableStore | loadRecords', function(hooks) {
     assert.equal(posts.get('length'), 1);
     assert.equal(posts.get('firstObject.id'), serverPost.id);
     assert.equal(posts.get('firstObject.comments.length'), 2);
+  });
+
+  module('Tracking includes', function() {
+    test('it will track an include', async function(assert) {
+      let serverPost = this.server.create('post', { title: 'My post' });
+      this.server.createList('comment', 3, { post: serverPost });
+
+      let posts = await this.store.loadRecords('post', { include: 'comments' });
+
+      assert.ok(posts.get('firstObject').hasLoaded('comments'));
+    });
+
+    test('it will track a dot path include', async function(assert) {
+      let serverPost = this.server.create('post', { title: 'My post' });
+      let serverComments = this.server.createList('comment', 3, { post: serverPost });
+
+      serverComments.forEach(comment => {
+        this.server.create('author', { comments: [comment] });
+      });
+
+      let posts = await this.store.loadRecords('post', { include: 'comments.author' });
+
+      assert.ok(posts.get('firstObject').hasLoaded('comments.author'));
+    });
+
+    test('it will track multiple includes', async function(assert) {
+      let serverAuthor = this.server.create('author');
+      let serverPost = this.server.create('post', {
+        title: 'My post',
+        author: serverAuthor
+      });
+      let serverComments = this.server.createList('comment', 3, { post: serverPost });
+
+      serverComments.forEach(comment => {
+        this.server.create('author', { comments: [comment] });
+      });
+
+      let posts = await this.store.loadRecords('post', { include: 'author,comments.author' });
+
+      assert.ok(posts.get('firstObject').hasLoaded('author,comments.author'));
+    });
   });
 });
