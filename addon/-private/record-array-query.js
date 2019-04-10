@@ -26,4 +26,17 @@ export default class RecordArrayQuery {
     return promise;
   }
 
+  trackIncludes() {
+    let includes = this.params && this.params.include;
+    let models = this.value;
+
+    if (includes && models)  {
+      models
+        .filter(model => model.trackLoadedIncludes)
+        .forEach((model) => {
+          model.trackLoadedIncludes(includes);
+        });
+    }
+  }
+
 }

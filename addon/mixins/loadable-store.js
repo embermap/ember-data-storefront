@@ -58,17 +58,19 @@ export default Mixin.create({
     let shouldBlock = options.reload || !query.value;
     let shouldBackgroundReload = !options.hasOwnProperty('backgroundReload') || options.backgroundReload;
     let promise;
+    let fetcher;
 
     if (shouldBlock) {
       promise = query.run();
+      fetcher = promise;
 
     } else {
       promise = resolve(query.value);
 
-      if (shouldBackgroundReload) {
-        query.run();
-      }
+      fetcher = shouldBackgroundReload ? query.run() : resolve();
     }
+
+    fetcher.then(() => query.trackIncludes());
 
     return promise;
   },

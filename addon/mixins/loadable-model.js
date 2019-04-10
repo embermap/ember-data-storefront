@@ -225,6 +225,76 @@ export default Mixin.create({
   },
 
   /**
+    This is a private method because we maybe refactor it in the future to have
+    a difference signature. However, API was this method is accessible by other
+    storefront objects. So, it's really public, but don't use it in app code!
+
+    @method trackLoadedIncludes
+    @private
+  */
+  trackLoadedIncludes(includes) {
+    includes.split(",").forEach(path => this._trackLoadedIncludePath(path));
+  },
+
+  _trackLoadedIncludePath(path) {
+    let [firstInclude, ...rest] = path.split(".");
+    let relationship = camelize(firstInclude);
+    let reference = this._getReference(relationship);
+    let info = this._getRelationshipInfo(relationship);
+
+    if (reference) {
+      this._loadedReferences[relationship] = true;
+
+      if (rest.length) {
+        let models;
+
+        if (info.kind === 'hasMany') {
+          models = reference.value() || [];
+        } else if (info.kind === 'belongsTo') {
+          models = reference.value() ? [ reference.value() ] : [];
+        }
+
+        models
+          .filter(model => model.trackLoadedIncludes)
+          .forEach(model => model.trackLoadedIncludes(rest.join('.')));
+      }
+    }
+  },
+
+  _graphHasLoaded(includes) {
+    return includes
+      .split(",")
+      .every(path => this._graphHasLoadedPath(path));
+  },
+
+  _graphHasLoadedPath(includePath) {
+    let [firstInclude, ...rest] = includePath.split(".");
+    let relationship = camelize(firstInclude);
+    let reference = this._getReference(relationship);
+    let info = this._getRelationshipInfo(relationship);
+    let hasLoaded = reference && this._hasLoadedReference(relationship);
+
+    if (rest.length === 0) {
+      return hasLoaded;
+
+    } else {
+      let models;
+
+      if (info.kind === 'hasMany') {
+        models = reference.value() || [];
+      } else if (info.kind === 'belongsTo') {
+        models = reference.value() ? [ reference.value() ] : [];
+      }
+
+      let childrenHaveLoaded = models.every(model => {
+        return model.trackLoadedIncludes && model._graphHasLoaded(rest.join("."));
+      });
+
+      return hasLoaded && childrenHaveLoaded;
+    }
+  },
+
+  /**
     @method _hasLoadedReference
     @private
   */
@@ -243,9 +313,10 @@ export default Mixin.create({
   hasLoaded(includesString) {
     let modelName = this.constructor.modelName;
     let hasSideloaded = this.get('store').hasLoadedIncludesForRecord(modelName, this.get('id'), includesString);
-    let hasLoaded = this._hasLoadedReference(camelize(includesString));
+    let graphHasLoaded = this._graphHasLoaded(includesString);
+    // let hasLoaded = this._hasLoadedReference(camelize(includesString));
 
-    return hasLoaded || hasSideloaded;
+    return hasSideloaded || graphHasLoaded;
   }
 
 });
