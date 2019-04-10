@@ -31,6 +31,19 @@ module('Integration | Component | assert must preload', function(hooks) {
     // the next line doesn't work in 2.x due to an eslint rule
     // eslint-disable-next-line
     [ this.major, this.minor ] = Ember.VERSION.split(".");
+
+    // setup a bunch of data that our tests will load
+    let author = this.server.create('author');
+    let post = this.server.create('post', {
+      id: 1,
+      title: 'Post title',
+      author
+    });
+    let comments = this.server.createList('comment', 3, { post });
+
+    comments.forEach(comment => {
+      server.create('author', { comments: [comment] });
+    });
   });
 
   hooks.afterEach(function() {
@@ -41,7 +54,6 @@ module('Integration | Component | assert must preload', function(hooks) {
   });
 
   test('it errors if the relationship has not yet be loaded', async function(assert) {
-    this.server.create('post');
     this.post = await run(() => {
       return this.store.loadRecord('post', 1);
     });
@@ -64,7 +76,6 @@ module('Integration | Component | assert must preload', function(hooks) {
   });
 
   test('it errors if one of the relationships has not yet be loaded', async function(assert) {
-    this.server.create('post');
     this.post = await run(() => {
       return this.store.loadRecord('post', 1, { include: 'author' });
     });
@@ -87,7 +98,6 @@ module('Integration | Component | assert must preload', function(hooks) {
   });
 
   test('it errors if a nested relationship has not yet be loaded', async function(assert) {
-    this.server.create('post');
     this.post = await run(() => {
       return this.store.loadRecord('post', 1, { include: 'comments' });
     });
@@ -110,7 +120,6 @@ module('Integration | Component | assert must preload', function(hooks) {
   });
 
   test('it does not error if the relationship was loaded', async function(assert) {
-    this.server.create('post');
     this.post = await run(() => {
       return this.store.loadRecord('post', 1, { include: 'comments' });
     });
@@ -119,8 +128,52 @@ module('Integration | Component | assert must preload', function(hooks) {
       {{assert-must-preload post "comments"}}
     `);
 
-    // if nothing renders, we're ok
+    // if anything renders, we're ok
     assert.dom('*').hasText('');
+  });
+
+  module('Data loaded with loadRecords', function() {
+    test('it should not error when all data is loaded', async function(assert) {
+      let posts = await run(() => {
+        return this.store.loadRecords('post', { include: 'comments' });
+      });
+
+      this.post = posts.get('firstObject');
+
+      await render(hbs`
+        {{assert-must-preload post "comments"}}
+
+        <div data-test-id="title">
+          {{post.title}}
+        </div>
+      `);
+
+      assert.dom('[data-test-id="title"]').hasText("Post title");
+    });
+
+    test('it should error is not all data is loaded', async function(assert) {
+      let posts = await run(() => {
+        return this.store.loadRecords('post', { include: 'comments,author' });
+      });
+
+      this.post = posts.get('firstObject');
+
+      let assertError = function(e) {
+        let regexp = /You tried to render a .+ that accesses relationships off of a post, but that model didn't have all of its required relationships preloaded ('comments.author')*/;
+        assert.ok(e.message.match(regexp));
+      };
+
+      if (this.major === "2" && (this.minor === "12" || this.minor === "16")) {
+        Ember.Logger.error = function() {};
+        Ember.Test.adapter.exception = assertError;
+      } else {
+        Ember.onerror = assertError;
+      }
+
+      await render(hbs`
+        {{assert-must-preload post "author,comments.author"}}
+      `);
+    });
   });
 
 });

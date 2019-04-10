@@ -14,12 +14,18 @@ module('Integration | Mixins | LoadableStore | loadRecord', function(hooks) {
       models: {
         post: Model.extend({
           comments: hasMany(),
+          author: belongsTo(),
           tags: hasMany()
         }),
         comment: Model.extend({
-          post: belongsTo()
+          post: belongsTo(),
+          author: belongsTo()
         }),
         tag: Model.extend({
+          posts: hasMany()
+        }),
+        author: Model.extend({
+          comments: hasMany(),
           posts: hasMany()
         })
       },
