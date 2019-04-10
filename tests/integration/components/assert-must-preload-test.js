@@ -123,105 +123,64 @@ module('Integration | Component | assert must preload', function(hooks) {
     assert.dom('*').hasText('');
   });
 
-  test('it should work with calls to loadRecords', async function(assert) {
-    let post = this.server.create('post', { title: 'Post title' });
-    this.server.createList('comment', 3, { post });
 
-    let posts = await run(() => {
-      return this.store.loadRecords('post', { include: 'comments' });
+  module('Using loadRecords to load data [regression]', function(hooks) {
+    hooks.beforeEach(function() {
+      let author = this.server.create('author');
+      let post = this.server.create('post', {
+        title: 'Post title',
+        author
+      });
+      let comments = this.server.createList('comment', 3, { post });
+
+      comments.forEach(comment => {
+        server.create('author', { comments: [comment] });
+      });
     });
 
-    this.post = posts.firstObject;
+    test('it should not error when all data is loaded', async function(assert) {
+      let posts = await run(() => {
+        return this.store.loadRecords('post', { include: 'comments' });
+      });
 
-    await render(hbs`
-      {{assert-must-preload post "comments"}}
+      this.post = posts.firstObject;
 
-      <div data-test-id="title">
-        {{post.title}}
-      </div>
-    `);
+      await render(hbs`
+        {{assert-must-preload post "comments"}}
 
-    assert.dom('[data-test-id="title"]').hasText("Post title");
+        <div data-test-id="title">
+          {{post.title}}
+        </div>
+      `);
+
+      assert.dom('[data-test-id="title"]').hasText("Post title");
+    });
+
+    test('it should error is not all data is loaded', async function(assert) {
+      let posts = await run(() => {
+        return this.store.loadRecords('post', { include: 'comments,author' });
+      });
+
+      this.post = posts.firstObject;
+
+      let assertError = function(e) {
+        let regexp = /You tried to render a .+ that accesses relationships off of a post, but that model didn't have all of its required relationships preloaded ('comments.author')*/;
+        assert.ok(e.message.match(regexp));
+      };
+
+      if (this.major === "2" && (this.minor === "12" || this.minor === "16")) {
+        Ember.Logger.error = function() {};
+        Ember.Test.adapter.exception = assertError;
+      } else {
+        Ember.onerror = assertError;
+      }
+
+      await render(hbs`
+        {{assert-must-preload post "author,comments.author"}}
+      `);
+    });
   });
 
-  test('it should work with dot paths given to loadRecords', async function(assert) {
-    let post = this.server.create('post', { title: 'Post title' });
-    let comments = this.server.createList('comment', 3, { post });
 
-    comments.forEach(comment => {
-      server.create('author', { comments: [comment] });
-    });
 
-    let posts = await run(() => {
-      return this.store.loadRecords('post', { include: 'comments.author' });
-    });
-
-    this.post = posts.firstObject;
-
-    await render(hbs`
-      {{assert-must-preload post "comments.author"}}
-    `);
-
-    assert.dom('*').hasText('');
-  });
-
-  test('it should work with multiple relationships given to loadRecords', async function(assert) {
-    let author = this.server.create('author');
-    let post = this.server.create('post', {
-      title: 'Post title',
-      author
-    });
-    let comments = this.server.createList('comment', 3, { post });
-
-    comments.forEach(comment => {
-      server.create('author', { comments: [comment] });
-    });
-
-    let posts = await run(() => {
-      return this.store.loadRecords('post', { include: 'comments.author,author' });
-    });
-
-    this.post = posts.firstObject;
-
-    await render(hbs`
-      {{assert-must-preload post "author,comments.author"}}
-    `);
-
-    assert.dom('*').hasText('');
-  });
-
-  test('it should error if loadRecords is missing a relationship', async function(assert) {
-    let author = this.server.create('author');
-    let post = this.server.create('post', {
-      title: 'Post title',
-      author
-    });
-    let comments = this.server.createList('comment', 3, { post });
-
-    comments.forEach(comment => {
-      server.create('author', { comments: [comment] });
-    });
-
-    let posts = await run(() => {
-      return this.store.loadRecords('post', { include: 'comments,author' });
-    });
-
-    this.post = posts.firstObject;
-
-    let assertError = function(e) {
-      let regexp = /You tried to render a .+ that accesses relationships off of a post, but that model didn't have all of its required relationships preloaded ('comments.author')*/;
-      assert.ok(e.message.match(regexp));
-    };
-
-    if (this.major === "2" && (this.minor === "12" || this.minor === "16")) {
-      Ember.Logger.error = function() {};
-      Ember.Test.adapter.exception = assertError;
-    } else {
-      Ember.onerror = assertError;
-    }
-
-    await render(hbs`
-      {{assert-must-preload post "author,comments.author"}}
-    `);
-  });
 });
