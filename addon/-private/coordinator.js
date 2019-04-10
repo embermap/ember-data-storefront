@@ -121,10 +121,6 @@ export default class Coordinator {
     this.arrayCache.put(query);
   }
 
-  _trackIncludesInRecordArrayQuery() {
-
-  }
-
   _updateLoadedIncludesWithQuery(query) {
     this.loadedIncludes[query.type] = this.loadedIncludes[query.type] || {};
     this.loadedIncludes[query.type][query.id] = this.loadedIncludes[query.type][query.id] || [];

@@ -246,7 +246,7 @@ export default Mixin.create({
   },
 
   /**
-    This is a private method because we maybe refactor it in the future to have
+    This is a private method because we may refactor it in the future to have
     a difference signature. However, this method is used by other
     storefront objects. So, it's really public, but don't use it in app code!
 
@@ -288,7 +288,7 @@ export default Mixin.create({
 
     @method _graphHasLoaded
     @param {String} includes A full include path. Example: "author,comments.author,tags"
-    @return {Boolean} true if the includes have been loaded, false if not
+    @return {Boolean} True if the includes have been loaded, false if not
     @private
   */
   _graphHasLoaded(includes) {
@@ -298,11 +298,11 @@ export default Mixin.create({
   },
 
   /**
-    Checks wether a single include path has been loaded
+    Checks wether a single include path has been loaded.
 
     @method _graphHasLoadedPath
     @param {String} path A single include path. Example: "comments.author"
-    @return {Boolean} true if the path has been loaded, false if not
+    @return {Boolean} True if the path has been loaded, false if not
     @private
   */
   _graphHasLoadedPath(includePath) {
