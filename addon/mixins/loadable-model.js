@@ -225,66 +225,97 @@ export default Mixin.create({
   },
 
   /**
+    A list of models for a given relationship. It's always normalized to a list,
+    even for belongsTo, null, or unloaded relationships.
+
+    @method _getRelationshipModels
+    @private
+  */
+  _getRelationshipModels(name) {
+    let reference = this._getReference(name);
+    let info = this._getRelationshipInfo(name);
+    let models;
+
+    if (info.kind === 'hasMany') {
+      models = reference.value() || [];
+    } else if (info.kind === 'belongsTo') {
+      models = reference.value() ? [ reference.value() ] : [];
+    }
+
+    return models;
+  },
+
+  /**
     This is a private method because we maybe refactor it in the future to have
-    a difference signature. However, API was this method is accessible by other
+    a difference signature. However, this method is used by other
     storefront objects. So, it's really public, but don't use it in app code!
 
     @method trackLoadedIncludes
+    @param {String} includes A full include path. Example: "author,comments.author,tags"
     @private
   */
   trackLoadedIncludes(includes) {
     includes.split(",").forEach(path => this._trackLoadedIncludePath(path));
   },
 
+  /**
+    Tracks a single include path as being loaded.
+
+    @method _trackLoadedIncludePath
+    @param {String} path A single include path. Example: "comments.author"
+    @private
+  */
   _trackLoadedIncludePath(path) {
     let [firstInclude, ...rest] = path.split(".");
     let relationship = camelize(firstInclude);
     let reference = this._getReference(relationship);
-    let info = this._getRelationshipInfo(relationship);
 
     if (reference) {
       this._loadedReferences[relationship] = true;
 
       if (rest.length) {
-        let models;
-
-        if (info.kind === 'hasMany') {
-          models = reference.value() || [];
-        } else if (info.kind === 'belongsTo') {
-          models = reference.value() ? [ reference.value() ] : [];
-        }
-
-        models
+        this._getRelationshipModels(relationship)
           .filter(model => model.trackLoadedIncludes)
           .forEach(model => model.trackLoadedIncludes(rest.join('.')));
       }
     }
   },
 
+  /**
+    This method can take an include string and see if the graph of objects
+    in the store related to this model have all loaded each of the elements
+    in that include string.
+
+    @method _graphHasLoaded
+    @param {String} includes A full include path. Example: "author,comments.author,tags"
+    @return {Boolean} true if the includes have been loaded, false if not
+    @private
+  */
   _graphHasLoaded(includes) {
     return includes
       .split(",")
       .every(path => this._graphHasLoadedPath(path));
   },
 
+  /**
+    Checks wether a single include path has been loaded
+
+    @method _graphHasLoadedPath
+    @param {String} path A single include path. Example: "comments.author"
+    @return {Boolean} true if the path has been loaded, false if not
+    @private
+  */
   _graphHasLoadedPath(includePath) {
     let [firstInclude, ...rest] = includePath.split(".");
     let relationship = camelize(firstInclude);
     let reference = this._getReference(relationship);
-    let info = this._getRelationshipInfo(relationship);
     let hasLoaded = reference && this._hasLoadedReference(relationship);
 
     if (rest.length === 0) {
       return hasLoaded;
 
     } else {
-      let models;
-
-      if (info.kind === 'hasMany') {
-        models = reference.value() || [];
-      } else if (info.kind === 'belongsTo') {
-        models = reference.value() ? [ reference.value() ] : [];
-      }
+      let models = this._getRelationshipModels(relationship);
 
       let childrenHaveLoaded = models.every(model => {
         return model.trackLoadedIncludes && model._graphHasLoaded(rest.join("."));
@@ -295,7 +326,11 @@ export default Mixin.create({
   },
 
   /**
+    Checks if storefront has ever loaded this reference.
+
     @method _hasLoadedReference
+    @param {String} name Reference or relationshipname name.
+    @return {Boolean} True if storefront has loaded the reference.
     @private
   */
   _hasLoadedReference(name) {
@@ -312,11 +347,8 @@ export default Mixin.create({
   */
   hasLoaded(includesString) {
     let modelName = this.constructor.modelName;
-    let hasSideloaded = this.get('store').hasLoadedIncludesForRecord(modelName, this.get('id'), includesString);
-    let graphHasLoaded = this._graphHasLoaded(includesString);
-    // let hasLoaded = this._hasLoadedReference(camelize(includesString));
-
-    return hasSideloaded || graphHasLoaded;
+    return this.get('store').hasLoadedIncludesForRecord(modelName, this.get('id'), includesString) ||
+      this._graphHasLoaded(includesString);
   }
 
 });
