@@ -56,7 +56,7 @@ export default Mixin.create({
   loadRecords(type, options={}) {
     let query = this.coordinator.recordArrayQueryFor(type, options);
     let shouldBlock = options.reload || !query.value;
-    let shouldBackgroundReload = !options.hasOwnProperty('backgroundReload') || options.backgroundReload;
+    let shouldBackgroundReload = (options.backgroundReload !== undefined) ? options.backgroundReload : true;
     let promise;
     let fetcher;
 
@@ -126,7 +126,7 @@ export default Mixin.create({
   loadRecord(type, id, options={}) {
     let query = this.coordinator.recordQueryFor(type, id, options);
     let shouldBlock = options.reload || !query.value;
-    let shouldBackgroundReload = !options.hasOwnProperty('backgroundReload') || options.backgroundReload;
+    let shouldBackgroundReload = (options.backgroundReload !== undefined) ? options.backgroundReload : true;
     let promise;
 
     if (shouldBlock) {
