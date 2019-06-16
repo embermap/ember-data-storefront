@@ -17,7 +17,7 @@ module('Integration | Component | Load records example', function(hooks) {
       didInsertElement() {
         this._super(...arguments);
 
-        this.store.loadRecords(this.modelName, this.params);
+        this.store.loadRecords(this.modelName, { ...this.params });
       }
     }));
     this.server = startMirage();
