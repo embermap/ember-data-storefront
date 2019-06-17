@@ -1,6 +1,6 @@
 {
   "name": "ember-data-storefront",
-  "version": "0.16.1",
+  "version": "0.16.2",
   "description": "Predictable data-loading APIs for Ember Data",
   "keywords": [
     "ember-addon"
