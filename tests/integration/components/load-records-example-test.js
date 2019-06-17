@@ -28,13 +28,13 @@ module('Integration | Component | Load records example', function(hooks) {
     this.server.get('/users', () => ({ data: []}));
 
     await render(hbs`
-      <LoadRecords
-        @modelName='user'
-        @params={{hash
+      {{load-records
+        modelName='user'
+        params=(hash
           sort='-position'
           page=(hash limit=4)
-        }}
-      />
+        )
+      }}
     `);
 
     assert.ok(true);
