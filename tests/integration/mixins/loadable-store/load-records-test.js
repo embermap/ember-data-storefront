@@ -129,7 +129,6 @@ module('Integration | Mixins | LoadableStore | loadRecords', function(hooks) {
   });
 
   test('it can load a polymorphic collection with model-specific includes', async function(assert) {
-    server.logging = true;
     this.server.get('/homepage-items');
     let post = this.server.create('post');
     let comment = this.server.create('comment');

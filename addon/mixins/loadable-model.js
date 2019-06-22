@@ -177,6 +177,18 @@ export default Mixin.create({
   },
 
   /**
+    Returns
+
+    @method _hasNamedRelationship
+    @param {String} name The name of a relationship
+    @return {Boolean} True if the current model has a relationship defined for the provided name
+    @private
+  */
+  _hasNamedRelationship(name) {
+    return Boolean(get(this.constructor, `relationshipsByName`).get(name));
+  },
+
+  /**
     @method _getRelationshipInfo
     @private
   */
@@ -261,6 +273,11 @@ export default Mixin.create({
   /**
     Tracks a single include path as being loaded.
 
+    We verify that the current model actually has a named relationship defined
+    for the first segment of the include path, because requests for polymorphic
+    collections could return mixed sets of models that don't share all of
+    the relationships that were requested via includes.
+
     @method _trackLoadedIncludePath
     @param {String} path A single include path. Example: "comments.author"
     @private
@@ -268,9 +285,8 @@ export default Mixin.create({
   _trackLoadedIncludePath(path) {
     let [firstInclude, ...rest] = path.split(".");
     let relationship = camelize(firstInclude);
-    let reference = this._getReference(relationship);
 
-    if (reference) {
+    if (this._hasNamedRelationship(relationship)) {
       this._loadedReferences[relationship] = true;
 
       if (rest.length) {
