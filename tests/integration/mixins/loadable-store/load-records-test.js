@@ -2,7 +2,6 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import { waitUntil } from '@ember/test-helpers';
 import MirageServer from 'dummy/tests/integration/helpers/mirage-server';
-import { Model, hasMany, belongsTo } from 'ember-cli-mirage';
 import LoadableStore from 'ember-data-storefront/mixins/loadable-store';
 
 module('Integration | Mixins | LoadableStore | loadRecords', function(hooks) {
@@ -10,24 +9,7 @@ module('Integration | Mixins | LoadableStore | loadRecords', function(hooks) {
 
   hooks.beforeEach(function() {
     this.server = new MirageServer({
-      models: {
-        post: Model.extend({
-          comments: hasMany(),
-          author: belongsTo(),
-          tags: hasMany()
-        }),
-        comment: Model.extend({
-          post: belongsTo(),
-          author: belongsTo()
-        }),
-        tag: Model.extend({
-          posts: hasMany()
-        }),
-        author: Model.extend({
-          comments: hasMany(),
-          posts: hasMany()
-        })
-      },
+      discoverEmberDataModels: true,
       baseConfig() {
         this.resource('posts');
       }
@@ -144,6 +126,19 @@ module('Integration | Mixins | LoadableStore | loadRecords', function(hooks) {
     assert.equal(posts.get('length'), 1);
     assert.equal(posts.get('firstObject.id'), serverPost.id);
     assert.equal(posts.get('firstObject.comments.length'), 2);
+  });
+
+  test('it can load a polymorphic collection with model-specific includes', async function(assert) {
+    this.server.get('/homepage-items');
+    let post = this.server.create('post');
+    let comment = this.server.create('comment');
+    this.server.create('homepage-item', { itemizable: post });
+    this.server.create('homepage-item', { itemizable: comment });
+
+    await this.store.loadRecords('homepage-item', { include: 'itemizable.tags' });
+
+    assert.ok(this.store.peekRecord('post', post.id));
+    assert.ok(this.store.peekRecord('comment', comment.id));
   });
 
   module('Tracking includes', function() {
