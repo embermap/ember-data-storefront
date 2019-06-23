@@ -78,5 +78,18 @@ jobs:
       env: NAME=deploy
       script: node_modules/.bin/ember deploy production
 
+    - stage: npm release
+      install: skip
+      script: skip
+      deploy:
+        provider: npm
+        email: sam.selikoff@gmail.com
+        api_key:
+          secure: eZu7zw8mTnUsKkqF+7HVvaT12A/6DSeA+opUv/ZQeyfkkthwVY5LlZT4OdsLdqXt6YtwU4yOlBM740ApaHHeLz0vjOK04GgtnRVhX4byW6iRMMIdW1Unz6aYAiOzJqUXe4gWZ/PMFKtIaprmz0aV4kX97y05mkF0kiTymVqcStbwISTuEDWkt4Wxu/4BBScxl+48RRZaruLktdLDogYttUY989uhtfxYFeRts9RymbICNirPDlBWq4bu1AU+/Yrf36vnLRVtVp89ctZ+APRJddQukw/6eaJjCqnGwnTy51DXlV81Sr+cIIX5ille26wCVreDtIreQ8UxsdbQpAKt6Txyeg5EKRE7aIqC7NCKBG0+bf2PnOnNgbSx3V/7aa7r52U7fA7rNxye9pqc1s/hdM2RAzD8joos3crQPkB+CPntGRyhYWOhS59cLQPVdD2Wu4UG6zGMwOIoYLrA/hHxjKpnX/13qX+PaR7n37YiVGneXpkY/wtAytzjOExps6euRUJS5djebPpn6HkKyITMAt8V563apOLWK6NFBfmlVC5Quq6jsfyO22Q4P5vpL3Py1oVAbka06fH7cfJT9MpUFRzj9Y3gnulmq86mWFkK0ceJ1/JjaJ71+DklMhnDIIvi6krGk/BhXc+xZYboQ9FGzOezU6qeddPlzmlrhu+0opA=
+        on:
+          tags: true
+          repo: embermap/ember-data-storefront
+
+
   allow_failures:
     - env: EMBER_TRY_SCENARIO=ember-canary
