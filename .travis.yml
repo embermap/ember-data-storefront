@@ -80,6 +80,7 @@ jobs:
 
     - stage: npm release
       install: skip
+      before_script: skip
       script: skip
       deploy:
         provider: npm
