@@ -74,7 +74,7 @@ module.exports = function() {
           }
         },
         {
-          name: 'ember-3.8',
+          name: 'ember-lts-3.8',
           npm: {
             devDependencies: {
               'ember-source': '~3.8.0',
@@ -105,7 +105,7 @@ module.exports = function() {
           npm: {
             devDependencies: {
               'ember-source': urls[2],
-              'ember-data': 'emberjs/data'
+              'ember-data': 'canary'
             }
           }
         },
