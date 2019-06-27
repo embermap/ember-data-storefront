@@ -81,7 +81,7 @@
     "qunit": "^2.9.2",
     "qunit-dom": "^0.9.0",
     "sass": "^1.17.2",
-    "strip-indent": "^2.0.0",
+    "strip-indent": "^3.0.0",
     "tachyons": "4.11.1"
   },
   "engines": {
