@@ -87,7 +87,7 @@ module.exports = function() {
           npm: {
             devDependencies: {
               'ember-source': urls[0],
-              'ember-data': 'emberjs/data#release'
+              'ember-data': 'latest'
             }
           }
         },
