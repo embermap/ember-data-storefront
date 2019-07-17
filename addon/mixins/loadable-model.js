@@ -149,7 +149,7 @@ export default Mixin.create({
   */
   load(name, options = { reload: false, backgroundReload: true }) {
     assert(
-      `The #load method only works with a single relationship, if you need to load multiple relationships in one request please use the #reloadWith method [ember-data-storefront]`,
+      `The #load method only works with a single relationship, if you need to load multiple relationships in one request please use the #sideload method [ember-data-storefront]`,
       !isArray(name) && !name.includes(',') && !name.includes('.')
     );
 
