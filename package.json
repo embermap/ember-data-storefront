@@ -54,7 +54,7 @@
     "ember-cli-sri": "^2.1.1",
     "ember-cli-tachyons-shim": "^4.9.1",
     "ember-cli-uglify": "^3.0.0",
-    "ember-component-css": "^0.6.7",
+    "ember-component-css": "^0.7.4",
     "ember-concurrency": "^1.0.0",
     "ember-data": "~3.4.0",
     "ember-disable-prototype-extensions": "^1.1.3",
