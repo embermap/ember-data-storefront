@@ -5518,7 +5518,7 @@ function t(){var e=document.getElementById("fastboot-body-start")
 if(e){for(var t=document.getElementById("fastboot-body-end"),n=document.querySelectorAll('[type="fastboot/shoebox"]'),r=[],a=0;a<n.length;a++)r.push(n[a])
 var i,o=e.parentElement
 do{i=e.nextSibling,o.removeChild(e),e=i}while(i&&i!==t&&r.indexOf(i)<0)
-o.removeChild(t)}}Object.defineProperty(e,"__esModule",{value:!0}),e.clearHtml=t,e.default=void 0
+t.parentElement.removeChild(t)}}Object.defineProperty(e,"__esModule",{value:!0}),e.clearHtml=t,e.default=void 0
 var n={name:"clear-double-boot",initialize:function(e){if("undefined"==typeof FastBoot){var n=e.didCreateRootView
 e.didCreateRootView=function(){t(),n.apply(e,arguments)}}}}
 e.default=n}),define("ember-cli-fastboot/locations/none",["exports"],function(e){"use strict"
