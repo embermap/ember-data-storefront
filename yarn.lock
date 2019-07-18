@@ -11549,9 +11549,9 @@ sane@^3.0.0:
     fsevents "^1.2.3"
 
 sass@^1.17.0, sass@^1.17.2:
-  version "1.22.1"
-  resolved "https://registry.yarnpkg.com/sass/-/sass-1.22.1.tgz#9dc3cb2ea37d12fec94ef5c0e1112055f23e5bc8"
-  integrity sha512-VsWrNdfIzCLbD2TO2bq9tCaUzEE0UUSGtP3r9IhHi8ypAPCb3FOVP99kMRil+ZROEcTnKReZcQP9vk6ArV2eLw==
+  version "1.22.6"
+  resolved "https://registry.yarnpkg.com/sass/-/sass-1.22.6.tgz#1192aeb55b954576c67eafd560bd17f417903ce9"
+  integrity sha512-tkOvFnETGZShLiRHylzzLai6aQLhBHTG3t15FMgWy+UsRx99ZdQcSBxwPYbiapl+2DndQtr6N4fXbCwjhon9yw==
   dependencies:
     chokidar ">=2.0.0 <4.0.0"
 
