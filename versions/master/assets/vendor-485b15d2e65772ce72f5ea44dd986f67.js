@@ -5771,9 +5771,9 @@ e.default=n}),define("ember-data-storefront/mixins/fastboot-adapter",["exports",
 Object.defineProperty(e,"__esModule",{value:!0}),e.default=void 0
 var r=Ember.Mixin.create({fastboot:Ember.inject.service(),storefront:Ember.inject.service(),ajax:function(e,t){var r=arguments.length>2&&void 0!==arguments[2]?arguments[2]:{},n=this._getStorefrontBoxedQuery(t,e,r.data),i=this._makeStorefrontQueryBoxer(t,e,r.data)
 return n?Ember.RSVP.resolve(JSON.parse(n)):this._super.apply(this,arguments).then(i)},_makeStorefrontQueryBoxer:function(e,r,n){var i=this.get("fastboot"),o=i&&i.get("isFastBoot"),a=this.get("storefront.fastbootDataRequests")
-return function(i){if(o){var s=(0,t.shoeboxize)((0,t.cacheKey)([e,r,n]))
+return function(i){if(o){var s=(0,t.shoeboxize)((0,t.cacheKey)([e,r.replace(/^.*\/\/[^\/]+/,""),n]))
 a[s]=JSON.stringify(i)}return i}},_getStorefrontBoxedQuery:function(e,r,n){var i,o=this.get("fastboot"),a=o&&o.get("isFastBoot"),s=o&&o.get("shoebox"),u=s&&s.retrieve("ember-data-storefront")
-if(!a&&u&&u.queries&&Object.keys(u.queries).length>0){var l=(0,t.shoeboxize)((0,t.cacheKey)([e,r,n]))
+if(!a&&u&&u.queries&&Object.keys(u.queries).length>0){var l=(0,t.shoeboxize)((0,t.cacheKey)([e,r.replace(/^.*\/\/[^\/]+/,""),n]))
 i=u.queries[l],delete u.queries[l]}return i}})
 e.default=r}),define("ember-data-storefront/mixins/loadable-model",["exports","@babel/runtime/helpers/esm/toArray","@babel/runtime/helpers/esm/objectSpread"],function(e,t,r){"use strict"
 Object.defineProperty(e,"__esModule",{value:!0}),e.default=void 0
