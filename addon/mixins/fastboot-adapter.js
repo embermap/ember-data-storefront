@@ -44,7 +44,7 @@ export default Mixin.create({
 
     return function(response) {
       if (isFastboot) {
-        let key = shoeboxize(cacheKey([type, url, params]));
+        let key = shoeboxize(cacheKey([type, url.replace(/^.*\/\/[^\/]+/, ''), params]));
         cache[key] = JSON.stringify(response);
       }
 
@@ -60,7 +60,7 @@ export default Mixin.create({
     let box = shoebox && shoebox.retrieve('ember-data-storefront');
 
     if (!isFastboot && box && box.queries && Object.keys(box.queries).length > 0) {
-      let key = shoeboxize(cacheKey([type, url, params]));
+      let key = shoeboxize(cacheKey([type, url.replace(/^.*\/\/[^\/]+/, ''), params]));
       payload = box.queries[key];
       delete box.queries[key];
     }
