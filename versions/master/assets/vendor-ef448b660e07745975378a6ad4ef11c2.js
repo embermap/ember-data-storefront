@@ -7189,7 +7189,7 @@ else if("#"===r.charAt(0)){var s=document.getElementById(r.substring(1))
 s&&(e=s.scrollLeft,t=s.scrollTop)}o&&"number"===Ember.typeOf(e)&&"number"===Ember.typeOf(t)&&Ember.set(i,o,{x:e,y:t})}},_loadConfig:function(){var e=Ember.getOwner(this).resolveRegistration("config:environment")
 if(e&&e.routerScroll){var t=e.routerScroll.scrollElement,r=e.routerScroll.targetElement
 "string"===Ember.typeOf(t)&&Ember.set(this,"scrollElement",t),"string"===Ember.typeOf(r)&&Ember.set(this,"targetElement",r),!0===e.routerScroll.delayScrollTop&&Ember.set(this,"delayScrollTop",!0)}}})
-Object.defineProperty(t.prototype,"position",{get:function(){var e=Ember.get(this,"scrollMap"),t=Ember.get(window,"history.state.uuid")
+Object.defineProperty(t.prototype,"position",{configurable:!0,get:function(){var e=Ember.get(this,"scrollMap"),t=Ember.get(window,"history.state.uuid")
 Ember.set(this,"key",t)
 var r=Ember.getWithDefault(this,"key","-1")
 return Ember.getWithDefault(e,r,e.default)}})
