@@ -94,4 +94,3 @@ jobs:
 
   allow_failures:
     - env: EMBER_TRY_SCENARIO=ember-canary
-    - env: EMBER_TRY_SCENARIO=ember-beta
