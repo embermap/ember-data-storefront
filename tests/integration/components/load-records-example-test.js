@@ -23,6 +23,10 @@ module('Integration | Component | Load records example', function(hooks) {
     this.server = startMirage();
   });
 
+  hooks.afterEach(function() {
+    this.server.shutdown();
+  });
+
   // This ensures users can write a <LoadRecords /> component. See https://github.com/embermap/ember-data-storefront/issues/79.
   test('users should be able to invoke #loadRecords using a hash from a template', async function(assert) {
     this.server.get('/users', () => ({ data: []}));
