@@ -944,6 +944,11 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
+"@ember-data/rfc395-data@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@ember-data/rfc395-data/-/rfc395-data-0.0.4.tgz#ecb86efdf5d7733a76ff14ea651a1b0ed1f8a843"
+  integrity sha512-tGRdvgC9/QMQSuSuJV45xoyhI0Pzjm7A9o/MVVA3HakXIImJbbzx/k/6dO9CUEQXIyS2y0fW6C1XaYOG7rY0FQ==
+
 "@ember-decorators/argument@^0.8.13":
   version "0.8.21"
   resolved "https://registry.yarnpkg.com/@ember-decorators/argument/-/argument-0.8.21.tgz#929789f9622ee935c3fad3332b3d179e98d05b15"
@@ -6019,11 +6024,6 @@ ember-rfc176-data@^0.3.12:
   resolved "https://registry.yarnpkg.com/ember-rfc176-data/-/ember-rfc176-data-0.3.12.tgz#90d82878e69e2ac9a5438e8ce14d12c6031c5bd2"
   integrity sha512-g9HeZj/gU5bfIIrGXkP7MhS2b3Vu5DfNUrYr14hy99TgIvtZETO+96QF4WOEUXGjIJdfTRjerVnQlqngPQSv1g==
 
-ember-rfc176-data@^0.3.5:
-  version "0.3.7"
-  resolved "https://registry.yarnpkg.com/ember-rfc176-data/-/ember-rfc176-data-0.3.7.tgz#ecff7d74987d09296d3703343fed934515a4be33"
-  integrity sha512-AbTlD+q7sfyrD4diZqE7r9Y9/Je+HntVn7TlpHAe+nP5BNXxUXJIfDs5w5e3MxPcMs6Dz/yY90YfW8h1oKEvGg==
-
 ember-router-generator@^1.2.3:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/ember-router-generator/-/ember-router-generator-1.2.3.tgz#8ed2ca86ff323363120fc14278191e9e8f1315ee"
@@ -6357,12 +6357,13 @@ escodegen@^1.11.1, escodegen@^1.9.1:
   optionalDependencies:
     source-map "~0.6.1"
 
-eslint-plugin-ember@^5.2.0:
-  version "5.4.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-ember/-/eslint-plugin-ember-5.4.0.tgz#2980a4389119b37d0450fff8e82d59c9aab126d0"
-  integrity sha512-tYMuxUrTad4f7Dq9gY9GUs9lXwKY+fZklzCJ0JoYbzK2PwSfdrPInr2Y4tHornc9dzPvNbRxsn5b26PrWp2iZg==
+eslint-plugin-ember@^7.1.0:
+  version "7.1.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-ember/-/eslint-plugin-ember-7.1.0.tgz#1ae46ead1f17efa489e2dcba3fe3880b95fc162b"
+  integrity sha512-Tbh/vCxzQrOpzXX2zhEA+FJyZWHscisXi3pKPHmy49MHz0ZjGxBmhR4Y72xw6qeiwwtVNkU4+iCYTLgNeA05TQ==
   dependencies:
-    ember-rfc176-data "^0.3.5"
+    "@ember-data/rfc395-data" "^0.0.4"
+    ember-rfc176-data "^0.3.12"
     snake-case "^2.1.0"
 
 eslint-plugin-es@^2.0.0:
