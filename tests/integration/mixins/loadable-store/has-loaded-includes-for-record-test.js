@@ -11,13 +11,16 @@ module('Integration | Mixins | LoadableStore | hasLoadedIncludesForRecord', func
   hooks.beforeEach(function() {
     this.server = new MirageServer({
       models: {
+        // eslint-disable-next-line ember/no-new-mixins
         post: Model.extend({
           comments: hasMany(),
           tags: hasMany()
         }),
+        // eslint-disable-next-line ember/no-new-mixins
         comment: Model.extend({
           post: belongsTo()
         }),
+        // eslint-disable-next-line ember/no-new-mixins
         tag: Model.extend({
           posts: hasMany()
         })
