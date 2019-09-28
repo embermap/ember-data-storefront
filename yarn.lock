@@ -1092,11 +1092,17 @@
   dependencies:
     "@glimmer/util" "^0.27.0"
 
-"@miragejs/server@0.1.23":
-  version "0.1.23"
-  resolved "https://registry.yarnpkg.com/@miragejs/server/-/server-0.1.23.tgz#10e7c1865b9fc4b1c4b8ae5f9ee58509efb37519"
-  integrity sha512-WgcuN4fjWDzqGo/f9f1G1df0JbCUS4ulOGHaWYgrhvDTMq7LDbn1g31xO30IWdZ4USxiLR79CskXg6DuqZlXAw==
+"@miragejs/pretender-node-polyfill@^0.1.0":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@miragejs/pretender-node-polyfill/-/pretender-node-polyfill-0.1.2.tgz#d26b6b7483fb70cd62189d05c95d2f67153e43f2"
+  integrity sha512-M/BexG/p05C5lFfMunxo/QcgIJnMT2vDVCd00wNqK2ImZONIlEETZwWJu1QtLxtmYlSHlCFl3JNzp0tLe7OJ5g==
+
+"@miragejs/server@0.1.27":
+  version "0.1.27"
+  resolved "https://registry.yarnpkg.com/@miragejs/server/-/server-0.1.27.tgz#a4e850b28e384a7d92715a538b54074e38e9a931"
+  integrity sha512-UuhoUFwlZ8Y1lnmQfoNU2EmMmHq5cgbI15GN61nopfUN2KbPX4ZpuCzINcQa1WOlsFBoQzBgzqbacXxjmmT8kg==
   dependencies:
+    "@miragejs/pretender-node-polyfill" "^0.1.0"
     inflected "^2.0.4"
     lodash.assign "^4.2.0"
     lodash.camelcase "^4.3.0"
@@ -5409,12 +5415,12 @@ ember-cli-lodash-subset@2.0.1, ember-cli-lodash-subset@^2.0.1:
   resolved "https://registry.yarnpkg.com/ember-cli-lodash-subset/-/ember-cli-lodash-subset-2.0.1.tgz#20cb68a790fe0fde2488ddfd8efbb7df6fe766f2"
   integrity sha1-IMtop5D+D94kiN39jvu332/nZvI=
 
-ember-cli-mirage@1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/ember-cli-mirage/-/ember-cli-mirage-1.1.1.tgz#ddc97e91408cabf9297e977d9cefee3e8da197cc"
-  integrity sha512-dJrtkVMmNfAn8vXctecvbcPdlXbraSL2gpi0coWBocJF0r6yerFjnMTl23umWZ8GkQbisuSYS+A2ont+uEVavw==
+ember-cli-mirage@1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/ember-cli-mirage/-/ember-cli-mirage-1.1.2.tgz#582598aa599649601401b79a021b4ded5155907f"
+  integrity sha512-0qgP5sBheXkrpea+R8dGA0LLsj9SEg6adafNdZ1RzA+nIPC8hE+UEzDQNFqRiZv/fPfdWSDnwQboaHDLiu9hqw==
   dependencies:
-    "@miragejs/server" "0.1.23"
+    "@miragejs/server" "0.1.27"
     broccoli-file-creator "^2.1.1"
     broccoli-funnel "^2.0.1"
     broccoli-merge-trees "^3.0.2"
