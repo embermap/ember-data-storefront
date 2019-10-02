@@ -49,7 +49,7 @@ export default Mixin.create({
       }
 
       return response;
-    }
+    };
   },
 
   _getStorefrontBoxedQuery(type, url, params) {

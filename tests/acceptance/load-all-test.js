@@ -41,7 +41,7 @@ module('Acceptance | data fetching docs', function(hooks) {
     await visit('/docs/guides/data-fetching');
 
     // Click post1-link, see loading, then see post1
-    click(t('demo2', 'post1-link'));
+    await click(t('demo2', 'post1-link'));
     await domHasChanged(t('demo2', 'app-ui'));
     assert.dom(t('demo2', 'app-ui')).hasText('Loading /posts/1...');
 
@@ -49,7 +49,7 @@ module('Acceptance | data fetching docs', function(hooks) {
     assert.dom(t('demo2', 'app-ui')).hasText('Post 1 title');
 
     // Click posts-link, see loading, then see list
-    click(t('demo2', 'posts-link'));
+    await click(t('demo2', 'posts-link'));
     await domHasChanged(t('demo2', 'app-ui'));
     assert.dom(t('demo2', 'app-ui')).hasText('Loading /posts...');
 
@@ -57,7 +57,7 @@ module('Acceptance | data fetching docs', function(hooks) {
     assert.equal(find(t('demo2', 'app-ui')).querySelectorAll('li').length, 2);
 
     // Click posts1-link again, and only see post1 (no loading)
-    click(t('demo2', 'post1-link'));
+    await click(t('demo2', 'post1-link'));
     await domHasChanged(t('demo2', 'app-ui'));
     assert.dom(t('demo2', 'app-ui')).hasText('Post 1 title');
   });
