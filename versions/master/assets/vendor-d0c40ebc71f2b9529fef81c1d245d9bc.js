@@ -10622,7 +10622,7 @@ for(var n=0;n<Vt.length;n++){var i=Vt[n];["description","message","stack"].index
 var Qt=function(){function e(t,r){yt(this,e),"object"===mt(t)?(this.modelName=void 0,this.opts=t):(this.modelName=t?Bt(t):"",this.opts=r||{}),this.key="",this.ownerModelName=""}return gt(e,[{key:"setSchema",value:function(e){this.schema=e}},{key:"isReflexive",value:function(){var e=!(this.modelName!==this.ownerModelName||!this.opts.inverse),t=!(void 0!==this.opts.inverse||this.ownerModelName!==this.modelName)
 return e||t}},{key:"isPolymorphic",get:function(){return this.opts.polymorphic}},{key:"identifier",get:function(){throw new Error("Subclasses of Association must implement a getter for identifier")}}]),e}(),Kt={},Gt=function(e){function t(){return yt(this,t),Ot(this,wt(t).apply(this,arguments))}return _t(t,Qt),gt(t,[{key:"getForeignKeyArray",value:function(){return[zt(this.ownerModelName),this.getForeignKey()]}},{key:"getForeignKey",value:function(){if("string"!=typeof Kt[this.key]){var e="".concat(zt(this.key),"Id")
 Kt[this.key]=e}return Kt[this.key]}},{key:"addMethodsToModelClass",value:function(e,t){var r=e.prototype,n=this,i=this.getForeignKey(),o=bt({},t,this)
-r.belongsToAssociations=Object.assign(r.belongsToAssociations,o),this.schema.addDependentAssociation(this,this.modelName),r.associationKeys.push(t),r.associationIdKeys.push(i),Object.defineProperty(r,i,{get:function(){this._tempAssociations=this._tempAssociations||{}
+r.belongsToAssociations=Object.assign(r.belongsToAssociations,o),this.schema.addDependentAssociation(this,this.modelName),r.associationKeys.add(t),r.associationIdKeys.add(i),Object.defineProperty(r,i,{get:function(){this._tempAssociations=this._tempAssociations||{}
 var e=this._tempAssociations[t]
 return null===e?null:n.isPolymorphic?e?{id:e.id,type:e.modelName}:this.attrs[i]:e?e.id:this.attrs[i]},set:function(e){var r
 null===e?r=null:void 0!==e&&(n.isPolymorphic?(Wt("object"===mt(e),"You're setting an ID on the polymorphic association '".concat(n.key,"' but you didn't pass in an object. Polymorphic IDs need to be in the form { type, id }.")),r=n.schema[n.schema.toCollectionName(e.type)].find(e.id)):Wt(r=n.schema[n.schema.toCollectionName(n.modelName)].find(e),"Couldn't find ".concat(n.modelName," with id = ").concat(e))),this[t]=r}}),Object.defineProperty(r,t,{get:function(){this._tempAssociations=this._tempAssociations||{}
@@ -10680,7 +10680,7 @@ if(t){var r=this.models.indexOf(t)
 this.models.splice(r,1)}return this}},{key:"includes",value:function(e){return this.models.some(function(t){return ze()(t.attrs,e.attrs)})}},{key:"filter",value:function(t){return new e(this.models.filter(t))}},{key:"sort",value:function(t){return new e(this.models.concat().sort(t))}},{key:"slice",value:function(){var t
 return new e((t=this.models).slice.apply(t,arguments))}},{key:"mergeCollection",value:function(e){return this.models=this.models.concat(e.models),this}},{key:"toString",value:function(){return"collection:".concat(this.modelName,"(").concat(this.models.map(function(e){return e.id}).join(","),")")}},{key:"length",get:function(){return this.models.length}}]),e}(),tr={},rr=function(e){function t(){return yt(this,t),Ot(this,wt(t).apply(this,arguments))}return _t(t,Qt),gt(t,[{key:"getForeignKeyArray",value:function(){return[zt(this.ownerModelName),this.getForeignKey()]}},{key:"getForeignKey",value:function(){if("string"!=typeof tr[this.key]){var e="".concat(this._container.inflector.singularize(zt(this.key)),"Ids")
 tr[this.key]=e}return tr[this.key]}},{key:"addMethodsToModelClass",value:function(e,t){var r=e.prototype,n=this,i=this.getForeignKey(),o=bt({},t,this)
-r.hasManyAssociations=Object.assign(r.hasManyAssociations,o),this.schema.addDependentAssociation(this,this.modelName),r.associationKeys.push(t),r.associationIdKeys.push(i),Object.defineProperty(r,i,{get:function(){this._tempAssociations=this._tempAssociations||{}
+r.hasManyAssociations=Object.assign(r.hasManyAssociations,o),this.schema.addDependentAssociation(this,this.modelName),r.associationKeys.add(t),r.associationIdKeys.add(i),Object.defineProperty(r,i,{get:function(){this._tempAssociations=this._tempAssociations||{}
 var e=this._tempAssociations[t]
 return e?n.isPolymorphic?e.models.map(function(e){return{type:e.modelName,id:e.id}}):e.models.map(function(e){return e.id}):this.attrs[i]||[]},set:function(e){var r
 if(null===e)r=[]
@@ -10757,7 +10757,7 @@ for(var o=arguments.length,a=new Array(o),s=0;s<o;s++)a[s]=arguments[s]
 return n=Ot(this,(t=wt(r)).call.apply(t,[this].concat(a))),e&&Ge()(e,"constructor")&&(i=e.constructor).call.apply(i,[kt(n)].concat(a)),n}return _t(r,t),r}(this)
 return Object.assign(r,this,t),e&&Object.assign(r.prototype,e),r}var yr=function(){function e(t,r,n,i){return yt(this,e),Wt(t,"A model requires a schema"),Wt(r,"A model requires a modelName"),this._schema=t,this.modelName=r,this.fks=i||[],this.attrs={},n=n||{},this._setupAttrs(n),this._setupRelationships(n),this}return gt(e,[{key:"save",value:function(){var e=this._schema.toInternalCollectionName(this.modelName)
 return this.isNew()?(this.attrs=this._schema.db[e].insert(this.attrs),this._definePlainAttribute("id")):(this._schema.isSaving[this.toString()]=!0,this._schema.db[e].update(this.attrs.id,this.attrs)),this._saveAssociations(),this._schema.isSaving[this.toString()]=!1,this}},{key:"update",value:function(e,t){var r
-return null==e?this:("object"===mt(e)?r=e:(r={})[e]=t,Object.keys(r).forEach(function(e){this.associationKeys.includes(e)||this.associationIdKeys.includes(e)||this._definePlainAttribute(e),this[e]=r[e]},this),this.save(),this)}},{key:"destroy",value:function(){if(this.isSaved()){this._disassociateFromDependents()
+return null==e?this:("object"===mt(e)?r=e:(r={})[e]=t,Object.keys(r).forEach(function(e){this.associationKeys.has(e)||this.associationIdKeys.has(e)||this._definePlainAttribute(e),this[e]=r[e]},this),this.save(),this)}},{key:"destroy",value:function(){if(this.isSaved()){this._disassociateFromDependents()
 var e=this._schema.toInternalCollectionName(this.modelName)
 this._schema.db[e].remove(this.attrs.id)}}},{key:"isNew",value:function(){var e=!1
 if(void 0!==this.attrs.id&&null!==this.attrs.id){var t=this._schema.toInternalCollectionName(this.modelName)
@@ -10776,17 +10776,17 @@ if(t.isPolymorphic){var i=this[r].find(function(t){var r=t.type,n=t.id
 return r===e.modelName&&n===e.id})
 n=i&&this[r].indexOf(i)}else n=this[r].map(function(e){return e.toString()}).indexOf(e.id.toString())
 n>-1&&this.attrs[r].splice(n,1)}else this.attrs[r]=null}},{key:"_setupAttrs",value:function(e){var t=this
-this._validateAttrs(e),this.fks.forEach(function(r){t.attrs[r]=void 0!==e[r]?e[r]:null}),Object.keys(e).forEach(function(r){t.associationKeys.includes(r)||t.associationIdKeys.includes(r)||(t.attrs[r]=e[r],t._definePlainAttribute(r))})}},{key:"_definePlainAttribute",value:function(e){var t=Object.getOwnPropertyDescriptor(this,e)
+this._validateAttrs(e),this.fks.forEach(function(r){t.attrs[r]=void 0!==e[r]?e[r]:null}),Object.keys(e).forEach(function(r){t.associationKeys.has(r)||t.associationIdKeys.has(r)||(t.attrs[r]=e[r],t._definePlainAttribute(r))})}},{key:"_definePlainAttribute",value:function(e){var t=Object.getOwnPropertyDescriptor(this,e)
 t&&t.get||(Object.prototype.hasOwnProperty.call(this.attrs,e)||(this.attrs[e]=null),Object.defineProperty(this,e,{get:function(){return this.attrs[e]},set:function(t){return this.attrs[e]=t,this}}))}},{key:"_setupRelationships",value:function(e){var t=this
-Object.keys(e).forEach(function(r){var n=e[r],i=t.associationIdKeys.includes(r)||t.fks.includes(r),o=t.associationKeys.includes(r)
+Object.keys(e).forEach(function(r){var n=e[r],i=t.associationIdKeys.has(r)||t.fks.includes(r),o=t.associationKeys.has(r)
 i&&(null!=n&&t._validateForeignKeyExistsInDatabase(r,n),t.attrs[r]=n),o&&(t[r]=n)})}},{key:"_validateAttrs",value:function(t){var r=this
 Object.keys(t).forEach(function(n){var i=t[n]
-if(r.associationKeys.includes(n)){var o=r.associationFor(n),a=null===i
+if(r.associationKeys.has(n)){var o=r.associationFor(n),a=null===i
 if(o instanceof rr){var s=i instanceof Jt||i instanceof er,u=Array.isArray(i)&&i.every(function(t){return t instanceof e})
-Wt(s||u||a,"You're trying to create a ".concat(r.modelName,' model and you passed in "').concat(i,'" under the ').concat(n," key, but that key is a HasMany relationship. You must pass in a Collection, PolymorphicCollection, array of Models, or null."))}else o instanceof Gt&&Wt(i instanceof e||a,"You're trying to create a ".concat(r.modelName,' model and you passed in "').concat(i,'" under the ').concat(n," key, but that key is a BelongsTo relationship. You must pass in a Model or null."))}r.associationIdKeys.includes(n)&&n.endsWith("Ids")&&Wt(Array.isArray(i)||null===i,"You're trying to create a ".concat(r.modelName,' model and you passed in "').concat(i,'" under the ').concat(n," key, but that key is a foreign key for a HasMany relationship. You must pass in an array of ids or null."))
+Wt(s||u||a,"You're trying to create a ".concat(r.modelName,' model and you passed in "').concat(i,'" under the ').concat(n," key, but that key is a HasMany relationship. You must pass in a Collection, PolymorphicCollection, array of Models, or null."))}else o instanceof Gt&&Wt(i instanceof e||a,"You're trying to create a ".concat(r.modelName,' model and you passed in "').concat(i,'" under the ').concat(n," key, but that key is a BelongsTo relationship. You must pass in a Model or null."))}r.associationIdKeys.has(n)&&n.endsWith("Ids")&&Wt(Array.isArray(i)||null===i,"You're trying to create a ".concat(r.modelName,' model and you passed in "').concat(i,'" under the ').concat(n," key, but that key is a foreign key for a HasMany relationship. You must pass in an array of ids or null."))
 var l=i instanceof e||i instanceof Jt||i instanceof er,c=Array.isArray(i)&&i.length&&i.every(function(t){return t instanceof e})
 if(l||c){var f=t[n]
-Wt(r.associationKeys.includes(n),"You're trying to create a ".concat(r.modelName," model and you passed in a ").concat(f.toString()," under the ").concat(n," key, but you haven't defined that key as an association on your model."))}})}},{key:"_validateForeignKeyExistsInDatabase",value:function(e,t){var r=this
+Wt(r.associationKeys.has(n),"You're trying to create a ".concat(r.modelName," model and you passed in a ").concat(f.toString()," under the ").concat(n," key, but you haven't defined that key as an association on your model."))}})}},{key:"_validateForeignKeyExistsInDatabase",value:function(e,t){var r=this
 if(Array.isArray(t)){var n,i=Object.keys(this.hasManyAssociations).map(function(e){return r.hasManyAssociations[e]}).find(function(t){return t.getForeignKey()===e})
 i.isPolymorphic?(n=t.map(function(e){var t=e.type,n=e.id
 return r._schema.db[r._schema.toInternalCollectionName(t)].find(n)}),n=Qe()(n)):n=this._schema.db[this._schema.toInternalCollectionName(i.modelName)].find(t)
@@ -10837,10 +10837,11 @@ if(n&&!tt()(o,"".concat(n.modelName,".").concat(n.id))){var a=St(r.getHashForRes
 if(i[s]=a,r.isModel(n)){var u="".concat(zt(t),"Id")
 delete i[u]}}}),i}return this._maybeAddAssociationIds(e,i)}},{key:"_attrsForModel",value:function(e){var t={}
 return t=this.attrs?this.attrs.reduce(function(t,r){return t[r]=e[r],t},{}):Object.assign(t,e.attrs),e.fks.forEach(function(e){return delete t[e]}),this._formatAttributeKeys(t)}},{key:"_maybeAddAssociationIds",value:function(e,t){var r=this,n=Object.assign({},t)
-return"always"===this.serializeIds?e.associationKeys.forEach(function(t){var i=e[t]
-if(r.isCollection(i)){var o=r.keyForRelationshipIds(t)
-n[o]=e["".concat(r._container.inflector.singularize(t),"Ids")]}else if(i){var a=r.keyForForeignKey(t)
-n[a]=e["".concat(t,"Id")]}}):"included"===this.serializeIds&&this.getKeysForIncluded().forEach(function(t){var i=e[t],o=e.associationFor(t)
+return"always"===this.serializeIds?e.associationKeys.forEach(function(t){var i=e[t],o=e.associationFor(t)
+if(r.isCollection(i)){var a=r.keyForRelationshipIds(t)
+n[a]=e["".concat(r._container.inflector.singularize(t),"Ids")]}else if(r.isModel(i)&&o.isPolymorphic){var s=r.keyForPolymorphicForeignKeyType(t),u=r.keyForPolymorphicForeignKeyId(t)
+n[s]=e["".concat(t,"Id")].type,n[u]=e["".concat(t,"Id")].id}else if(i){var l=r.keyForForeignKey(t)
+n[l]=e["".concat(t,"Id")]}}):"included"===this.serializeIds&&this.getKeysForIncluded().forEach(function(t){var i=e[t],o=e.associationFor(t)
 if(r.isCollection(i)){var a=r.keyForRelationshipIds(t)
 n[a]=e["".concat(r._container.inflector.singularize(t),"Ids")]}else if(r.isModel(i)&&o.isPolymorphic){var s=r.keyForPolymorphicForeignKeyType(t),u=r.keyForPolymorphicForeignKeyId(t)
 n[s]=e["".concat(t,"Id")].type,n[u]=e["".concat(t,"Id")].id}else if(r.isModel(i)){var l=r.keyForForeignKey(t)
@@ -10862,11 +10863,11 @@ t.isModel(r)?s.push(r):t.isCollection(r)&&(s=s.concat(r.models))})
 return a=a.concat(s),n.length&&s.forEach(function(e){a=a.concat(t.getIncludesForResourceAndPath.apply(t,[e].concat(n)))}),a}},{key:"getResourceObjectForModel",value:function(e){var t=this._attrsForModel(e,!0)
 delete t.id
 var r={type:this.typeKeyForModel(e),id:e.id,attributes:t}
-return this._maybeAddRelationshipsToResourceObjectForModel(r,e)}},{key:"_maybeAddRelationshipsToResourceObjectForModel",value:function(e,t){var r=this,n=t.associationKeys.reduce(function(e,n){var i=t[n],o=r.keyForRelationship(n),a={}
-if(r.hasLinksForRelationship(t,n)){var s=r.serializerFor(t.modelName).links(t)
-a.links=s[n]}if(r.alwaysIncludeLinkageData||r.shouldIncludeLinkageData(n,t)||r._relationshipIsIncludedForModel(n,t)){var u=null
-r.isModel(i)?u={type:r.typeKeyForModel(i),id:i.id}:r.isCollection(i)&&(u=i.models.map(function(e){return{type:r.typeKeyForModel(e),id:e.id}})),a.data=u}return Je()(a)||(e[o]=a),e},{})
-return Je()(n)||(e.relationships=n),e}},{key:"hasLinksForRelationship",value:function(e,t){var r=this.serializerFor(e.modelName),n=r.links&&r.links(e)
+return this._maybeAddRelationshipsToResourceObjectForModel(r,e)}},{key:"_maybeAddRelationshipsToResourceObjectForModel",value:function(e,t){var r=this,n={}
+return t.associationKeys.forEach(function(e){var i=t[e],o=r.keyForRelationship(e),a={}
+if(r.hasLinksForRelationship(t,e)){var s=r.serializerFor(t.modelName).links(t)
+a.links=s[e]}if(r.alwaysIncludeLinkageData||r.shouldIncludeLinkageData(e,t)||r._relationshipIsIncludedForModel(e,t)){var u=null
+r.isModel(i)?u={type:r.typeKeyForModel(i),id:i.id}:r.isCollection(i)&&(u=i.models.map(function(e){return{type:r.typeKeyForModel(e),id:e.id}})),a.data=u}Je()(a)||(n[o]=a)}),Je()(n)||(e.relationships=n),e}},{key:"hasLinksForRelationship",value:function(e,t){var r=this.serializerFor(e.modelName),n=r.links&&r.links(e)
 return n&&null!=n[t]}},{key:"_relationshipIsIncludedForModel",value:function(e,t){if(this.hasQueryParamIncludes()){var r,n=this.request._includesGraph,i=this._graphKeyForModel(t)
 return n.data[i]?r=n.data[i]:n.included[this._container.inflector.pluralize(t.modelName)]&&(r=n.included[this._container.inflector.pluralize(t.modelName)][i]),r&&r.relationships&&Object.prototype.hasOwnProperty.call(r.relationships,Bt(e))}return this.getKeysForIncluded().includes(e)}},{key:"_createRequestedIncludesGraph",value:function(e){var t=this,r={data:{}}
 if(this.isModel(e)){var n=this._graphKeyForModel(e)
@@ -10876,7 +10877,7 @@ this.request._includesGraph=r}},{key:"_addPrimaryModelToRequestedIncludesGraph",
 if(this.hasQueryParamIncludes()){var n=this._graphKeyForModel(t)
 this.getQueryParamIncludes().split(",").forEach(function(i){e.data[n].relationships=e.data[n].relationships||{}
 var o=i.split(".").map(Bt),a=o[0],s=a,u=zt(a)
-Wt(t.associationKeys.includes(u),'You tried to include "'.concat(a,'" with ').concat(t,' but no association named "').concat(u,'" is defined on the model.'))
+Wt(t.associationKeys.has(u),'You tried to include "'.concat(a,'" with ').concat(t,' but no association named "').concat(u,'" is defined on the model.'))
 var l,c=t[u]
 l=r.isModel(c)?r._graphKeyForModel(c):r.isCollection(c)?c.models.map(r._graphKeyForModel):null,e.data[n].relationships[s]=l,c&&r._addResourceToRequestedIncludesGraph(e,c,o.slice(1))})}}},{key:"_addResourceToRequestedIncludesGraph",value:function(e,t,r){var n=this
 e.included=e.included||{},(this.isCollection(t)?t.models:[t]).forEach(function(t){var i=n._container.inflector.pluralize(t.modelName)
@@ -10894,7 +10895,7 @@ return r?Wt(!!n,"You passed in ".concat(e," as an explicit serializer type but t
 this._serializerMap=Object.assign(t,e)}},{key:"getCoalescedIds",value:function(e,t){return this.serializerFor(t).getCoalescedIds(e)}}]),e}(),_r={},wr={},Er={},xr=function(){function e(t){var r=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{}
 yt(this,e),Wt(t,"A schema requires a db"),this.db=t,this._registry={},this._dependentAssociations={polymorphic:[]},this.registerModels(r),this.isSaving={}}return gt(e,[{key:"registerModels",value:function(){var e=this,t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{}
 ot()(t,function(r,n){e.registerModel(n,t[n])})}},{key:"registerModel",value:function(e,t){var r=this,n=zt(e),i=Bt(n)
-t=t.extend(),this._registry[n]=this._registry[n]||{class:null,foreignKeys:[]},this._registry[n].class=t,t.prototype._schema=this,t.prototype.modelName=i,t.prototype.hasManyAssociations={},t.prototype.belongsToAssociations={},t.prototype.associationKeys=[],t.prototype.associationIdKeys=[],t.prototype.dependentAssociations=[]
+t=t.extend(),this._registry[n]=this._registry[n]||{class:null,foreignKeys:[]},this._registry[n].class=t,t.prototype._schema=this,t.prototype.modelName=i,t.prototype.hasManyAssociations={},t.prototype.belongsToAssociations={},t.prototype.associationKeys=new Set,t.prototype.associationIdKeys=new Set,t.prototype.dependentAssociations=[]
 var o={}
 for(var a in t.prototype)if(t.prototype[a]instanceof Qt){var s=t.prototype[a]
 s.key=a,s.modelName=s.modelName||this.toModelName(a),s.ownerModelName=i,s.setSchema(this)
@@ -10950,7 +10951,7 @@ this._mapAssociationsFromAttributes(e,l,a),this._mapAssociationsFromAttributes(e
 var f=new(u.extend(c)),d=this.factorySequences[s]
 return f.build(d)}return a}},{key:"buildList",value:function(e,t){Wt(pt()(t),"second argument has to be an integer, you passed: ".concat(mt(t)))
 for(var r=[],n=arguments.length,i=new Array(n>2?n-2:0),o=2;o<n;o++)i[o-2]=arguments[o]
-for(var a=0;a<t;a++)r.push(this.build.apply(this,[e].concat(i)))
+for(var a=[e].concat(i),s=0;s<t;s++)r.push(this.build.apply(this,a))
 return r}},{key:"create",value:function(e){var t=this
 Wt(this._modelOrFactoryExistsForType(e),"You called server.create('".concat(e,"') but no model or factory was found. Make sure you're passing in the singularized version of the model or factory name."))
 for(var r=arguments.length,n=new Array(r>1?r-1:0),i=1;i<r;i++)n[i-1]=arguments[i]
@@ -10960,7 +10961,7 @@ a=f.create(c)}else{var d,p
 l?d=l:(p=this.schema?this.schema.toInternalCollectionName(e):"_".concat(this.inflector.pluralize(e)),d=this.db[p]),Wt(d,"You called server.create('".concat(e,"') but no model or factory was found.")),a=d.insert(c)}var h=this.factoryFor(e)
 return h&&h.extractAfterCreateCallbacks({traits:s}).forEach(function(e){e(a,t)}),a}},{key:"createList",value:function(e,t){Wt(this._modelOrFactoryExistsForType(e),"You called server.createList('".concat(e,"') but no model or factory was found. Make sure you're passing in the singularized version of the model or factory name.")),Wt(pt()(t),"second argument has to be an integer, you passed: ".concat(mt(t)))
 for(var r=[],n=this.schema?this.schema.toInternalCollectionName(e):"_".concat(this.inflector.pluralize(e)),i=this.db[n],o=arguments.length,a=new Array(o>2?o-2:0),s=2;s<o;s++)a[s-2]=arguments[s]
-for(var u=0;u<t;u++)r.push(this.create.apply(this,[e].concat(a,[i])))
+for(var u=[e].concat(a,[i]),l=0;l<t;l++)r.push(this.create.apply(this,u))
 return r}},{key:"shutdown",value:function(){"undefined"!=typeof window&&this.pretender.shutdown(),"undefined"!=typeof window&&"test"===this.environment&&(window.server=void 0)}},{key:"resource",value:function(e){var t=this,r=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{},n=r.only,i=r.except,o=r.path
 if(e=this.inflector.pluralize(e),o=o||"/".concat(e),i=i||[],(n=n||[]).length>0&&i.length>0)throw"cannot use both :only and :except options"
 var a={index:{methods:["get"],path:"".concat(o)},show:{methods:["get"],path:"".concat(o,"/:id")},create:{methods:["post"],path:"".concat(o)},update:{methods:["put","patch"],path:"".concat(o,"/:id")},delete:{methods:["del"],path:"".concat(o,"/:id")}},s=Object.keys(a);(n.length>0&&n||i.length>0&&s.filter(function(e){return-1===i.indexOf(e)})||s).forEach(function(r){var n=a[r]
