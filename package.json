@@ -31,7 +31,7 @@
     "global": "^4.3.2"
   },
   "devDependencies": {
-    "@ember/jquery": "^0.6.0",
+    "@ember/jquery": "^1.1.0",
     "@ember/optional-features": "^1.0.0",
     "broccoli-asset-rev": "^3.0.0",
     "ember-ajax": "^5.0.0",
