@@ -75,7 +75,7 @@
     "express": "^4.16.4",
     "glob": "^7.1.4",
     "jsdom": "^15.1.1",
-    "liquid-fire": "^0.30.0",
+    "liquid-fire": "^0.31.0",
     "loader.js": "^4.7.0",
     "morgan": "^1.9.1",
     "qunit": "^2.9.2",
