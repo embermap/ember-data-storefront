@@ -7369,18 +7369,18 @@ throw new Error("ember-wormhole could not get DOM")}}),define("liquid-fire/actio
 Object.defineProperty(e,"__esModule",{value:!0}),e.default=void 0
 var i=function(){function e(r){var n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:[],i=arguments.length>2&&void 0!==arguments[2]?arguments[2]:{};(0,t.default)(this,e),"function"==typeof r?this.handler=r:this.name=r,this.reversed=i.reversed,this.args=n}return(0,r.default)(e,[{key:"validateHandler",value:function(e){this.handler||(this.handler=e.lookup(this.name))}},{key:"run",value:function(e){var t=this
 return new n.default(function(r,i){n.default.resolve(t.handler.apply(e,t.args)).then(r,i)})}}]),e}()
-e.default=i}),define("liquid-fire/animate",["exports","ember-copy","liquid-fire/promise","velocity"],function(e,t,r,n){"use strict"
-function i(e,t){return e&&e.data("lfTags_"+t)}function o(e,t){var r=i(e,t)
+e.default=i}),define("liquid-fire/animate",["exports","liquid-fire/promise","velocity"],function(e,t,r){"use strict"
+function n(e,t){return e&&e.data("lfTags_"+t)}function i(e,t){var r=n(e,t)
 if(!r)throw new Error("no animation labeled "+t+" is in progress")
-return r}function a(e,t){e&&e.data("lfTags_"+t,null)}Object.defineProperty(e,"__esModule",{value:!0}),e.animate=function(e,i,o,s){var u={percentComplete:0,timeRemaining:100,timeSpent:0}
-if(!e||0===e.length)return r.default.resolve()
-o=o?(0,t.copy)(o):{}
-void 0===o.display&&(o.display="")
-void 0===o.visibility&&(o.visibility="")
-if(o.progress)throw new Error("liquid-fire's 'animate' function reserves the use of Velocity's 'progress' option for its own nefarious purposes.")
-o.progress=function(){u.percentComplete=arguments[1],u.timeRemaining=arguments[2],u.timeSpent=u.timeRemaining/(1/u.percentComplete-1)},u.promise=r.default.resolve(n.default.animate(e[0],i,o)),s&&(u.promise=u.promise.then(function(){a(e,s)},function(t){throw a(e,s),t}),function(e,t,r){e&&e.data("lfTags_"+t,r)}(e,s,u))
-return u.promise},e.stop=function(e){e&&(0,n.default)(e[0],"stop",!0)},e.setDefaults=function(e){for(var t in e)if(e.hasOwnProperty(t)){if("progress"===t)throw new Error("liquid-fire's 'animate' function reserves the use of Velocity's '"+t+"' option for its own nefarious purposes.")
-n.default.defaults[t]=e[t]}},e.isAnimating=i,e.finish=function(e,t){return o(e,t).promise},e.timeSpent=function(e,t){return o(e,t).timeSpent},e.timeRemaining=function(e,t){return o(e,t).timeRemaining},n.default.Promise||(n.default.Promise=r.default),n.default.timestamp=!1}),define("liquid-fire/components/-lf-get-outlet-state",["exports","liquid-fire/templates/components/get-outlet-state"],function(e,t){"use strict"
+return r}function o(e,t){e&&e.data("lfTags_"+t,null)}Object.defineProperty(e,"__esModule",{value:!0}),e.animate=function(e,n,i,a){var s={percentComplete:0,timeRemaining:100,timeSpent:0}
+if(!e||0===e.length)return t.default.resolve()
+i=i?Ember.assign({},i):{}
+void 0===i.display&&(i.display="")
+void 0===i.visibility&&(i.visibility="")
+if(i.progress)throw new Error("liquid-fire's 'animate' function reserves the use of Velocity's 'progress' option for its own nefarious purposes.")
+i.progress=function(){s.percentComplete=arguments[1],s.timeRemaining=arguments[2],s.timeSpent=s.timeRemaining/(1/s.percentComplete-1)},s.promise=t.default.resolve(r.default.animate(e[0],n,i)),a&&(s.promise=s.promise.then(function(){o(e,a)},function(t){throw o(e,a),t}),function(e,t,r){e&&e.data("lfTags_"+t,r)}(e,a,s))
+return s.promise},e.stop=function(e){e&&(0,r.default)(e[0],"stop",!0)},e.setDefaults=function(e){for(var t in e)if(e.hasOwnProperty(t)){if("progress"===t)throw new Error("liquid-fire's 'animate' function reserves the use of Velocity's '"+t+"' option for its own nefarious purposes.")
+r.default.defaults[t]=e[t]}},e.isAnimating=n,e.finish=function(e,t){return i(e,t).promise},e.timeSpent=function(e,t){return i(e,t).timeSpent},e.timeRemaining=function(e,t){return i(e,t).timeRemaining},r.default.Promise||(r.default.Promise=t.default),r.default.timestamp=!1}),define("liquid-fire/components/-lf-get-outlet-state",["exports","liquid-fire/templates/components/get-outlet-state"],function(e,t){"use strict"
 Object.defineProperty(e,"__esModule",{value:!0}),e.default=void 0
 var r=Ember.Component.extend({tagName:"",layout:t.default})
 e.default=r}),define("liquid-fire/components/illiquid-model",["exports","liquid-fire/templates/components/illiquid-model"],function(e,t){"use strict"
@@ -7423,8 +7423,8 @@ var n=r
 e.default=n}),define("liquid-fire/components/liquid-measured",["exports","liquid-fire/mutation-observer","liquid-fire/templates/components/liquid-measured","jquery"],function(e,t,r,n){"use strict"
 Object.defineProperty(e,"__esModule",{value:!0}),e.measure=o,e.default=void 0
 var i=Ember.Component.extend({layout:r.default,init:function(){this._super.apply(this,arguments),this._destroyOnUnload=this._destroyOnUnload.bind(this)},didInsertElement:function(){var e=this
-this.element.style.overflow="auto",this.didMutate(),this.observer=new t.default(function(t){e.didMutate(t)}),this.observer.observe(this.get("element"),{attributes:!0,subtree:!0,childList:!0,characterData:!0}),(0,n.default)(this.element).bind("webkitTransitionEnd",function(){e.didMutate()}),window.addEventListener("unload",this._destroyOnUnload)},willDestroyElement:function(){this.observer&&this.observer.disconnect(),window.removeEventListener("unload",this._destroyOnUnload)},transitionMap:Ember.inject.service("liquid-fire-transitions"),didMutate:function(){var e=this.get("transitionMap")
-e.incrementRunningTransitions(),Ember.run.next(this,function(){this._didMutate(),e.decrementRunningTransitions()})},_didMutate:function(){if(this.element){var e=(0,n.default)(this.element)
+this.element.style.overflow="auto",this.didMutate(),this.observer=new t.default(function(t){e.didMutate(t)}),this.observer.observe(this.get("element"),{attributes:!0,subtree:!0,childList:!0,characterData:!0}),this.windowResizeHandler=this.windowDidResize.bind(this),window.addEventListener("resize",this.windowResizeHandler),(0,n.default)(this.element).bind("webkitTransitionEnd",function(){e.didMutate()}),window.addEventListener("unload",this._destroyOnUnload)},willDestroyElement:function(){this.observer&&this.observer.disconnect(),window.removeEventListener("resize",this.windowResizeHandler),window.removeEventListener("unload",this._destroyOnUnload)},transitionMap:Ember.inject.service("liquid-fire-transitions"),didMutate:function(){var e=this.get("transitionMap")
+e.incrementRunningTransitions(),Ember.run.next(this,function(){this._didMutate(),e.decrementRunningTransitions()})},windowDidResize:function(){Ember.run.throttle(this,this.didMutate,100)},_didMutate:function(){if(this.element){var e=(0,n.default)(this.element)
 this.didMeasure(o(e))}},_destroyOnUnload:function(){this.willDestroyElement()}})
 function o(e){var t=e[0].getBoundingClientRect(),r=e[0].offsetWidth,n=Math.round(t.width),i=n>0?r/n:0
 return{width:t.width*i,height:t.height*i}}e.default=i}),define("liquid-fire/components/liquid-outlet",["exports","liquid-fire/templates/components/liquid-outlet","liquid-fire/ember-internals"],function(e,t,r){"use strict"
@@ -7603,27 +7603,27 @@ e.default=a}),define("liquid-fire/transitions/cross-fade",["exports","liquid-fir
 Object.defineProperty(e,"__esModule",{value:!0}),e.default=function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{}
 return(0,t.stop)(this.oldElement),t.Promise.all([(0,t.animate)(this.oldElement,{opacity:0},e),(0,t.animate)(this.newElement,{opacity:[e.maxOpacity||1,0]},e)])}}),define("liquid-fire/transitions/default",["exports","liquid-fire"],function(e,t){"use strict"
 Object.defineProperty(e,"__esModule",{value:!0}),e.default=function(){this.newElement&&this.newElement.css({visibility:""})
-return t.Promise.resolve()}}),define("liquid-fire/transitions/explode",["exports","jquery","ember-copy","liquid-fire"],function(e,t,r,n){"use strict"
-function i(e,t,i){var s,u,l=(0,r.copy)(e),c=[t.pickOld||t.pick,t.pickNew||t.pick]
-return!c[0]&&!c[1]||(s=o(e,"oldElement",l,c[0],i),u=o(e,"newElement",l,c[1],i),s||u)?a(l,t).finally(function(){s&&s(),u&&u()}):n.Promise.resolve()}function o(e,t,r,n,i){var o,a,s,u,l,c=e[t]
+return t.Promise.resolve()}}),define("liquid-fire/transitions/explode",["exports","jquery","liquid-fire"],function(e,t,r){"use strict"
+function n(e,t,n){var a,s,u=Ember.assign({},e),l=[t.pickOld||t.pick,t.pickNew||t.pick]
+return!l[0]&&!l[1]||(a=i(e,"oldElement",u,l[0],n),s=i(e,"newElement",u,l[1],n),a||s)?o(u,t).finally(function(){a&&a(),s&&s()}):r.Promise.resolve()}function i(e,t,r,n,i){var o,a,s,u,l,c=e[t]
 if(r[t]=null,c&&n&&(o=c.find(n).filter(function(){var e=Ember.guidFor(this)
 if(!i[e])return i[e]=!0,!0})).length>0){a=o.offset(),s=o.outerWidth(),u=o.outerHeight(),l=o.clone(),o.css({visibility:"hidden"}),"hidden"===c.css("visibility")&&l.css({visibility:"hidden"}),l.appendTo(c.parent()),l.outerWidth(s),l.outerHeight(u)
 var d=l.offsetParent().offset()
-return l.css({position:"absolute",top:a.top-d.top,left:a.left-d.left,margin:0}),r[t]=l,function(){l.remove(),o.css({visibility:""})}}}function a(e,t){return new n.Promise(function(r,i){(function(e,t){var r,i,o
+return l.css({position:"absolute",top:a.top-d.top,left:a.left-d.left,margin:0}),r[t]=l,function(){l.remove(),o.css({visibility:""})}}}function o(e,t){return new r.Promise(function(n,i){(function(e,t){var n,i,o
 if(!t.use)throw new Error("every argument to the 'explode' animation must include a followup animation to 'use'")
-return Ember.isArray(t.use)?(r=t.use[0],i=t.use.slice(1)):(r=t.use,i=[]),o="function"==typeof r?r:e.lookup(r),function(){return n.Promise.resolve(o.apply(this,i))}})(e,t).apply(e).then(r,i)})}Object.defineProperty(e,"__esModule",{value:!0}),e.default=function(){for(var e=this,r={},o=!1,s=arguments.length,u=new Array(s),l=0;l<s;l++)u[l]=arguments[l]
-var c=u.map(function(s){return s.matchBy?function(e,r,o){if(!e.oldElement||!e.newElement)return n.Promise.resolve()
-r.pick&&(e.oldElement=e.oldElement.find(r.pick),e.newElement=e.newElement.find(r.pick))
-r.pickOld&&(e.oldElement=e.oldElement.find(r.pickOld))
-r.pickNew&&(e.newElement=e.newElement.find(r.pickNew))
+return Ember.isArray(t.use)?(n=t.use[0],i=t.use.slice(1)):(n=t.use,i=[]),o="function"==typeof n?n:e.lookup(n),function(){return r.Promise.resolve(o.apply(this,i))}})(e,t).apply(e).then(n,i)})}Object.defineProperty(e,"__esModule",{value:!0}),e.default=function(){for(var e=this,i={},a=!1,s=arguments.length,u=new Array(s),l=0;l<s;l++)u[l]=arguments[l]
+var c=u.map(function(s){return s.matchBy?function(e,i,o){if(!e.oldElement||!e.newElement)return r.Promise.resolve()
+i.pick&&(e.oldElement=e.oldElement.find(i.pick),e.newElement=e.newElement.find(i.pick))
+i.pickOld&&(e.oldElement=e.oldElement.find(i.pickOld))
+i.pickNew&&(e.newElement=e.newElement.find(i.pickNew))
 var a
-a="id"===r.matchBy?function(e){return"#".concat(e)}:"class"===r.matchBy?function(e){return".".concat(e)}:function(e){var t=e.replace(/'/g,"\\'")
-return"[".concat(r.matchBy,"='").concat(t,"']")}
-var s=Ember.A(e.oldElement.find("[".concat(r.matchBy,"]")).toArray())
-return n.Promise.all(s.map(function(s){var u=(0,t.default)(s).attr(r.matchBy)
-return""===u||0===e.newElement.find(a(u)).length?n.Promise.resolve():i(e,{pick:a(u),use:r.use},o)}))}(e,s,r):s.pick||s.pickOld||s.pickNew?i(e,s,r):(o=!0,a(e,s))})
-o||(this.newElement&&this.newElement.css({visibility:""}),this.oldElement&&this.oldElement.css({visibility:"hidden"}))
-return n.Promise.all(c)}}),define("liquid-fire/transitions/fade",["exports","liquid-fire"],function(e,t){"use strict"
+a="id"===i.matchBy?function(e){return"#".concat(e)}:"class"===i.matchBy?function(e){return".".concat(e)}:function(e){var t=e.replace(/'/g,"\\'")
+return"[".concat(i.matchBy,"='").concat(t,"']")}
+var s=Ember.A(e.oldElement.find("[".concat(i.matchBy,"]")).toArray())
+return r.Promise.all(s.map(function(s){var u=(0,t.default)(s).attr(i.matchBy)
+return""===u||0===e.newElement.find(a(u)).length?r.Promise.resolve():n(e,{pick:a(u),use:i.use},o)}))}(e,s,i):s.pick||s.pickOld||s.pickNew?n(e,s,i):(a=!0,o(e,s))})
+a||(this.newElement&&this.newElement.css({visibility:""}),this.oldElement&&this.oldElement.css({visibility:"hidden"}))
+return r.Promise.all(c)}}),define("liquid-fire/transitions/fade",["exports","liquid-fire"],function(e,t){"use strict"
 Object.defineProperty(e,"__esModule",{value:!0}),e.default=function(){var e,r=this,n=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{},i=n,o=function(e){for(var r=0;r<e.older.length;r++){var n=e.older[r]
 if((0,t.isAnimating)(n.element,"fade-out"))return n.element}if((0,t.isAnimating)(e.oldElement,"fade-out"))return e.oldElement}(this)
 o?e=(0,t.finish)(o,"fade-out"):((0,t.isAnimating)(this.oldElement,"fade-in")&&(i={duration:(0,t.timeSpent)(this.oldElement,"fade-in")}),(0,t.stop)(this.oldElement),e=(0,t.animate)(this.oldElement,{opacity:0},i,"fade-out"))
@@ -7648,7 +7648,7 @@ Object.defineProperty(e,"__esModule",{value:!0}),e.default=function(){var e=this
 return(0,t.animate)(this.oldElement,{scale:[.2,1]},r).then(function(){return(0,t.animate)(e.newElement,{scale:[1,.2]},r)})}}),define("liquid-fire/transitions/scroll-then",["exports","@babel/runtime/helpers/esm/typeof","liquid-fire/is-browser"],function(e,t,r){"use strict"
 Object.defineProperty(e,"__esModule",{value:!0}),e.default=function(e,t){for(var n=this,i=arguments.length,o=new Array(i>2?i-2:0),a=2;a<i;a++)o[a-2]=arguments[a]
 if((0,r.default)()){var s=document.getElementsByTagName("html"),u=this.lookup(e)
-return t||(t={}),t=Ember.merge({duration:500,offset:0},t),window.$.Velocity(s,"scroll",t).then(function(){u.apply(n,o)})}}}),define("liquid-fire/transitions/to-down",["exports","liquid-fire/transitions/move-over"],function(e,t){"use strict"
+return t||(t={}),t=Ember.assign({duration:500,offset:0},t),window.$.Velocity(s,"scroll",t).then(function(){u.apply(n,o)})}}}),define("liquid-fire/transitions/to-down",["exports","liquid-fire/transitions/move-over"],function(e,t){"use strict"
 Object.defineProperty(e,"__esModule",{value:!0}),e.default=function(e){return t.default.call(this,"y",1,e)}}),define("liquid-fire/transitions/to-left",["exports","liquid-fire/transitions/move-over"],function(e,t){"use strict"
 Object.defineProperty(e,"__esModule",{value:!0}),e.default=function(e){return t.default.call(this,"x",-1,e)}}),define("liquid-fire/transitions/to-right",["exports","liquid-fire/transitions/move-over"],function(e,t){"use strict"
 Object.defineProperty(e,"__esModule",{value:!0}),e.default=function(e){return t.default.call(this,"x",1,e)}}),define("liquid-fire/transitions/to-up",["exports","liquid-fire/transitions/move-over"],function(e,t){"use strict"
