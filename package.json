@@ -13,7 +13,7 @@
     "test": "tests"
   },
   "contributors": [
-    "Sam Selkoff <sam.selikoff@gmail.com> (https://embermap.com)",
+    "Sam Selikoff <sam.selikoff@gmail.com> (https://embermap.com)",
     "Ryan Toronto <ryanto@gmail.com> (https://embermap.com)"
   ],
   "scripts": {
