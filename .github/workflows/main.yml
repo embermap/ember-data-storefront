@@ -36,7 +36,7 @@ jobs:
     - uses: actions/setup-node@v1.1.0
     - uses: kopepasah/setup-secure-shell@master
       with:
-        ssh-private-key: ${{ secrets.DEPLOY_KEY}}
+        ssh-private-key: ${{ secrets.DEPLOY_KEY }}
     - run: yarn install
     - run: ssh-keyscan github.com >> ~/.ssh/known_hosts
     - run: node_modules/.bin/ember deploy production
