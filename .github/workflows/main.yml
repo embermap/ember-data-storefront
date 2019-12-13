@@ -6,6 +6,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     env:
+      CI: true 
       EMBER_TRY_SCENARIO: 'ember-lts-2.16'
 
     steps:
