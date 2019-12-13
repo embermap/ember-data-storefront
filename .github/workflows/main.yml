@@ -3,7 +3,7 @@ name: CI
 on: [push]
 
 jobs:
-  test:
+  try-scenarios:
     runs-on: ubuntu-latest
     env:
       CI: true 
@@ -13,5 +13,5 @@ jobs:
     - uses: actions/checkout@v1
     - uses: actions/setup-node@v1.1.0
     - run: yarn install
-    - run: yarn test
+    - run: node_modules/.bin/ember try:one $EMBER_TRY_SCENARIO --skip-cleanup
 
