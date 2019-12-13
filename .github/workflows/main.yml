@@ -34,10 +34,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-node@v1.1.0
-    - uses: kopepasah/setup-secure-shell@master
+    - uses: webfactory/ssh-agent@v0.1.1
       with:
         ssh-private-key: ${{ secrets.DEPLOY_KEY }}
     - run: yarn install
-    - run: ssh-keyscan github.com >> ~/.ssh/known_hosts
     - run: node_modules/.bin/ember deploy production
 
