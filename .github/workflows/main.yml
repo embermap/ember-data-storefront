@@ -1,0 +1,14 @@
+name: CI
+
+on: [push]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-node@v1.1.0
+    - run: yarn install
+    - run: ember test
+
