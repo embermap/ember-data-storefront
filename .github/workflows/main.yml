@@ -3,11 +3,21 @@ name: CI
 on: [push]
 
 jobs:
-  try-scenarios:
+  try:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        ember-versions: ['ember-lts-2.16', 'ember-lts-2.18']
+        ember-versions:
+          - 'ember-default'
+          - 'ember-lts-2.16'
+          - 'ember-lts-2.18'
+          - 'ember-3.1'
+          - 'ember-lts-3.4'
+          - 'ember-lts-3.8'
+          - 'ember-lts-3.12'
+          - 'ember-release'
+          - 'ember-beta'
+          - 'ember-canarry'
     env:
       CI: true 
       EMBER_TRY_SCENARIO: ${{ matrix.ember-versions }}
