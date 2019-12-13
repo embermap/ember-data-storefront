@@ -21,7 +21,7 @@ jobs:
       EMBER_TRY_SCENARIO: ${{ matrix.ember-version }}
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - uses: actions/setup-node@v1.1.0
     - run: yarn install
     - run: node_modules/.bin/ember try:one $EMBER_TRY_SCENARIO --skip-cleanup
@@ -35,6 +35,7 @@ jobs:
       DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }} 
     steps:
     - uses: actions/checkout@v2
+    - uses: srt32/git-actions@v0.0.3
     - uses: actions/setup-node@v1.1.0
     - run: yarn install
     - run: node_modules/.bin/ember deploy production
