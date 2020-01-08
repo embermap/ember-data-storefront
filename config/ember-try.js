@@ -62,6 +62,9 @@ module.exports = function() {
             devDependencies: {
               "ember-source": "~3.12.0",
               "ember-data": "~3.12.0"
+            },
+            resolutions: {
+              "ember-data": "~3.12.0"
             }
           }
         },
