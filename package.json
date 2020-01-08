@@ -71,7 +71,7 @@
     "ember-test-selectors": "3.0.0",
     "ember-try": "^1.0.0",
     "eslint-plugin-ember": "^7.1.0",
-    "eslint-plugin-node": "^10.0.0",
+    "eslint-plugin-node": "^11.0.0",
     "express": "^4.16.4",
     "glob": "^7.1.4",
     "jsdom": "^15.1.1",
