@@ -6679,14 +6679,14 @@ function r(e){t++
 for(var r=0,i=e.length;r<i;++r){var o=e[r]
 o._seenIndex<t&&(o._seenIndex=t,n(o))}}function n(e){for(var t=e.numRunning,r=e.numQueued,n=Ember.get(e,"group");n;)Ember.set(n,"numRunning",t),Ember.set(n,"numQueued",r),n=Ember.get(n,"group")}var i=Ember.Object.extend({lastPerformed:null,lastStarted:null,lastRunning:null,lastSuccessful:null,lastComplete:null,lastErrored:null,lastCanceled:null,lastIncomplete:null,performCount:0,boundHandleFulfill:null,boundHandleReject:null,init:function(){this._super.apply(this,arguments),this.activeTaskInstances=[],this.queuedTaskInstances=[]},cancelAll:function(e){var t=[]
 this.spliceTaskInstances(e,this.activeTaskInstances,0,this.activeTaskInstances.length,t),this.spliceTaskInstances(e,this.queuedTaskInstances,0,this.queuedTaskInstances.length,t),r(t)},spliceTaskInstances:function(e,t,r,n,i){for(var o=r;o<r+n;++o){var a=t[o]
-a.hasStarted||a.task.decrementProperty("numQueued"),a.cancel(e),i&&i.push(a.task)}t.splice(r,n)},schedule:function(e){Ember.set(this,"lastPerformed",e),this.incrementProperty("performCount"),e.task.incrementProperty("numQueued"),this.queuedTaskInstances.push(e),this._flushQueues()},_flushQueues:function(){for(var e=[],t=0;t<this.activeTaskInstances.length;++t)e.push(this.activeTaskInstances[t].task)
+a.hasStarted||Ember.set(a.task,"numQueued",a.task.numQueued-1),a.cancel(e),i&&i.push(a.task)}t.splice(r,n)},schedule:function(e){Ember.set(this,"lastPerformed",e),Ember.set(this,"performCount",this.performCount+1),Ember.set(e.task,"numQueued",e.task.numQueued+1),this.queuedTaskInstances.push(e),this._flushQueues()},_flushQueues:function(){for(var e=[],t=0;t<this.activeTaskInstances.length;++t)e.push(this.activeTaskInstances[t].task)
 this.activeTaskInstances=function(e){for(var t=[],r=0,n=e.length;r<n;++r){var i=e[r]
 !1===Ember.get(i,"isFinished")&&t.push(i)}return t}(this.activeTaskInstances),this.bufferPolicy.schedule(this)
 for(var n=null,i=0;i<this.activeTaskInstances.length;++i){var o=this.activeTaskInstances[i]
 o.hasStarted||(this._startTaskInstance(o),n=o),e.push(o.task)}n&&Ember.set(this,"lastStarted",n),Ember.set(this,"lastRunning",n)
 for(var a=0;a<this.queuedTaskInstances.length;++a)e.push(this.queuedTaskInstances[a].task)
 r(e),Ember.set(this,"concurrency",this.activeTaskInstances.length)},_startTaskInstance:function(e){var t=this,r=e.task
-r.decrementProperty("numQueued"),r.incrementProperty("numRunning"),e._start()._onFinalize((function(){r.decrementProperty("numRunning")
+Ember.set(r,"numQueued",r.numQueued-1),Ember.set(r,"numRunning",r.numRunning+1),e._start()._onFinalize((function(){Ember.set(r,"numRunning",r.numRunning-1)
 var n=e._completionState
 Ember.set(t,"lastComplete",e),1===n?Ember.set(t,"lastSuccessful",e):(2===n?Ember.set(t,"lastErrored",e):3===n&&Ember.set(t,"lastCanceled",e),Ember.set(t,"lastIncomplete",e)),Ember.run.once(t,t._flushQueues)}))}})
 e.default=i})),define("ember-concurrency/-task-group",["exports","@babel/runtime/helpers/esm/possibleConstructorReturn","@babel/runtime/helpers/esm/getPrototypeOf","@babel/runtime/helpers/esm/inherits","@babel/runtime/helpers/esm/classCallCheck","ember-concurrency/utils","ember-concurrency/-task-state-mixin","ember-concurrency/-property-modifiers-mixin"],(function(e,t,r,n,i,o,a,s){"use strict"
@@ -6801,7 +6801,7 @@ if(null!=r)for(var n in r)Object.prototype.hasOwnProperty.call(r,n)&&(e[n]=r[n])
 e.objectAssign=s
 var u="__invoke_symbol__"
 e.INVOKE=u
-for(var l=["@ember/-internals/glimmer/index","@ember/-internals/glimmer","ember-glimmer","ember-glimmer/helpers/action","ember-routing-htmlbars/keywords/closure-action","ember-routing/keywords/closure-action"],c=0;c<l.length;c++)if(l[c]in Ember.__loader.registry){e.INVOKE=u=Ember.__loader.require(l[c]).INVOKE
+for(var l=["@ember/-internals/glimmer/index","@ember/-internals/glimmer","ember-glimmer","ember-glimmer/helpers/action","ember-htmlbars/keywords/closure-action","ember-routing-htmlbars/keywords/closure-action","ember-routing/keywords/closure-action"],c=0;c<l.length;c++)if(l[c]in Ember.__loader.registry){e.INVOKE=u=Ember.__loader.require(l[c]).INVOKE
 break}var d="__ec_cancel__"
 e.cancelableSymbol=d
 var h="__ec_yieldable__"
