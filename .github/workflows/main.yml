@@ -18,6 +18,7 @@ jobs:
           - 'ember-canary'
     env:
       CI: true 
+      JOBS: 1
       EMBER_TRY_SCENARIO: ${{ matrix.ember-version }}
 
     steps:
