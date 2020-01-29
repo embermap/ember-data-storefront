@@ -4,9 +4,9 @@ let _serializeParams = function(params={}, prefix) {
     .map((key) => {
       const value  = params[key];
 
-      if (params.constructor === Array) {
+      if (Array.isArray(params)) {
         key = `${prefix}[]`;
-      } else if (params.constructor === Object) {
+      } else if (params === Object(params)) {
         key = (prefix ? `${prefix}[${key}]` : key);
       }
 
