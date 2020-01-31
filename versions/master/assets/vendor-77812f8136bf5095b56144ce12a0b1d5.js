@@ -6858,7 +6858,7 @@ return this.store.findRecord(this.type,this.id,r).then((function(t){return e.val
 e.default=i})),define("ember-data-storefront/-private/utils/get-key",["exports","@babel/runtime/helpers/esm/typeof"],(function(e,t){"use strict"
 Object.defineProperty(e,"__esModule",{value:!0}),e.shoeboxize=e.cacheKey=e.queryCacheKey=e.serializeObject=void 0
 var r=function(e){return function e(){var r=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{},n=arguments.length>1?arguments[1]:void 0,i=Object.keys(r).sort().map((function(i){var o=r[i]
-return r.constructor===Array?i="".concat(n,"[]"):r.constructor===Object&&(i=n?"".concat(n,"[").concat(i,"]"):i),"object"===(0,t.default)(o)&&null!==o?e(o,i):"".concat(i,"=").concat(encodeURIComponent(o))}))
+return Array.isArray(r)?i="".concat(n,"[]"):r===Object(r)&&(i=n?"".concat(n,"[").concat(i,"]"):i),"object"===(0,t.default)(o)&&null!==o?e(o,i):"".concat(i,"=").concat(encodeURIComponent(o))}))
 return[].concat.apply([],i).join("&")}(e)}
 e.serializeObject=r
 e.queryCacheKey=function(e){return n([e.type,e.id,e.params])}
