@@ -79,7 +79,7 @@
     "loader.js": "^4.7.0",
     "morgan": "^1.9.1",
     "qunit": "^2.9.2",
-    "qunit-dom": "^0.9.0",
+    "qunit-dom": "^1.0.0",
     "sass": "^1.17.2",
     "strip-indent": "^3.0.0",
     "tachyons": "4.11.1"
