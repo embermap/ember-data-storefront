@@ -106,18 +106,6 @@
     levenary "^1.1.1"
     semver "^5.5.0"
 
-"@babel/helper-create-class-features-plugin@^7.7.4":
-  version "7.7.4"
-  resolved "https://registry.yarnpkg.com/@babel/helper-create-class-features-plugin/-/helper-create-class-features-plugin-7.7.4.tgz#fce60939fd50618610942320a8d951b3b639da2d"
-  integrity sha512-l+OnKACG4uiDHQ/aJT8dwpR+LhCJALxL0mJ6nzjB25e5IPwqV1VOsY7ah6UB1DG+VOXAIMtuC54rFJGiHkxjgA==
-  dependencies:
-    "@babel/helper-function-name" "^7.7.4"
-    "@babel/helper-member-expression-to-functions" "^7.7.4"
-    "@babel/helper-optimise-call-expression" "^7.7.4"
-    "@babel/helper-plugin-utils" "^7.0.0"
-    "@babel/helper-replace-supers" "^7.7.4"
-    "@babel/helper-split-export-declaration" "^7.7.4"
-
 "@babel/helper-create-class-features-plugin@^7.8.3":
   version "7.8.3"
   resolved "https://registry.yarnpkg.com/@babel/helper-create-class-features-plugin/-/helper-create-class-features-plugin-7.8.3.tgz#5b94be88c255f140fd2c10dd151e7f98f4bff397"
@@ -194,13 +182,6 @@
   dependencies:
     "@babel/types" "^7.8.3"
 
-"@babel/helper-member-expression-to-functions@^7.7.4":
-  version "7.7.4"
-  resolved "https://registry.yarnpkg.com/@babel/helper-member-expression-to-functions/-/helper-member-expression-to-functions-7.7.4.tgz#356438e2569df7321a8326644d4b790d2122cb74"
-  integrity sha512-9KcA1X2E3OjXl/ykfMMInBK+uVdfIVakVe7W7Lg3wfXUNyS3Q1HWLFRwZIjhqiCGbslummPDnmb7vIekS0C1vw==
-  dependencies:
-    "@babel/types" "^7.7.4"
-
 "@babel/helper-member-expression-to-functions@^7.8.3":
   version "7.8.3"
   resolved "https://registry.yarnpkg.com/@babel/helper-member-expression-to-functions/-/helper-member-expression-to-functions-7.8.3.tgz#659b710498ea6c1d9907e0c73f206eee7dadc24c"
@@ -226,13 +207,6 @@
     "@babel/template" "^7.8.3"
     "@babel/types" "^7.8.3"
     lodash "^4.17.13"
-
-"@babel/helper-optimise-call-expression@^7.7.4":
-  version "7.7.4"
-  resolved "https://registry.yarnpkg.com/@babel/helper-optimise-call-expression/-/helper-optimise-call-expression-7.7.4.tgz#034af31370d2995242aa4df402c3b7794b2dcdf2"
-  integrity sha512-VB7gWZ2fDkSuqW6b1AKXkJWO5NyNI3bFL/kK79/30moK57blr6NbH8xcl2XcKCwOmJosftWunZqfO84IGq3ZZg==
-  dependencies:
-    "@babel/types" "^7.7.4"
 
 "@babel/helper-optimise-call-expression@^7.8.3":
   version "7.8.3"
@@ -268,16 +242,6 @@
     "@babel/template" "^7.8.3"
     "@babel/traverse" "^7.8.3"
     "@babel/types" "^7.8.3"
-
-"@babel/helper-replace-supers@^7.7.4":
-  version "7.7.4"
-  resolved "https://registry.yarnpkg.com/@babel/helper-replace-supers/-/helper-replace-supers-7.7.4.tgz#3c881a6a6a7571275a72d82e6107126ec9e2cdd2"
-  integrity sha512-pP0tfgg9hsZWo5ZboYGuBn/bbYT/hdLPVSS4NMmiRJdwWhP0IznPwN9AE1JwyGsjSPLC364I0Qh5p+EPkGPNpg==
-  dependencies:
-    "@babel/helper-member-expression-to-functions" "^7.7.4"
-    "@babel/helper-optimise-call-expression" "^7.7.4"
-    "@babel/traverse" "^7.7.4"
-    "@babel/types" "^7.7.4"
 
 "@babel/helper-replace-supers@^7.8.3":
   version "7.8.3"
@@ -540,7 +504,7 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.8.3"
 
-"@babel/plugin-syntax-typescript@^7.2.0", "@babel/plugin-syntax-typescript@^7.7.4":
+"@babel/plugin-syntax-typescript@^7.2.0":
   version "7.7.4"
   resolved "https://registry.yarnpkg.com/@babel/plugin-syntax-typescript/-/plugin-syntax-typescript-7.7.4.tgz#5d037ffa10f3b25a16f32570ebbe7a8c2efa304b"
   integrity sha512-77blgY18Hud4NM1ggTA8xVT/dBENQf17OpiToSa2jSmEY3fWXD2jwrdVlO4kq5yzUTeF15WSQ6b4fByNvJcjpQ==
@@ -809,7 +773,7 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.8.3"
 
-"@babel/plugin-transform-typescript@^7.8.3":
+"@babel/plugin-transform-typescript@^7.8.3", "@babel/plugin-transform-typescript@~7.8.0":
   version "7.8.3"
   resolved "https://registry.yarnpkg.com/@babel/plugin-transform-typescript/-/plugin-transform-typescript-7.8.3.tgz#be6f01a7ef423be68e65ace1f04fc407e6d88917"
   integrity sha512-Ebj230AxcrKGZPKIp4g4TdQLrqX95TobLUWKd/CwG7X1XHUH1ZpkpFvXuXqWbtGRWb7uuEWNlrl681wsOArAdQ==
@@ -825,15 +789,6 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.0.0"
     "@babel/plugin-syntax-typescript" "^7.2.0"
-
-"@babel/plugin-transform-typescript@~7.7.0":
-  version "7.7.4"
-  resolved "https://registry.yarnpkg.com/@babel/plugin-transform-typescript/-/plugin-transform-typescript-7.7.4.tgz#2974fd05f4e85c695acaf497f432342de9fc0636"
-  integrity sha512-X8e3tcPEKnwwPVG+vP/vSqEShkwODOEeyQGod82qrIuidwIrfnsGn11qPM1jBLF4MqguTXXYzm58d0dY+/wdpg==
-  dependencies:
-    "@babel/helper-create-class-features-plugin" "^7.7.4"
-    "@babel/helper-plugin-utils" "^7.0.0"
-    "@babel/plugin-syntax-typescript" "^7.7.4"
 
 "@babel/plugin-transform-unicode-regex@^7.8.3":
   version "7.8.3"
@@ -939,7 +894,7 @@
     "@babel/parser" "^7.8.3"
     "@babel/types" "^7.8.3"
 
-"@babel/traverse@^7.1.6", "@babel/traverse@^7.2.4", "@babel/traverse@^7.3.4", "@babel/traverse@^7.4.5", "@babel/traverse@^7.7.4":
+"@babel/traverse@^7.1.6", "@babel/traverse@^7.2.4", "@babel/traverse@^7.3.4", "@babel/traverse@^7.4.5":
   version "7.7.4"
   resolved "https://registry.yarnpkg.com/@babel/traverse/-/traverse-7.7.4.tgz#9c1e7c60fb679fe4fcfaa42500833333c2058558"
   integrity sha512-P1L58hQyupn8+ezVA2z5KBm4/Zr4lCC8dwKCMYzsa5jFMDMQAzaBNy9W5VjB+KAmBjb40U7a/H6ao+Xo+9saIw==
@@ -5427,7 +5382,7 @@ ember-cli-babel@^6.0.0-beta.4, ember-cli-babel@^6.10.0, ember-cli-babel@^6.11.0,
     ember-cli-version-checker "^2.1.2"
     semver "^5.5.0"
 
-ember-cli-babel@^7.1.0, ember-cli-babel@^7.1.2, ember-cli-babel@^7.1.3, ember-cli-babel@^7.1.4, ember-cli-babel@^7.11.0, ember-cli-babel@^7.11.1, ember-cli-babel@^7.12.0, ember-cli-babel@^7.13.0, ember-cli-babel@^7.13.2, ember-cli-babel@^7.5.0, ember-cli-babel@^7.7.3:
+ember-cli-babel@^7.1.0, ember-cli-babel@^7.1.2, ember-cli-babel@^7.1.3, ember-cli-babel@^7.1.4, ember-cli-babel@^7.11.0, ember-cli-babel@^7.11.1, ember-cli-babel@^7.12.0, ember-cli-babel@^7.13.2, ember-cli-babel@^7.5.0, ember-cli-babel@^7.7.3:
   version "7.18.0"
   resolved "https://registry.yarnpkg.com/ember-cli-babel/-/ember-cli-babel-7.18.0.tgz#e979b73eee00cd93f63452c6170d045e8832f29c"
   integrity sha512-OLPfYD8wSfCrmGHcUf8zEfySSvbAL+5Qp2RWLycJIMaBZhg+SncKj5kVkL3cPJR5n2hVHPdfmKTQIYjOYl6FnQ==
@@ -5807,22 +5762,23 @@ ember-cli-typescript@^2.0.0, ember-cli-typescript@^2.0.2:
     stagehand "^1.0.0"
     walk-sync "^1.0.0"
 
-ember-cli-typescript@^3.0.0:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/ember-cli-typescript/-/ember-cli-typescript-3.1.1.tgz#a5a12ebf915e43ded7bf6bb460ecea4b67b0d95b"
-  integrity sha512-HCjM5EZ29Yh94Jy/M2+MVkS9LdtOoGYtYLIcZ4F7umJaRJM67ku/xCyN/2r+uTeYTNdpJN9+HWx30a6yyAbfRA==
+ember-cli-typescript@^3.0.0, ember-cli-typescript@^3.1.3:
+  version "3.1.3"
+  resolved "https://registry.yarnpkg.com/ember-cli-typescript/-/ember-cli-typescript-3.1.3.tgz#a2c7ec6a8a5e57c38eb52d83e36d8e18c7071e60"
+  integrity sha512-bFi15H60L9TLYfn9XUzi+RAP1gTWHFtVdSy9IHvxXHlCvTlFZ+2rfuugr/f8reQLz9gvJccKc5TyRD7v+uhx0Q==
   dependencies:
     "@babel/plugin-proposal-nullish-coalescing-operator" "^7.4.4"
     "@babel/plugin-proposal-optional-chaining" "^7.6.0"
-    "@babel/plugin-transform-typescript" "~7.7.0"
+    "@babel/plugin-transform-typescript" "~7.8.0"
     ansi-to-html "^0.6.6"
+    broccoli-stew "^3.0.0"
     debug "^4.0.0"
     ember-cli-babel-plugin-helpers "^1.0.0"
     execa "^3.0.0"
     fs-extra "^8.0.0"
     resolve "^1.5.0"
     rsvp "^4.8.1"
-    semver "^6.0.0"
+    semver "^6.3.0"
     stagehand "^1.0.0"
     walk-sync "^2.0.0"
 
@@ -6115,9 +6071,9 @@ ember-fetch@^6.7.1:
     whatwg-fetch "^3.0.0"
 
 ember-fetch@^7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/ember-fetch/-/ember-fetch-7.0.0.tgz#8ac4ce20e3ab7a66aba97bdd58bf675e54044cf4"
-  integrity sha512-kmTdRTbLRv8gtHEBxsi3kxgMNa2VEqQFv1QM+3ZH3xJHdGG/SbIgCItY6JBu9wPR8EOARgoxFMprI1anFDHKrw==
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/ember-fetch/-/ember-fetch-7.0.1.tgz#062b87bdc440135c8cd87ce4678cfc8da25d5116"
+  integrity sha512-EnnLGwRq+8Df4p++ymGJwGwS5jMMhr2CmFgJ+aJnPLDUaacSNCXp0PxxdMc8qsUB4VCLx7frvzQh5ALzRvdNCQ==
   dependencies:
     abortcontroller-polyfill "^1.4.0"
     broccoli-concat "^3.7.5"
@@ -6128,8 +6084,8 @@ ember-fetch@^7.0.0:
     broccoli-templater "^2.0.1"
     calculate-cache-key-for-tree "^2.0.0"
     caniuse-api "^3.0.0"
-    ember-cli-babel "^7.13.0"
-    ember-cli-typescript "^2.0.2"
+    ember-cli-babel "^7.13.2"
+    ember-cli-typescript "^3.1.3"
     node-fetch "^2.6.0"
     whatwg-fetch "^3.0.0"
 
