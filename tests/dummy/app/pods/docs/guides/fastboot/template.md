@@ -38,3 +38,16 @@ The `FastbootAdapter` works by storing the results of AJAX requests into fastboo
 The adapter will delete queries from the shoebox as soon as they are used. This ensures that if your application ever tries to re-make a network request in the future, it will not be served a cached version.
 
 Fastboot rendered pages need to be generated quickly, since they are rendered on the server in an HTTP request-resposne cycle. Because of this, they tend to not make many network requests. This means that a few seconds after the browser re-renders a fastboot page, the query cache should be empty since the client rendered application will have re-fetched all of the fastboot data.
+
+## Configure an expiration date
+
+In certain cases, like the browser restoring its session, a cached version of the index.html page may be served, which contains shoebox data from the initial, cached request. The adapter is not aware that this data is stale, and outdated information is displayed to the user. To prevent this you can configure a duration after which data will no longer be served from the shoebox.
+
+```
+// config/environment.js
+ENV = {
+  storefront: {
+    maxAge: 10 // shoebox expires 10 minutes after the fastboot server has rendered the page
+  }
+}
+```

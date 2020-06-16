@@ -1,8 +1,10 @@
+/* eslint-disable ember/no-new-mixins */
+
 import Mixin from '@ember/object/mixin';
 import { inject as service } from '@ember/service';
 import { resolve } from 'rsvp';
 import { cacheKey, shoeboxize } from 'ember-data-storefront/-private/utils/get-key';
-
+import { getOwner } from '@ember/application';
 /**
   This mixin adds fastboot support to your data adapter. It provides no
   public API, it only needs to be mixed into your adapter.
@@ -27,6 +29,13 @@ import { cacheKey, shoeboxize } from 'ember-data-storefront/-private/utils/get-k
 export default Mixin.create({
   fastboot: service(),
   storefront: service(),
+
+  init() {
+    this._super(...arguments);
+    if (this.fastboot.isFastBoot) {
+      this.set('storefront.fastbootShoeboxCreated', new Date());
+    }
+  },
 
   ajax(url, type, options = {}) {
     let cachedPayload = this._getStorefrontBoxedQuery(type, url, options.data);
@@ -59,13 +68,23 @@ export default Mixin.create({
     let shoebox = fastboot && fastboot.get('shoebox');
     let box = shoebox && shoebox.retrieve('ember-data-storefront');
 
+    const config = getOwner(this).resolveRegistration('config:environment');
+    const maxAgeMinutes = config.storefront ? config.storefront.maxAge : undefined;
+
     if (!isFastboot && box && box.queries && Object.keys(box.queries).length > 0) {
+      const valid = this.isDateValid(box.created, maxAgeMinutes);
       let key = shoeboxize(cacheKey([type, url.replace(/^.*\/\/[^\/]+/, ''), params]));
-      payload = box.queries[key];
+
+      if (valid) {
+        payload = box.queries[key];
+      }
       delete box.queries[key];
     }
 
     return payload;
-  }
+  },
 
+  isDateValid(createdString, maxAgeMinutes) {
+    return (new Date() - new Date(createdString)) / 1000 / 60 < maxAgeMinutes;
+  }
 })
