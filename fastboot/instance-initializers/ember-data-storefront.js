@@ -6,6 +6,9 @@ export function initialize(applicationInstance) {
   let storefront = applicationInstance.lookup('service:storefront');
 
   shoebox.put('ember-data-storefront', {
+    get created() {
+      return storefront.get('fastbootShoeboxCreated');
+    },
     get queries() {
       return storefront.get('fastbootDataRequests');
     }
