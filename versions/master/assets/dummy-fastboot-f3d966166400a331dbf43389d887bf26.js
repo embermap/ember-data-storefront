@@ -10,7 +10,7 @@ var t={name:"error-handler",initialize:function(){Ember.onerror||(Ember.onerror=
 console.error(t)})}}
 e.default=t})),define("dummy/instance-initializers/ember-data-storefront",["exports"],(function(e){"use strict"
 function t(e){var t=e.lookup("service:fastboot").get("shoebox"),r=e.lookup("service:storefront")
-t.put("ember-data-storefront",{get queries(){return r.get("fastbootDataRequests")}})}Object.defineProperty(e,"__esModule",{value:!0}),e.initialize=t,e.default=void 0
+t.put("ember-data-storefront",{get created(){return r.get("fastbootShoeboxCreated")},get queries(){return r.get("fastbootDataRequests")}})}Object.defineProperty(e,"__esModule",{value:!0}),e.initialize=t,e.default=void 0
 var r={name:"ember-data-storefront",initialize:t}
 e.default=r})),define("dummy/instance-initializers/setup-fetch",["exports","fetch"],(function(e,t){"use strict"
 Object.defineProperty(e,"__esModule",{value:!0}),e.default=void 0
