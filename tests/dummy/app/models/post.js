@@ -1,12 +1,12 @@
-import DS from 'ember-data';
+import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
 
-export default DS.Model.extend({
+export default PostModel extends Model {
 
-  title: DS.attr('string'),
-  text: DS.attr('string'),
+  @attr('string') title;
+  @attr('string') text;
 
-  author: DS.belongsTo(),
-  comments: DS.hasMany(),
-  tags: DS.hasMany()
+  @belongsTo() author;
+  @hasMany() comments;
+  @hasMany() tags;
 
-});
+}

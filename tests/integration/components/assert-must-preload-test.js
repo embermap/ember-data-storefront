@@ -1,10 +1,10 @@
+import Model from '@ember-data/model';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import { run } from '@ember/runloop';
 import { startMirage } from 'dummy/initializers/ember-cli-mirage';
 import hbs from 'htmlbars-inline-precompile';
-import DS from 'ember-data';
 import LoadableModel from 'ember-data-storefront/mixins/loadable-model';
 import LoadableStore from 'ember-data-storefront/mixins/loadable-store';
 import Ember from 'ember';
@@ -19,7 +19,7 @@ module('Integration | Component | assert must preload', function(hooks) {
   let loggerError;
 
   hooks.beforeEach(function() {
-    DS.Model.reopen(LoadableModel);
+    Model.reopen(LoadableModel);
     this.store = this.owner.lookup('service:store')
     this.store.reopen(LoadableStore);
     this.store.resetCache();

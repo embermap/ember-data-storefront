@@ -4,7 +4,7 @@ import Component from '@ember/component';
 import hbs from 'htmlbars-inline-precompile';
 import { inject as service } from '@ember/service';
 import { render } from '@ember/test-helpers';
-import Model from 'ember-data/model';
+import Model from '@ember-data/model';
 import { startMirage } from 'dummy/initializers/ember-cli-mirage';
 
 module('Integration | Component | Load records example', function(hooks) {
