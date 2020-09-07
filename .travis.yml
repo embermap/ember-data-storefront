@@ -3,7 +3,7 @@ language: node_js
 sudo: false
 dist: trusty
 node_js:
-  - "8"
+  - "10"
 
 addons:
   chrome: stable
@@ -58,7 +58,7 @@ jobs:
       script: yarn test
 
     - stage: fastboot tests
-      node_js: "8"
+      node_js: "10"
       env: NAME=fastboot tests
       script: yarn test:fastboot
 
