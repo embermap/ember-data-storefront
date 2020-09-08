@@ -58,7 +58,6 @@ module.exports = {
       plugins: ['node'],
       rules: Object.assign({}, require('eslint-plugin-node').configs.recommended.rules, {
         'node/no-unpublished-require': 'off'
-        // add your custom rules and overrides for node files here
       })
     }
   ]
