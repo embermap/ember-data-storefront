@@ -24,7 +24,9 @@ module.exports = {
     browser: true
   },
   rules: {
-    'ember/no-jquery': 'error'
+    'ember/no-jquery': 'error',
+    'ember/no-new-mixins': 'off',
+    'no-useless-escape': 'off'
   },
   overrides: [
     // node files
@@ -37,6 +39,7 @@ module.exports = {
         'testem.js',
         'blueprints/*/index.js',
         'config/**/*.js',
+        'server/**/*.js',
         'tests/dummy/config/**/*.js'
       ],
       excludedFiles: [
@@ -54,6 +57,7 @@ module.exports = {
       },
       plugins: ['node'],
       rules: Object.assign({}, require('eslint-plugin-node').configs.recommended.rules, {
+        'node/no-unpublished-require': 'off'
         // add your custom rules and overrides for node files here
       })
     }

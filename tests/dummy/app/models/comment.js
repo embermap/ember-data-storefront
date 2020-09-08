@@ -1,6 +1,6 @@
 import Model, { attr, belongsTo } from '@ember-data/model';
 
-export default clas CommentModel extends Model {
+export default class CommentModel extends Model {
 
   @attr('string') text;
 

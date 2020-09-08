@@ -1,6 +1,6 @@
 import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
 
-export default PostModel extends Model {
+export default class PostModel extends Model {
 
   @attr('string') title;
   @attr('string') text;
