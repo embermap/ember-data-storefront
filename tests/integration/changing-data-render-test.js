@@ -1,10 +1,9 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { render, settled } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import MirageServer from 'dummy/tests/integration/helpers/mirage-server';
 import { Model } from 'ember-cli-mirage';
-import { run } from '@ember/runloop';
 import LoadableStore from 'ember-data-storefront/mixins/loadable-store';
 
 module('Integration | Changing data render test', function(hooks) {
@@ -32,11 +31,8 @@ module('Integration | Changing data render test', function(hooks) {
     let serverPost = this.server.create('post', { title: 'Lorem' });
     let postId = serverPost.id;
 
-    await run(() => {
-      return this.store.loadRecord('post', postId)
-        .then(post => {
-          this.set('model', post);
-        });
+    await this.store.loadRecord('post', postId).then(post => {
+      this.set('model', post);
     });
 
     await render(hbs`
@@ -48,9 +44,9 @@ module('Integration | Changing data render test', function(hooks) {
     assert.dom('[data-test-title]').hasText('Lorem');
 
     this.server.schema.posts.find(serverPost.id).update('title', 'ipsum');
-    await run(() => {
-      return this.store.loadRecord('post', postId, { reload: true });
-    });
+
+    await this.store.loadRecord('post', postId, { reload: true });
+    await settled();
 
     assert.dom('[data-test-title]').hasText('ipsum');
   });
@@ -58,11 +54,8 @@ module('Integration | Changing data render test', function(hooks) {
   test('record array queries trigger template rerenders', async function(assert) {
     this.server.createList('post', 2);
 
-    await run(() => {
-      return this.store.loadRecords('post')
-        .then(posts => {
-          this.set('model', posts);
-        });
+    await this.store.loadRecords('post').then(posts => {
+      this.set('model', posts);
     });
 
     await render(hbs`
@@ -77,6 +70,7 @@ module('Integration | Changing data render test', function(hooks) {
 
     this.server.create('post');
     await this.get('model').update();
+    await settled();
 
     assert.dom('li').exists({ count: 3 });
   });

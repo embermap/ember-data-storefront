@@ -49,7 +49,7 @@ module('Integration | Mixins | LoadableStore | loadRecords', function(hooks) {
     assert.equal(serverCalls, 1);
     assert.equal(posts.get('length'), 2);
 
-    await waitUntil(() => serverCalls === 2);
+    await waitUntil(() => posts.get('length') === 3);
     assert.equal(posts.get('length'), 3);
   });
 
