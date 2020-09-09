@@ -7,7 +7,6 @@ jobs:
       matrix:
         ember-version:
           - 'ember-default'
-          - 'ember-lts-3.8'
           - 'ember-lts-3.12'
           - 'ember-lts-3.16'
           - 'ember-release'
