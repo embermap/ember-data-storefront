@@ -2,7 +2,6 @@ import Model from '@ember-data/model';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import { startMirage } from 'dummy/initializers/ember-cli-mirage';
-import { run } from '@ember/runloop';
 import LoadableModel from 'ember-data-storefront/mixins/loadable-model';
 import LoadableStore from 'ember-data-storefront/mixins/loadable-store';
 
@@ -28,81 +27,55 @@ module('Integration | Mixins | LoadableModel | hasLoaded', function(hooks) {
   });
 
   test('#hasLoaded returns true if a relationship has been loaded', async function(assert) {
-    let post = await run(() => {
-      return this.store.findRecord('post', 1)
-    });
+    let post = await this.store.findRecord('post', 1);
 
-    await run(() => {
-      return post.load('comments');
-    });
+    await post.load('comments');
 
     assert.ok(post.hasLoaded('comments'));
   });
 
   test('#hasLoaded returns true if a relationship has been sideloaded', async function(assert) {
-    let post = await run(() => {
-      return this.store.findRecord('post', 1)
-    });
+    let post = await this.store.findRecord('post', 1);
 
-    await run(() => {
-      return post.sideload('comments');
-    });
+    await post.sideload('comments');
 
     assert.ok(post.hasLoaded('comments'));
   });
 
   test('#hasLoaded returns true if the relationship chain has been sideloaded', async function(assert) {
-    let post = await run(() => {
-      return this.store.findRecord('post', 1)
-    });
+    let post = await this.store.findRecord('post', 1);
 
-    await run(() => {
-      return post.sideload('comments.author');
-    });
+    await post.sideload('comments.author');
 
     assert.ok(post.hasLoaded('comments.author'));
   });
 
   test('#hasLoaded returns false if the relationship has not been sideloaded', async function(assert) {
-    let post = await run(() => {
-      return this.store.findRecord('post', 1)
-    });
+    let post = await this.store.findRecord('post', 1);
 
     assert.notOk(post.hasLoaded('comments'));
   });
 
   test('#hasLoaded returns false if another relationship has not been sideloaded', async function(assert) {
-    let post = await run(() => {
-      return this.store.findRecord('post', 1)
-    });
+    let post = await this.store.findRecord('post', 1);
 
-    await run(() => {
-      return post.sideload('comments');
-    });
+    await post.sideload('comments');
 
     assert.notOk(post.hasLoaded('tags'));
   });
 
   test('#hasLoaded returns false if a relationship chain has not been fully sideloaded', async function(assert) {
-    let post = await run(() => {
-      return this.store.findRecord('post', 1)
-    });
+    let post = await this.store.findRecord('post', 1);
 
-    await run(() => {
-      return post.sideload('comments');
-    });
+    await post.sideload('comments');
 
     assert.notOk(post.hasLoaded('comments.author'));
   });
 
   test('#hasLoaded returns false for similarly named relationships', async function(assert) {
-    let post = await run(() => {
-      return this.store.findRecord('post', 1)
-    });
+    let post = await this.store.findRecord('post', 1);
 
-    await run(() => {
-      return post.sideload('comments.author');
-    });
+    await post.sideload('comments.author');
 
     assert.notOk(post.hasLoaded('author'));
   });
