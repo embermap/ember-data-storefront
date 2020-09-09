@@ -1,9 +1,8 @@
 import Model from '@ember-data/model';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import { waitUntil } from '@ember/test-helpers';
+import { settled, waitUntil } from '@ember/test-helpers';
 import { startMirage } from 'dummy/initializers/ember-cli-mirage';
-import { run } from '@ember/runloop';
 import LoadableModel from 'ember-data-storefront/mixins/loadable-model';
 import LoadableStore from 'ember-data-storefront/mixins/loadable-store';
 
@@ -34,15 +33,11 @@ module('Integration | Mixins | LoadableModel | sideload', function(hooks) {
       requests.push(args[2]);
     };
 
-    let post = await run(() => {
-      return this.store.findRecord('post', 1)
-    });
+    let post = await this.store.findRecord('post', 1)
 
     assert.equal(post.hasMany('comments').value(), null);
 
-    post = await run(() => {
-      return post.sideload('comments');
-    });
+    post = await post.sideload('comments');
 
     assert.equal(post.hasMany('comments').value().get('length'), 2);
     assert.equal(requests.length, 2);
@@ -53,9 +48,7 @@ module('Integration | Mixins | LoadableModel | sideload', function(hooks) {
     let serverCalls = 0;
     server.pretender.handledRequest = function() { serverCalls++ };
 
-    let post = await run(() => {
-      return this.store.findRecord('post', 1)
-    });
+    let post = await this.store.findRecord('post', 1)
 
     assert.equal(serverCalls, 1);
 
@@ -63,20 +56,17 @@ module('Integration | Mixins | LoadableModel | sideload', function(hooks) {
     // so we can be sure our test is blocked by the next call to load.
     server.timing = 500;
 
-    await run(() => {
-      return post.sideload('comments');
-    });
+    await post.sideload('comments');
 
     assert.equal(serverCalls, 2);
     assert.equal(post.hasMany('comments').value().get('length'), 2);
     server.create('comment', { postId: 1 });
 
-    await run(() => {
-      return post.sideload('comments');
-    });
+    await post.sideload('comments');
 
     assert.equal(serverCalls, 2);
     await waitUntil(() => serverCalls === 3);
+    await settled();
 
     assert.equal(post.hasMany('comments').value().get('length'), 3);
   });
@@ -86,13 +76,9 @@ module('Integration | Mixins | LoadableModel | sideload', function(hooks) {
     let miragePost = this.server.schema.posts.find(1);
     miragePost.update({ tags: [ tag ]});
 
-    let post = await run(() => {
-      return this.store.findRecord('post', 1)
-    });
+    let post = await this.store.findRecord('post', 1)
 
-    await run(() => {
-      return post.sideload('comments', 'tags');
-    });
+    await post.sideload('comments', 'tags');
 
     assert.equal(post.hasMany('comments').value().get('length'), 2);
     assert.equal(post.hasMany('tags').value().get('length'), 1);
@@ -102,15 +88,11 @@ module('Integration | Mixins | LoadableModel | sideload', function(hooks) {
     let serverCalls = 0;
     server.pretender.handledRequest = function() { serverCalls++ };
 
-    let post = await run(() => {
-      return this.store.findRecord('post', 1, { include: 'comments' });
-    });
+    let post = await this.store.findRecord('post', 1, { include: 'comments' });
 
     assert.equal(serverCalls, 1);
 
-    await run(() => {
-      return post.sideload('comments', { reload: true });
-    });
+    await post.sideload('comments', { reload: true });
 
     assert.equal(serverCalls, 2);
   });
@@ -123,15 +105,11 @@ module('Integration | Mixins | LoadableModel | sideload', function(hooks) {
     };
 
     // first load waits and blocks
-    let post = await run(() => {
-      return this.store.loadRecord('post', 1, { include: 'comments' });
-    });
+    let post = await this.store.loadRecord('post', 1, { include: 'comments' });
     assert.equal(post.hasMany('comments').value().length, 2);
 
     // second load doesnt block, instantly returns
-    await run(() => {
-      return post.sideload('comments', { backgroundReload: false });
-    });
+    await post.sideload('comments', { backgroundReload: false });
     assert.equal(requests.length, 1);
 
     // wait 500ms and make sure there's no network request
