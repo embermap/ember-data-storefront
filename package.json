@@ -31,6 +31,7 @@
     "global": "^4.3.2"
   },
   "devDependencies": {
+    "@ember/jquery": "^1.1.0",
     "@ember/optional-features": "^1.0.0",
     "babel-eslint": "^10.0.3",
     "broccoli-asset-rev": "^3.0.0",
@@ -48,7 +49,7 @@
     "ember-cli-fastboot": "^2.0.4",
     "ember-cli-htmlbars": "^4.0.1",
     "ember-cli-inject-live-reload": "^1.8.2",
-    "ember-cli-mirage": "1.1.6",
+    "ember-cli-mirage": "1.1.8",
     "ember-cli-qunit": "^4.3.2",
     "ember-cli-sass": "^10.0.0",
     "ember-cli-sri": "^2.1.1",
