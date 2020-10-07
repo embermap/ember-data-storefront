@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import { waitUntil } from '@ember/test-helpers';
+import { settled, waitUntil } from '@ember/test-helpers';
 import MirageServer from 'dummy/tests/integration/helpers/mirage-server';
 import LoadableStore from 'ember-data-storefront/mixins/loadable-store';
 
@@ -50,6 +50,8 @@ module('Integration | Mixins | LoadableStore | loadRecords', function(hooks) {
     assert.equal(posts.get('length'), 2);
 
     await waitUntil(() => serverCalls === 2);
+    await settled();
+
     assert.equal(posts.get('length'), 3);
   });
 

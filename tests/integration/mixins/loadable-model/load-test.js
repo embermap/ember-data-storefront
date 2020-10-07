@@ -1,9 +1,9 @@
+import Model from '@ember-data/model';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import { waitUntil } from '@ember/test-helpers';
 import { startMirage } from 'dummy/initializers/ember-cli-mirage';
 import { run } from '@ember/runloop';
-import DS from 'ember-data';
 import LoadableModel from 'ember-data-storefront/mixins/loadable-model';
 import LoadableStore from 'ember-data-storefront/mixins/loadable-store';
 
@@ -11,7 +11,7 @@ module('Integration | Mixins | LoadableModel | load', function(hooks) {
   setupTest(hooks);
 
   hooks.beforeEach(function() {
-    DS.Model.reopen(LoadableModel);
+    Model.reopen(LoadableModel);
     this.server = startMirage();
 
     this.store = this.owner.lookup('service:store');

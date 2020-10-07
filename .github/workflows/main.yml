@@ -7,17 +7,13 @@ jobs:
       matrix:
         ember-version:
           - 'ember-default'
-          - 'ember-lts-2.16'
-          - 'ember-lts-2.18'
-          - 'ember-3.1'
-          - 'ember-lts-3.4'
-          - 'ember-lts-3.8'
           - 'ember-lts-3.12'
+          - 'ember-lts-3.16'
           - 'ember-release'
           - 'ember-beta'
           - 'ember-canary'
     env:
-      CI: true 
+      CI: true
       EMBER_TRY_SCENARIO: ${{ matrix.ember-version }}
 
     steps:

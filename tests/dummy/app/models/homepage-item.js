@@ -1,7 +1,7 @@
-import DS from 'ember-data';
+import Model, { belongsTo } from '@ember-data/model';
 
-export default DS.Model.extend({
+export default class HomepageItemModel extends Model {
 
-  itemizable: DS.belongsTo({ polymorphic: true }),
+  @belongsTo({ polymorphic: true }) itemizable;
 
-});
+}

@@ -1,11 +1,17 @@
+'use strict';
+
 module.exports = {
   globals: {
     server: true,
   },
   root: true,
+  parser: 'babel-eslint',
   parserOptions: {
     ecmaVersion: 2018,
-    sourceType: 'module'
+    sourceType: 'module',
+    ecmaFeatures: {
+      legacyDecorators: true
+    }
   },
   plugins: [
     'ember'
@@ -18,17 +24,22 @@ module.exports = {
     browser: true
   },
   rules: {
+    'ember/no-jquery': 'off',
+    'ember/no-new-mixins': 'off',
+    'no-useless-escape': 'off'
   },
   overrides: [
     // node files
     {
       files: [
+        '.eslintrc.js',
         '.template-lintrc.js',
         'ember-cli-build.js',
         'index.js',
         'testem.js',
         'blueprints/*/index.js',
         'config/**/*.js',
+        'server/**/*.js',
         'tests/dummy/config/**/*.js'
       ],
       excludedFiles: [
@@ -38,8 +49,7 @@ module.exports = {
         'tests/dummy/app/**'
       ],
       parserOptions: {
-        sourceType: 'script',
-        ecmaVersion: 2015
+        sourceType: 'script'
       },
       env: {
         browser: false,
@@ -47,7 +57,7 @@ module.exports = {
       },
       plugins: ['node'],
       rules: Object.assign({}, require('eslint-plugin-node').configs.recommended.rules, {
-        // add your custom rules and overrides for node files here
+        'node/no-unpublished-require': 'off'
       })
     }
   ]

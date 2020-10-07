@@ -1,7 +1,7 @@
-import DS from 'ember-data';
+import Model, { hasMany } from '@ember-data/model';
 
-export default DS.Model.extend({
+export default class TagModel extends Model {
 
-  posts: DS.hasMany()
+  @hasMany() posts;
 
-});
+}
