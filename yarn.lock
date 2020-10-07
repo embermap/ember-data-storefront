@@ -5808,7 +5808,7 @@ ember-cli-htmlbars@^3.0.0, ember-cli-htmlbars@^3.0.1:
     json-stable-stringify "^1.0.1"
     strip-bom "^3.0.0"
 
-ember-cli-htmlbars@^4.0.1, ember-cli-htmlbars@^4.2.2, ember-cli-htmlbars@^4.2.3:
+ember-cli-htmlbars@^4.2.2, ember-cli-htmlbars@^4.2.3:
   version "4.4.0"
   resolved "https://registry.yarnpkg.com/ember-cli-htmlbars/-/ember-cli-htmlbars-4.4.0.tgz#7ca17d5ca8f7550984346d9e6e93da0c3323f8d9"
   integrity sha512-ohgctqk7dXIZR4TgN0xRoUYltWhghFJgqmtuswQTpZ7p74RxI9PKx+E8WV/95mGcPzraesvMNBg5utQNvcqgNg==
@@ -5828,7 +5828,7 @@ ember-cli-htmlbars@^4.0.1, ember-cli-htmlbars@^4.2.2, ember-cli-htmlbars@^4.2.3:
     strip-bom "^4.0.0"
     walk-sync "^2.0.2"
 
-ember-cli-htmlbars@^5.2.0:
+ember-cli-htmlbars@^5.2.0, ember-cli-htmlbars@^5.3.1:
   version "5.3.1"
   resolved "https://registry.yarnpkg.com/ember-cli-htmlbars/-/ember-cli-htmlbars-5.3.1.tgz#61793964fc2599ce750db9e972ab55c6dd177c48"
   integrity sha512-ZjQTt44euDoqLvUkWbt1svgNCXgLzOztEbc2qqYMQvhQig416LMrWK7l3SSbNU+BtLD5UIxmwvLfF1tsO2CVyA==
