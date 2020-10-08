@@ -37,4 +37,5 @@ jobs:
     - run: git config --global user.email "github.actions@example.com"
     - run: git config --global user.name "Github Action"
     - run: node_modules/.bin/ember deploy production
+      continue-on-error: true
 
