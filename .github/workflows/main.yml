@@ -3,6 +3,7 @@ on: [push, pull_request]
 jobs:
   try:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     strategy:
       matrix:
         ember-version:
@@ -18,18 +19,19 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - uses: actions/setup-node@v1.1.0
+    - uses: actions/setup-node@v2.1.5
     - run: yarn install
     - run: node_modules/.bin/ember try:one $EMBER_TRY_SCENARIO --skip-cleanup
       continue-on-error: ${{ matrix.ember-version == 'ember-canary' }}
 
   docs:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     needs: []
     if: github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/v')
     steps:
     - uses: actions/checkout@v2
-    - uses: actions/setup-node@v1.1.0
+    - uses: actions/setup-node@v2.1.5
     - run: yarn install
     - uses: webfactory/ssh-agent@v0.1.1
       with:
