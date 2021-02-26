@@ -72,10 +72,10 @@ export default Mixin.create({
     const maxAgeMinutes = config.storefront ? config.storefront.maxAge : undefined;
 
     if (!isFastboot && box && box.queries && Object.keys(box.queries).length > 0) {
-      const valid = this.isDateValid(box.created, maxAgeMinutes);
+      const shouldUseShoebox = maxAgeMinutes === undefined || this.isDateValid(box.created, maxAgeMinutes);
       let key = shoeboxize(cacheKey([type, url.replace(/^.*\/\/[^\/]+/, ''), params]));
 
-      if (valid) {
+      if (shouldUseShoebox) {
         payload = box.queries[key];
       }
       delete box.queries[key];
