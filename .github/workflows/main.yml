@@ -18,7 +18,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - uses: actions/setup-node@v1.1.0
+    - uses: actions/setup-node@v2.1.5
     - run: yarn install
     - run: node_modules/.bin/ember try:one $EMBER_TRY_SCENARIO --skip-cleanup
       continue-on-error: ${{ matrix.ember-version == 'ember-canary' }}
@@ -29,7 +29,7 @@ jobs:
     if: github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/v')
     steps:
     - uses: actions/checkout@v2
-    - uses: actions/setup-node@v1.1.0
+    - uses: actions/setup-node@v2.1.5
     - run: yarn install
     - uses: webfactory/ssh-agent@v0.1.1
       with:
