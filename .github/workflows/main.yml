@@ -3,6 +3,7 @@ on: [push, pull_request]
 jobs:
   try:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     strategy:
       matrix:
         ember-version:
@@ -25,6 +26,7 @@ jobs:
 
   docs:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     needs: []
     if: github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/v')
     steps:
