@@ -43,6 +43,8 @@ Fastboot rendered pages need to be generated quickly, since they are rendered on
 
 In certain cases, like the browser restoring its session, a cached version of the index.html page may be served, which contains shoebox data from the initial, cached request. The adapter is not aware that this data is stale, and outdated information is displayed to the user. To prevent this you can configure a duration after which data will no longer be served from the shoebox.
 
+If the `maxAge` is not set, by default data will always be served from the shoebox.
+
 ```
 // config/environment.js
 ENV = {
