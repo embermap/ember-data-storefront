@@ -1,5 +1,7 @@
+import Component from '@glimmer/component';
 import { assert } from '@ember/debug';
-import Component from '@ember/component';
+
+export default class AssertMustPreloadComponent extends Component {
 
 /**
   _This component relies on JSON:API, and assumes that your server supports JSON:API includes._
@@ -25,11 +27,10 @@ import Component from '@ember/component';
   @class AssertMustPreload
   @public
 */
-export default Component.extend({
-  tagName: '',
+  constructor() {
+    super(...arguments);
 
-  didReceiveAttrs() {
-    let [ model, ...includes ] = this.get('args');
+    let { model, includes } = this.args;
     let parentComponent = this.parentView;
     let parentName = parentComponent ? parentComponent._debugContainerKey : 'template';
     let includesString = includes.join(',');
@@ -43,12 +44,6 @@ export default Component.extend({
       `You tried to render a ${parentName} that accesses relationships off of a ${model.constructor.modelName}, but that model didn't have all of its required relationships preloaded ('${includesString}'). Please make sure to preload the association. [ember-data-storefront]`,
       model.hasLoaded(includesString)
     );
-
-    return this._super(...arguments);
   }
 
-}).reopenClass({
-
-  positionalParams: 'args'
-
-});
+}

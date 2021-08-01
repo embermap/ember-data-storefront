@@ -71,7 +71,7 @@ module('Integration | Component | assert must preload', function(hooks) {
     }
 
     await render(hbs`
-      {{assert-must-preload post "comments"}}
+      <AssertMustPreload @model={{this.post}} @includes={{array "comments"}} />
     `);
   });
 
@@ -93,7 +93,7 @@ module('Integration | Component | assert must preload', function(hooks) {
     }
 
     await render(hbs`
-      {{assert-must-preload post "author,comments"}}
+      <AssertMustPreload @model={{this.post}} @includes={{array "author,comments"}} />
     `);
   });
 
@@ -115,7 +115,7 @@ module('Integration | Component | assert must preload', function(hooks) {
     }
 
     await render(hbs`
-      {{assert-must-preload post "comments.author"}}
+      <AssertMustPreload @model={{this.post}} @includes={{array "comments.author"}} />
     `);
   });
 
@@ -125,7 +125,7 @@ module('Integration | Component | assert must preload', function(hooks) {
     });
 
     await render(hbs`
-      {{assert-must-preload post "comments"}}
+      <AssertMustPreload @model={{this.post}} @includes={{array "comments"}} />
     `);
 
     // if anything renders, we're ok
@@ -141,7 +141,7 @@ module('Integration | Component | assert must preload', function(hooks) {
       this.post = posts.get('firstObject');
 
       await render(hbs`
-        {{assert-must-preload post "comments"}}
+        <AssertMustPreload @model={{this.post}} @includes={{array "comments"}} />
 
         <div data-test-id="title">
           {{post.title}}
@@ -171,7 +171,7 @@ module('Integration | Component | assert must preload', function(hooks) {
       }
 
       await render(hbs`
-        {{assert-must-preload post "author,comments.author"}}
+        <AssertMustPreload @model={{this.post}} @includes={{array "author,comments.author"}} />
       `);
     });
   });

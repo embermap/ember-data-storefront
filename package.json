@@ -8,14 +8,14 @@
   "repository": "https://github.com/embermap/ember-data-storefront",
   "license": "MIT",
   "author": "",
-  "directories": {
-    "doc": "doc",
-    "test": "tests"
-  },
   "contributors": [
     "Sam Selikoff <sam.selikoff@gmail.com> (https://embermap.com)",
     "Ryan Toronto <ryanto@gmail.com> (https://embermap.com)"
   ],
+  "directories": {
+    "doc": "doc",
+    "test": "tests"
+  },
   "scripts": {
     "build": "ember build",
     "lint:hbs": "ember-template-lint .",
@@ -32,9 +32,11 @@
   },
   "devDependencies": {
     "@ember/jquery": "^1.1.0",
-    "@ember/optional-features": "^1.0.0",
+    "@ember/optional-features": "^1.3.0",
     "@fortawesome/ember-fontawesome": "^0.2.3",
     "@fortawesome/free-solid-svg-icons": "^5.15.2",
+    "@glimmer/component": "^1.0.0",
+    "@glimmer/tracking": "^1.0.0",
     "babel-eslint": "^10.0.3",
     "broccoli-asset-rev": "^3.0.0",
     "ember-ajax": "^5.0.0",
@@ -87,6 +89,9 @@
   },
   "engines": {
     "node": "10.* || >= 12.*"
+  },
+  "ember": {
+    "edition": "octane"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"
