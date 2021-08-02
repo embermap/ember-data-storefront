@@ -11,7 +11,7 @@ export default class StorefrontService extends Service {
 
   constructor() {
     super(...arguments);
-		this.fastbootDataRequests = {};
+    this.fastbootDataRequests = {};
   }
 
   findAll() {
