@@ -30,7 +30,7 @@ export default class AssertMustPreloadComponent extends Component {
   constructor() {
     super(...arguments);
 
-    let { model, includes } = this.args;
+    const { model, includes } = this.args;
     let parentComponent = this.parentView;
     let parentName = parentComponent ? parentComponent._debugContainerKey : 'template';
     let includesString = includes.join(',');

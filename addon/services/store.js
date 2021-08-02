@@ -4,7 +4,7 @@ import { resolve } from 'rsvp';
 import Coordinator from 'ember-data-storefront/-private/coordinator';
 
 /**
-  This mixin that adds new data-loading methods to Ember Data's store.
+  This service adds new data-loading methods to Ember Data's store.
 
   It is automatically mixed into your application's store when you install the addon.
 
