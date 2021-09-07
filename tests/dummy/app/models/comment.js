@@ -1,6 +1,7 @@
-import Model, { attr, belongsTo } from '@ember-data/model';
+import ItemizableModel from './itemizable';
+import { attr, belongsTo } from '@ember-data/model';
 
-export default class CommentModel extends Model {
+export default class CommentModel extends ItemizableModel {
 
   @attr('string') text;
 
