@@ -23,7 +23,7 @@ export default class LoadableStoreService extends StoreService {
     `loadRecords` can be used in place of `store.query` to fetch a collection of records for the given type and options.
 
     ```diff
-      this.get('store')
+      this.store
     -   .query('post', { filter: { popular: true } })
     +   .loadRecords('post', { filter: { popular: true } })
         .then(models => models);
@@ -89,7 +89,7 @@ export default class LoadableStoreService extends StoreService {
     `loadRecord` can be used in place of `store.findRecord` to fetch a single record for the given type, id and options.
 
     ```diff
-      this.get('store')
+      this.store
     -   .findRecord('post', 1, { include: 'comments' })
     +   .loadRecord('post', 1, { include: 'comments' })
         .then(post => post);
@@ -99,10 +99,10 @@ export default class LoadableStoreService extends StoreService {
 
     ```js
     // simple fetch
-    this.get('store').loadRecord('post', 1);
+    this.store.loadRecord('post', 1);
 
     // includes
-    this.get('store').loadRecord('post', 1, { include: 'comments' });
+    this.store.loadRecord('post', 1, { include: 'comments' });
     ```
 
     This solves many common bugs where `findRecord` would return immediately, even if important `includes` had never been loaded.
@@ -149,7 +149,7 @@ export default class LoadableStoreService extends StoreService {
     Lets you check whether you've ever loaded related data for a model.
 
     ```js
-    this.get('store').hasLoadedIncludesForRecord('post', '1', 'comments.author');
+    this.store.hasLoadedIncludesForRecord('post', '1', 'comments.author');
     ```
 
     @method hasLoadedIncludesForRecord

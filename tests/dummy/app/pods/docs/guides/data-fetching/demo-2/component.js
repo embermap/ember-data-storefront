@@ -14,7 +14,7 @@ export default Component.extend({
   },
 
   clientPosts: computed(function() {
-    return this.get('store').peekAll('post');
+    return this.store.peekAll('post');
   }),
 
   model: readOnly('visit.last.value'),
@@ -26,7 +26,7 @@ export default Component.extend({
         // BEGIN-SNIPPET demo2-posts-route.js
         // route
         model() {
-          return this.get('store').loadRecords('post');
+          return this.store.loadRecords('post');
         }
         // END-SNIPPET
       },
@@ -34,7 +34,7 @@ export default Component.extend({
         // BEGIN-SNIPPET demo2-posts1-route.js
         // route
         model() {
-          return this.get('store').loadRecord('post', 1);
+          return this.store.loadRecord('post', 1);
         }
         // END-SNIPPET
       }
@@ -53,8 +53,8 @@ export default Component.extend({
   }),
 
   reset() {
-    this.get('store').unloadAll('post');
-    this.get('store').resetCache();
+    this.store.unloadAll('post');
+    this.store.resetCache();
     this.set('visitedRoutes', A([ '/' ]));
   },
 

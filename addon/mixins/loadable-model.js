@@ -109,7 +109,7 @@ export default Mixin.create({
       };
     }
 
-    return this.get('store').loadRecord(modelName, this.get('id'), options);
+    return this.store.loadRecord(modelName, this.get('id'), options);
   },
 
   /**
@@ -362,7 +362,7 @@ export default Mixin.create({
   */
   hasLoaded(includesString) {
     let modelName = this.constructor.modelName;
-    return this.get('store').hasLoadedIncludesForRecord(modelName, this.get('id'), includesString) ||
+    return this.store.hasLoadedIncludesForRecord(modelName, this.get('id'), includesString) ||
       this._graphHasLoaded(includesString);
   }
 

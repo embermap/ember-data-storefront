@@ -28,13 +28,13 @@ Storefront's `loadRecords` was designed to avoid re-rendering problems like this
 
 ```diff
   model() {
--   return this.get('store').findAll('post');
-+   return this.get('store').loadRecords('post');
+-   return this.store.findAll('post');
++   return this.store.loadRecords('post');
   }
 
   model() {
--   return this.get('store').findRecord('post', 1);
-+   return this.get('store').loadRecord('post', 1);
+-   return this.store.findRecord('post', 1);
++   return this.store.loadRecord('post', 1);
   }
 ```
 
@@ -51,9 +51,9 @@ To correctly replace all calls to `findAll` with `loadRecords` you'll need to al
 
 ```diff
   async model() {
--   return this.get('store').findAll('post');
-+   await this.get('store').loadRecords('post');
-+   return this.get('store').peekAll('post');
+-   return this.store.findAll('post');
++   await this.store.loadRecords('post');
++   return this.store.peekAll('post');
   }
 ```
 

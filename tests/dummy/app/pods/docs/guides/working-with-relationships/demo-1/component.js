@@ -16,7 +16,7 @@ export default Component.extend({
   },
 
   loadPost: task(function*() {
-    return yield this.get('store').findRecord('post', 1);
+    return yield this.store.findRecord('post', 1);
   }),
 
   post: readOnly('loadPost.lastSuccessful.value'),
@@ -30,7 +30,7 @@ export default Component.extend({
       // END-SNIPPET
     };
 
-    this.get('store').resetCache();
+    this.store.resetCache();
     // We do this to reset loadComments state
     defineProperty(this, 'loadComments', tasks.loadComments);
     this.notifyPropertyChange('loadComments');
