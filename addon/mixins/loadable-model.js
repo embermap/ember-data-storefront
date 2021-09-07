@@ -1,6 +1,5 @@
 import Mixin from '@ember/object/mixin';
-import { deprecate } from '@ember/application/deprecations';
-import { assert } from '@ember/debug';
+import { deprecate, assert } from '@ember/debug';
 import { resolve } from 'rsvp';
 import { isArray } from '@ember/array';
 import { get } from '@ember/object';

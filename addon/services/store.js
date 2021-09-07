@@ -1,5 +1,5 @@
 import StoreService from '@ember-data/store';
-import { deprecate } from '@ember/application/deprecations';
+import { deprecate } from '@ember/debug';
 import { resolve } from 'rsvp';
 import Coordinator from 'ember-data-storefront/-private/coordinator';
 
