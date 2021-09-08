@@ -1,31 +1,33 @@
-import Component from '@ember/component';
+import Component from '@glimmer/component';
 import { task } from 'ember-concurrency';
 import { inject as service } from '@ember/service';
-import { readOnly } from '@ember/object/computed';
 import { defineProperty } from '@ember/object';
+import { action } from '@ember/object';
 
-export default Component.extend({
+export default class DocsDemo2Component extends Component {
 
-  store: service(),
+  @service store;
 
-  didInsertElement() {
-    this._super(...arguments);
+  constructor() {
+    super(...arguments);
 
-    this.get('loadPost').perform();
+    this.loadPost.perform();
     this.setup();
-  },
+  }
 
-  loadPost: task(function*() {
+  @task *loadPost() {
     return yield this.store.findRecord('post', 2);
-  }),
+  }
 
-  post: readOnly('loadPost.lastSuccessful.value'),
+  get post() {
+    return this.loadPost.lastSuccessful.value;
+  }
 
   setup() {
     let tasks = {
       // BEGIN-SNIPPET working-with-relationships-demo-2.js
       sideloadComments: task(function*() {
-        yield this.get('post').sideload('comments');
+        yield this.post.sideload('comments');
       })
       // END-SNIPPET
     };
@@ -34,13 +36,10 @@ export default Component.extend({
     // We do this to reset loadComments state
     defineProperty(this, 'sideloadComments', tasks.sideloadComments);
     this.notifyPropertyChange('sideloadComments');
-  },
-
-  actions: {
-    reset() {
-      this.setup();
-    }
   }
 
+  @action reset() {
+    this.setup();
+  }
 
-});
+}

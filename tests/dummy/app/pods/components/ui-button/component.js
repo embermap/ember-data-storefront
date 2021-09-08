@@ -1,8 +1,5 @@
-import Component from '@ember/component';
+import Component from '@glimmer/component';
 
-export default Component.extend({
-  tagName: '',
-  supportsDataTestProperties: true,
-
-  onClick() {},
-});
+export default class UiButtonComponent extends Component {
+  supportsDataTestProperties = true;
+}

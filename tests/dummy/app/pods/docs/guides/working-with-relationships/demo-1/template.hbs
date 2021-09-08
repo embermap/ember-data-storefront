@@ -4,9 +4,9 @@
     {{#demo.example name='working-with-relationships-demo-1.hbs'}}
 
       <div class="tr">
-        {{#ui-button style='small' onClick=(action 'reset')}}
+        <UiButton @style="small" @onClick={{this.reset}}>
           Reset
-        {{/ui-button}}
+        </UiButton>
       </div>
 
       {{#liquid-if loadComments.lastSuccessful}}
@@ -17,12 +17,12 @@
 
       {{else}}
 
-        {{#ui-button
-          onClick=(perform loadComments)
-          disabled=loadComments.isRunning
-          data-test-id='load-comments'}}
-          {{if loadComments.isIdle 'Load comments' 'Loading...'}}
-        {{/ui-button}}
+        <UiButton
+          @onClick={{perform this.loadComments}}
+          @disabled={{this.loadComments.isRunning}}
+          @dataTestId="load-comments">
+          {{if this.loadComments.isIdle "Load comments" "Loading..."}}
+        </UiButton>
 
       {{/liquid-if}}
 

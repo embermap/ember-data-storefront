@@ -8,12 +8,12 @@ These patterns minimize the states in which your application can exist, helping 
   &lbrace;&lbrace;assert-must-preload&rbrace;&rbrace; only works on models that have included the {{docs-link 'LoadableModel' 'docs.api.item' 'mixins/loadable-model'}} mixin.
 </aside>
 
-You can use the `{{assert-must-preload}}` component to throw a dev-time warning if a template is rendered without all of its requisite data. This can help you avoid FOUC and the `n+1` query bug.
+You can use the `<AssertMustPreload />` component to throw a dev-time warning if a template is rendered without all of its requisite data. This can help you avoid FOUC and the `n+1` query bug.
 
 ```hbs
-{{assert-must-preload post 'comments.author'}}
+<AssertMustPreload @model={{this.post}} @includes={{array "comments.author"}} />
 
-{{#each post.comments as |comment|}}
+{{#each this.post.comments as |comment|}}
   This comment was from {{comment.author.name}}
 {{/each}}
 ```

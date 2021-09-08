@@ -1,36 +1,36 @@
-{{#if post}}
+{{#if this.post}}
 
-  {{#docs-demo as |demo|}}
-    {{#demo.example name='working-with-relationships-demo-2.hbs'}}
+  <DocsDemo as |demo|>
+    <demo.example @name='working-with-relationships-demo-2.hbs'>
 
       <div class="tr">
-        {{#ui-button style='small' onClick=(action 'reset')}}
+        <UiButton @style="small" @onClick={{this.reset}}>
           Reset
-        {{/ui-button}}
+        </UiButton>
       </div>
 
-      {{#liquid-if sideloadComments.lastSuccessful}}
+      {{#liquid-if this.sideloadComments.lastSuccessful}}
 
         <p data-test-id="sideload-comments-count">
-          The post has {{post.comments.length}} comments.
+          The post has {{this.post.comments.length}} comments.
         </p>
 
       {{else}}
 
-        {{#ui-button
-          onClick=(perform sideloadComments)
-          disabled=sideloadComments.isRunning
-          data-test-id='sideload-comments'}}
-          {{if sideloadComments.isIdle 'Reload with comments' 'Loading...'}}
-        {{/ui-button}}
+        <UiButton
+          @onClick={{perform this.sideloadComments}}
+          @disabled={{this.sideloadComments.isRunning}}
+          @dataTestId="sideload-comments">
+          {{if this.sideloadComments.isIdle "Reload with comments" "Loading..."}}
+        </UiButton>
 
       {{/liquid-if}}
 
-    {{/demo.example}}
+    </demo.example>
 
     {{demo.snippet 'working-with-relationships-demo-2.js'}}
     {{demo.snippet 'working-with-relationships-demo-2.hbs'}}
-  {{/docs-demo}}
+  </DocsDemo>
 
 {{else}}
 
