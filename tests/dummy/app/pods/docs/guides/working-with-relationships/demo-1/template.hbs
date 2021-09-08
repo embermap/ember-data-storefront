@@ -1,7 +1,7 @@
-{{#if post}}
+{{#if this.post}}
 
-  {{#docs-demo as |demo|}}
-    {{#demo.example name='working-with-relationships-demo-1.hbs'}}
+  <DocsDemo as |demo|>
+    <demo.example @name='working-with-relationships-demo-1.hbs'>
 
       <div class="tr">
         <UiButton @style="small" @onClick={{this.reset}}>
@@ -9,10 +9,10 @@
         </UiButton>
       </div>
 
-      {{#liquid-if loadComments.lastSuccessful}}
+      {{#liquid-if this.loadComments.lastSuccessful}}
 
         <p data-test-id="load-comments-count">
-          The post has {{post.comments.length}} comments.
+          The post has {{this.post.comments.length}} comments.
         </p>
 
       {{else}}
@@ -26,11 +26,11 @@
 
       {{/liquid-if}}
 
-    {{/demo.example}}
+    </demo.example>
 
     {{demo.snippet 'working-with-relationships-demo-1.js'}}
     {{demo.snippet 'working-with-relationships-demo-1.hbs'}}
-  {{/docs-demo}}
+  </DocsDemo>
 
 {{else}}
 

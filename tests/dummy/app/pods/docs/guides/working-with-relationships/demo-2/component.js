@@ -1,11 +1,10 @@
 import Component from '@glimmer/component';
 import { task } from 'ember-concurrency';
 import { inject as service } from '@ember/service';
-import { defineProperty } from '@ember/object';
+import { defineProperty, notifyPropertyChange } from '@ember/object';
 import { action } from '@ember/object';
 
 export default class DocsDemo2Component extends Component {
-
   @service store;
 
   constructor() {
@@ -20,11 +19,11 @@ export default class DocsDemo2Component extends Component {
   }
 
   get post() {
-    return this.loadPost.lastSuccessful.value;
+    return this.loadPost.lastSuccessful?.value;
   }
 
   setup() {
-    let tasks = {
+    const tasks = {
       // BEGIN-SNIPPET working-with-relationships-demo-2.js
       sideloadComments: task(function*() {
         yield this.post.sideload('comments');
@@ -35,11 +34,10 @@ export default class DocsDemo2Component extends Component {
     this.store.resetCache();
     // We do this to reset loadComments state
     defineProperty(this, 'sideloadComments', tasks.sideloadComments);
-    this.notifyPropertyChange('sideloadComments');
+    notifyPropertyChange(this, 'sideloadComments');
   }
 
   @action reset() {
     this.setup();
   }
-
 }
