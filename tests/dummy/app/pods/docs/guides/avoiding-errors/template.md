@@ -5,7 +5,7 @@ These patterns minimize the states in which your application can exist, helping 
 ## Ensuring data is loaded within templates
 
 <aside>
-  &lbrace;&lbrace;assert-must-preload&rbrace;&rbrace; only works on models that have included the {{docs-link 'LoadableModel' 'docs.api.item' 'mixins/loadable-model'}} mixin.
+  &lt;AssertMustPreload /&gt; only works on models that have included the {{docs-link 'LoadableModel' 'docs.api.item' 'mixins/loadable-model'}} mixin.
 </aside>
 
 You can use the `<AssertMustPreload />` component to throw a dev-time warning if a template is rendered without all of its requisite data. This can help you avoid FOUC and the `n+1` query bug.
@@ -33,21 +33,22 @@ Async relationships can also lead to surprises in actions by adding unnecessary 
 You can use the `model#hasLoaded` method to throw a dev-time warning if a relationship is not yet loaded. This can help you avoid calling functions on undefined objects.
 
 ```js
-Component.extend({
-  post: null, // passed in post
-  currentUser: service(),
+import Component from '@glimmer/component';
+import { inject as service } from '@ember/service';
+import { assert } from '@ember/debug';
+import { action } from '@ember/object';
 
-  actions: {
-    followAuthor() {
-      Ember.assert(
-        "The author isn't loaded",
-        this.get('post').hasLoaded('author')
-      );
+export default class extends Component {
+  @service currentUser;
 
-      this.get('currentUser').follow(this.get('post.author'));
-    }
+  @action followAuthor() {
+    const { post } = this.args; // passed in post
+
+    assert('The author is not loaded', post.hasLoaded('author'));
+
+    this.currentUser.follow(post.author);
   }
-});
+}
 ```
 
 If the `followAuthor` action is called without the post's author being loaded, the developer will see a dev-time error.
