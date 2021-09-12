@@ -20,7 +20,7 @@
         <UiButton
           @onClick={{perform this.loadComments}}
           @disabled={{this.loadComments.isRunning}}
-          @dataTestId="load-comments">
+          data-test-id="load-comments">
           {{if this.loadComments.isIdle "Load comments" "Loading..."}}
         </UiButton>
 

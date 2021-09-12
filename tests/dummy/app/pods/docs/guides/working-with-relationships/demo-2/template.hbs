@@ -20,7 +20,7 @@
         <UiButton
           @onClick={{perform this.sideloadComments}}
           @disabled={{this.sideloadComments.isRunning}}
-          @dataTestId="sideload-comments">
+          data-test-id="sideload-comments">
           {{if this.sideloadComments.isIdle "Reload with comments" "Loading..."}}
         </UiButton>
 

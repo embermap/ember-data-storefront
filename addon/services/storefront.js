@@ -5,7 +5,7 @@ import { tracked } from '@glimmer/tracking';
 // do not delete this service! it's being used to communicte cached payloads
 // between the client and the browser
 export default class StorefrontService extends Service {
-	@service store;
+  @service store;
 
   @tracked fastbootDataRequests = null;
 

@@ -1,1 +1,1 @@
-export { default } from 'ember-data-storefront/components/assert-must-preload';
+export { default } from 'ember-data-storefront/components/assert-must-preload/component';
