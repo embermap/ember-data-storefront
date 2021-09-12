@@ -1,23 +1,22 @@
-import Mixin from '@ember/object/mixin';
+import StoreService from '@ember-data/store';
 import { deprecate } from '@ember/debug';
 import { resolve } from 'rsvp';
 import Coordinator from 'ember-data-storefront/-private/coordinator';
 
 /**
-  This mixin that adds new data-loading methods to Ember Data's store.
+  This service adds new data-loading methods to Ember Data's store.
 
   It is automatically mixed into your application's store when you install the addon.
 
   @class LoadableStore
   @public
 */
-export default Mixin.create({
-
-  init() {
-    this._super(...arguments);
+export default class LoadableStoreService extends StoreService {
+  constructor() {
+    super(...arguments);
 
     this.resetCache();
-  },
+  }
 
   /**
     `loadRecords` can be used in place of `store.query` to fetch a collection of records for the given type and options.
@@ -53,17 +52,17 @@ export default Mixin.create({
     @return {Promise} a promise resolving with the record array
     @public
   */
-  loadRecords(type, options={}) {
+  loadRecords(type, options = {}) {
     let query = this.coordinator.recordArrayQueryFor(type, options);
     let shouldBlock = options.reload || !query.value;
-    let shouldBackgroundReload = (options.backgroundReload !== undefined) ? options.backgroundReload : true;
+    let shouldBackgroundReload =
+      options.backgroundReload !== undefined ? options.backgroundReload : true;
     let promise;
     let fetcher;
 
     if (shouldBlock) {
       promise = query.run();
       fetcher = promise;
-
     } else {
       promise = resolve(query.value);
 
@@ -73,7 +72,7 @@ export default Mixin.create({
     fetcher.then(() => query.trackIncludes());
 
     return promise;
-  },
+  }
 
   loadAll(...args) {
     deprecate(
@@ -83,7 +82,7 @@ export default Mixin.create({
     );
 
     return this.loadRecords(...args);
-  },
+  }
 
   /**
     `loadRecord` can be used in place of `store.findRecord` to fetch a single record for the given type, id and options.
@@ -123,15 +122,15 @@ export default Mixin.create({
     @return {Promise} a promise resolving with the record array
     @public
   */
-  loadRecord(type, id, options={}) {
+  loadRecord(type, id, options = {}) {
     let query = this.coordinator.recordQueryFor(type, id, options);
     let shouldBlock = options.reload || !query.value;
-    let shouldBackgroundReload = (options.backgroundReload !== undefined) ? options.backgroundReload : true;
+    let shouldBackgroundReload =
+      options.backgroundReload !== undefined ? options.backgroundReload : true;
     let promise;
 
     if (shouldBlock) {
       promise = query.run();
-
     } else {
       promise = resolve(query.value);
 
@@ -141,7 +140,7 @@ export default Mixin.create({
     }
 
     return promise;
-  },
+  }
 
   /**
     _This method relies on JSON:API, and assumes that your server supports JSON:API includes._
@@ -161,7 +160,7 @@ export default Mixin.create({
   */
   hasLoadedIncludesForRecord(type, id, includesString) {
     return this.coordinator.recordHasIncludes(type, id, includesString);
-  },
+  }
 
   /**
     @method resetCache
@@ -170,5 +169,4 @@ export default Mixin.create({
   resetCache() {
     this.coordinator = new Coordinator(this);
   }
-
-});
+}

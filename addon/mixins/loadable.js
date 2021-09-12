@@ -1,5 +1,5 @@
 import Mixin from '@ember/object/mixin';
-import { deprecate } from '@ember/application/deprecations';
+import { deprecate } from '@ember/debug';
 import { on } from '@ember/object/evented';
 import LoadableModel from './loadable-model';
 

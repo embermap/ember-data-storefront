@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, settled } from '@ember/test-helpers';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 import MirageServer from 'dummy/tests/integration/helpers/mirage-server';
 import { Model } from 'ember-cli-mirage';
 import LoadableStore from 'ember-data-storefront/mixins/loadable-store';
@@ -37,7 +37,7 @@ module('Integration | Changing data render test', function(hooks) {
 
     await render(hbs`
       <div data-test-title>
-        {{model.title}}
+        {{this.model.title}}
       </div>
     `);
 
@@ -60,7 +60,7 @@ module('Integration | Changing data render test', function(hooks) {
 
     await render(hbs`
       <ul>
-        {{#each model as |post|}}
+        {{#each this.model as |post|}}
           <li>{{post.id}}</li>
         {{/each}}
       </ul>

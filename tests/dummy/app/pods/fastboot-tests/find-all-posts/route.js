@@ -1,7 +1,7 @@
 import Route from '@ember/routing/route';
 
-export default Route.extend({
-  model: function() {
+export default class FindAllPostsRoute extends Route {
+  model() {
     return this.store.findAll('post', { include: 'comments' });
-  },
-});
+  }
+}

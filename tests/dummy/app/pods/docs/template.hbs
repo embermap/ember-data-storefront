@@ -1,6 +1,6 @@
-{{#docs-viewer as |viewer|}}
+<DocsViewer as |viewer|>
 
-  {{#viewer.nav as |nav|}}
+  <viewer.nav as |nav|>
     {{nav.section 'Introduction'}}
     {{nav.item 'Overview' 'docs.index'}}
 
@@ -10,10 +10,10 @@
     {{nav.item 'Avoiding errors' 'docs.guides.avoiding-errors'}}
     {{nav.item 'Fastboot support' 'docs.guides.fastboot'}}
     {{nav.item 'Common data issues' 'docs.guides.common-data-issues'}}
-  {{/viewer.nav}}
+  </viewer.nav>
 
-  {{#viewer.main}}
+  <viewer.main>
     {{outlet}}
-  {{/viewer.main}}
+  </viewer.main>
 
-{{/docs-viewer}}
+</DocsViewer>

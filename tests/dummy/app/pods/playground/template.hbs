@@ -1,23 +1,23 @@
 <div>
-  The post has {{comments.length}} comments.
+  The post has {{this.comments.length}} comments.
 </div>
 
 <div>
-  The post has {{returnValue.length}} comments.
+  The post has {{this.returnValue.length}} comments.
 </div>
 
-<button {{action "createServerComment"}}>
+<button type="button" {{on "click" this.createServerComment}}>
   Create comment on server
 </button>
 
 |
 
-<button {{action "loadComments"}}>
+<button type="button" {{on "click" this.loadComments}}>
   Load comments
 </button>
 
 |
 
-<button {{action "makeSiteSlow"}}>
+<button type="button" {{on "click" this.makeSiteSlow}}>
   Make site slow
 </button>

@@ -1,6 +1,5 @@
 import Mixin from '@ember/object/mixin';
-import { deprecate } from '@ember/application/deprecations';
-import { assert } from '@ember/debug';
+import { deprecate, assert } from '@ember/debug';
 import { resolve } from 'rsvp';
 import { isArray } from '@ember/array';
 import { get } from '@ember/object';
@@ -110,7 +109,7 @@ export default Mixin.create({
       };
     }
 
-    return this.get('store').loadRecord(modelName, this.get('id'), options);
+    return this.store.loadRecord(modelName, this.id, options);
   },
 
   /**
@@ -363,7 +362,7 @@ export default Mixin.create({
   */
   hasLoaded(includesString) {
     let modelName = this.constructor.modelName;
-    return this.get('store').hasLoadedIncludesForRecord(modelName, this.get('id'), includesString) ||
+    return this.store.hasLoadedIncludesForRecord(modelName, this.id, includesString) ||
       this._graphHasLoaded(includesString);
   }
 

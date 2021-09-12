@@ -1,6 +1,6 @@
 import ApplicationSerializer from './application';
 
-export default ApplicationSerializer.extend({
+export default class PostSerializer extends ApplicationSerializer {
 
   links(model) {
     return {
@@ -13,4 +13,4 @@ export default ApplicationSerializer.extend({
     };
   }
 
-});
+}

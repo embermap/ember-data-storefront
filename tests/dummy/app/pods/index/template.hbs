@@ -1,10 +1,11 @@
-{{docs-hero}}
+<DocsHero />
 
 <div class='docs-container'>
   <div class='pv5 text-center'>
     <div class='mw7 center mb4'>
       <div class='aspect-ratio aspect-ratio--16x9'>
         <iframe
+          title='Overview video'
           class='aspect-ratio--object'
           width="640"
           height="360"
@@ -17,13 +18,13 @@
   </div>
 
   <section class='measure-wide center pb6 docs-md'>
-    {{index/x-intro}}
+    <Index::XIntro />
 
     <div class="mt5 tr">
       {{#docs-link 'docs'}}
-        {{#ui-button}}
+        <UiButton @onClick={{fn (mut this.xyz)}}> {{! TODO: remove tmp placeholder action }}
           Get started &rarr;
-        {{/ui-button}}
+        </UiButton>
       {{/docs-link}}
     </div>
   </section>

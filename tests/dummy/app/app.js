@@ -8,11 +8,11 @@ import { registerWarnHandler } from '@ember/debug';
 
 Model.reopen(LoadableModel);
 
-const App = Application.extend({
-  modulePrefix: config.modulePrefix,
-  podModulePrefix: config.podModulePrefix,
-  Resolver
-});
+export default class App extends Application {
+  modulePrefix = config.modulePrefix;
+  podModulePrefix = config.podModulePrefix;
+  Resolver = Resolver;
+}
 
 // We'll ignore the empty tag name warning for test selectors since we have
 // empty tag names for pass through components.
@@ -23,6 +23,3 @@ registerWarnHandler(function(message, { id }, next) {
 });
 
 loadInitializers(App, config.modulePrefix);
-
-
-export default App;
