@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, settled } from '@ember/test-helpers';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 import MirageServer from 'dummy/tests/integration/helpers/mirage-server';
 import { Model } from 'ember-cli-mirage';
 import LoadableStore from 'ember-data-storefront/mixins/loadable-store';

@@ -17,6 +17,7 @@
     "@babel/highlight" "^7.10.4"
 
 "@babel/compat-data@^7.10.4":
+  "integrity" "sha512-TPSvJfv73ng0pfnEOh17bYMPQbI95+nGWc71Ss4vZdRBHTDqmM9Z8ZV4rYz8Ks7sfzc95n30k6ODIq5UGnXcYQ=="
   "version" "7.11.0"
   dependencies:
     "browserslist" "^4.12.0"
@@ -50,6 +51,7 @@
     "source-map" "^0.5.0"
 
 "@babel/generator@^7.14.9":
+  "integrity" "sha512-4yoHbhDYzFa0GLfCzLp5GxH7vPPMAHdZjyE7M/OajM9037zhx0rf+iNsJwp4PT0MSFpwjG7BsHEbPkBQpZ6cYA=="
   "version" "7.14.9"
   dependencies:
     "@babel/types" "^7.14.9"
@@ -81,6 +83,7 @@
     "@babel/types" "^7.15.4"
 
 "@babel/helper-compilation-targets@^7.12.0":
+  "integrity" "sha512-a3rYhlsGV0UHNDvrtOXBg8/OpfV0OKTkxKPzIplS1zpx7CygDcWWxckxZeDd3gzPzC4kUT0A4nVFDK0wGMh4MQ=="
   "version" "7.10.4"
   dependencies:
     "@babel/compat-data" "^7.10.4"
@@ -112,6 +115,7 @@
     "@babel/helper-split-export-declaration" "^7.15.4"
 
 "@babel/helper-create-class-features-plugin@^7.5.5":
+  "integrity" "sha512-bpYvH8zJBWzeqi1o+co8qOrw+EXzQ/0c74gVmY205AWXy9nifHrOg77y+1zwxX5lXE7Icq4sPlSQ4O2kWBrteQ=="
   "version" "7.14.8"
   dependencies:
     "@babel/helper-annotate-as-pure" "^7.14.5"
@@ -160,6 +164,7 @@
     "@babel/types" "^7.15.4"
 
 "@babel/helper-get-function-arity@^7.14.5":
+  "integrity" "sha512-I1Db4Shst5lewOM4V+ZKJzQ0JGGaZ6VY1jYvMghRjqs6DWgxLCIyFt30GlnKkfUeFLpJt2vzbMVEXVSXlIFYUg=="
   "version" "7.14.5"
   dependencies:
     "@babel/types" "^7.14.5"
@@ -172,6 +177,7 @@
     "@babel/types" "^7.15.4"
 
 "@babel/helper-hoist-variables@^7.14.5":
+  "integrity" "sha512-R1PXiz31Uc0Vxy4OEOm07x0oSjKAdPPCh3tPivn/Eo8cvz6gveAeuyUUPB21Hoiif0uoPQSSdhIPS3352nvdyQ=="
   "version" "7.14.5"
   dependencies:
     "@babel/types" "^7.14.5"
@@ -184,6 +190,7 @@
     "@babel/types" "^7.15.4"
 
 "@babel/helper-member-expression-to-functions@^7.14.5", "@babel/helper-member-expression-to-functions@^7.14.7":
+  "integrity" "sha512-TMUt4xKxJn6ccjcOW7c4hlwyJArizskAhoSTOCkA0uZ+KghIaci0Qg9R043kUMWI9mtQfgny+NQ5QATnZ+paaA=="
   "version" "7.14.7"
   dependencies:
     "@babel/types" "^7.14.5"
@@ -217,6 +224,7 @@
     "@babel/types" "^7.15.4"
 
 "@babel/helper-optimise-call-expression@^7.14.5":
+  "integrity" "sha512-IqiLIrODUOdnPU9/F8ib1Fx2ohlgDhxnIDU7OEVi+kAbEZcyiF7BLU8W6PfvPi9LzztjS7kcbzbmL7oG8kD6VA=="
   "version" "7.14.5"
   dependencies:
     "@babel/types" "^7.14.5"
@@ -267,6 +275,7 @@
     "@babel/types" "^7.15.4"
 
 "@babel/helper-split-export-declaration@^7.14.5":
+  "integrity" "sha512-hprxVPu6e5Kdp2puZUmvOGjaLv9TCe58E/Fl6hRq4YiVQxIcNvuq6uTM2r1mT/oPskuS9CgR+I94sqAYv0NGKA=="
   "version" "7.14.5"
   dependencies:
     "@babel/types" "^7.14.5"
@@ -322,6 +331,7 @@
   "version" "7.15.6"
 
 "@babel/parser@^7.14.5", "@babel/parser@^7.14.9":
+  "integrity" "sha512-RdUTOseXJ8POjjOeEBEvNMIZU/nm4yu2rufRkcibzkkg7DmQvXU8v3M4Xk9G7uuI86CDGkKcuDWgioqZm+mScQ=="
   "version" "7.14.9"
 
 "@babel/plugin-bugfix-v8-spread-parameters-in-optional-chaining@^7.15.4":
@@ -997,6 +1007,7 @@
     "regenerator-runtime" "^0.13.4"
 
 "@babel/template@^7.14.5":
+  "integrity" "sha512-6Z3Po85sfxRGachLULUhOmvAaOo7xCvqGQtxINai2mEGPFm6pQ4z5QInFnUrRpfoSV60BnjyF5F3c+15fxFV1g=="
   "version" "7.14.5"
   dependencies:
     "@babel/code-frame" "^7.14.5"
@@ -1028,6 +1039,7 @@
     "globals" "^11.1.0"
 
 "@babel/traverse@^7.14.5":
+  "integrity" "sha512-bldh6dtB49L8q9bUyB7bC20UKgU+EFDwKJylwl234Kv+ySZeMD31Xeht6URyueQ6LrRRpF2tmkfcZooZR9/e8g=="
   "version" "7.14.9"
   dependencies:
     "@babel/code-frame" "^7.14.5"
@@ -1049,6 +1061,7 @@
     "to-fast-properties" "^2.0.0"
 
 "@babel/types@^7.14.5", "@babel/types@^7.14.9":
+  "integrity" "sha512-u0bLTnv3DFHeaQLYzb7oRJ1JHr1sv/SYDM7JSqHFFLwXG1wTZRughxFI5NCP8qBEo1rVVsn7Yg2Lvw49nne/Ow=="
   "version" "7.14.9"
   dependencies:
     "@babel/helper-validator-identifier" "^7.14.9"
@@ -5935,7 +5948,7 @@
   dependencies:
     "ms" "^2.1.1"
 
-"debug@^4.0.0", "debug@^4.1.0", "debug@^4.1.1":
+"debug@^4.0.0", "debug@^4.1.0":
   "integrity" "sha512-mOp8wKcvj7XxC78zLgw/ZA+6TSgkoE2C/ienthhRD298T7UNwAg9diBpLRxC0mOezLl4B0xV7M0cCO6P/O0Xhw=="
   "resolved" "https://registry.npmjs.org/debug/-/debug-4.3.2.tgz"
   "version" "4.3.2"
@@ -5943,6 +5956,13 @@
     "ms" "2.1.2"
 
 "debug@^4.0.1":
+  "integrity" "sha512-mOp8wKcvj7XxC78zLgw/ZA+6TSgkoE2C/ienthhRD298T7UNwAg9diBpLRxC0mOezLl4B0xV7M0cCO6P/O0Xhw=="
+  "resolved" "https://registry.npmjs.org/debug/-/debug-4.3.2.tgz"
+  "version" "4.3.2"
+  dependencies:
+    "ms" "2.1.2"
+
+"debug@^4.1.1":
   "integrity" "sha512-mOp8wKcvj7XxC78zLgw/ZA+6TSgkoE2C/ienthhRD298T7UNwAg9diBpLRxC0mOezLl4B0xV7M0cCO6P/O0Xhw=="
   "resolved" "https://registry.npmjs.org/debug/-/debug-4.3.2.tgz"
   "version" "4.3.2"
@@ -6291,17 +6311,6 @@
     "inherits" "^2.0.4"
     "minimalistic-assert" "^1.0.1"
     "minimalistic-crypto-utils" "^1.0.1"
-
-"ember-app-scheduler@^1.0.5":
-  "integrity" "sha512-fYCOhQTLb1b+TZ2PBSqyvHXVAxf7qfWD0ZSJTd/IdU/xbLJSt34X75w7qK2uBHZCkVvCNm/ATW3pjFC/0zYk7A=="
-  "resolved" "https://registry.npmjs.org/ember-app-scheduler/-/ember-app-scheduler-1.0.8.tgz"
-  "version" "1.0.8"
-  dependencies:
-    "@types/ember" "^3.1.0"
-    "@types/rsvp" "^4.0.2"
-    "ember-cli-babel" "^7.1.3"
-    "ember-cli-typescript" "^2.0.0"
-    "ember-compatibility-helpers" "^1.1.2"
 
 "ember-app-scheduler@^5.1.2 || ^6.0.0":
   "integrity" "sha512-P2xP6ww4hwaqoDAkiib52x71LApAIin5PvovpW4yFUCFUWhEh/nbc1fVqo1jP4pI1/me3GZm2+xh4YdMJlr1+w=="
@@ -6949,24 +6958,6 @@
   dependencies:
     "ember-cli-babel" "^7.13.2"
 
-"ember-cli-typescript@^2.0.0":
-  "integrity" "sha512-7I5azCTxOgRDN8aSSnJZIKSqr+MGnT+jLTUbBYqF8wu6ojs2DUnTePxUcQMcvNh3Q3B1ySv7Q/uZFSjdU9gSjA=="
-  "resolved" "https://registry.npmjs.org/ember-cli-typescript/-/ember-cli-typescript-2.0.2.tgz"
-  "version" "2.0.2"
-  dependencies:
-    "@babel/plugin-proposal-class-properties" "^7.1.0"
-    "@babel/plugin-transform-typescript" "~7.4.0"
-    "ansi-to-html" "^0.6.6"
-    "debug" "^4.0.0"
-    "ember-cli-babel-plugin-helpers" "^1.0.0"
-    "execa" "^1.0.0"
-    "fs-extra" "^7.0.0"
-    "resolve" "^1.5.0"
-    "rsvp" "^4.8.1"
-    "semver" "^6.0.0"
-    "stagehand" "^1.0.0"
-    "walk-sync" "^1.0.0"
-
 "ember-cli-typescript@^2.0.2":
   "integrity" "sha512-7I5azCTxOgRDN8aSSnJZIKSqr+MGnT+jLTUbBYqF8wu6ojs2DUnTePxUcQMcvNh3Q3B1ySv7Q/uZFSjdU9gSjA=="
   "resolved" "https://registry.npmjs.org/ember-cli-typescript/-/ember-cli-typescript-2.0.2.tgz"
@@ -7513,22 +7504,13 @@
     "@babel/traverse" "^7.4.5"
     "recast" "^0.18.1"
 
-"ember-router-scroll@^4.0.2":
+"ember-router-scroll@^4.0.2", "ember-router-scroll@^4.1.1":
   "integrity" "sha512-yMM1O4CuZ70T9xCUUkdm88vI9b1V+j2Z8eXQnn3ndFBpkw2pszeV46N8MVDUznRm2Mq2uW0G9knSCuiNGCUhLA=="
   "resolved" "https://registry.npmjs.org/ember-router-scroll/-/ember-router-scroll-4.1.1.tgz"
   "version" "4.1.1"
   dependencies:
     "ember-app-scheduler" "^5.1.2 || ^6.0.0"
     "ember-cli-babel" "^7.11.1"
-    "ember-compatibility-helpers" "^1.1.2"
-
-"ember-router-scroll@~1.3.2":
-  "integrity" "sha512-SwGsX7kceLXd3AZtKFcM/Ggl5lw37/a1v2rYHwWKZNMiyICBctJmWeEvALLQpiNzT8YMJrJHBkucHFmG07JPXQ=="
-  "resolved" "https://registry.npmjs.org/ember-router-scroll/-/ember-router-scroll-1.3.3.tgz"
-  "version" "1.3.3"
-  dependencies:
-    "ember-app-scheduler" "^1.0.5"
-    "ember-cli-babel" "^7.1.2"
     "ember-compatibility-helpers" "^1.1.2"
 
 "ember-source-channel-url@^1.0.1":
@@ -15282,7 +15264,17 @@
     "ensure-posix-path" "^1.1.0"
     "matcher-collection" "^1.1.1"
 
-"walk-sync@^2.0.0", "walk-sync@^2.0.2", "walk-sync@^2.2.0":
+"walk-sync@^2.0.0", "walk-sync@^2.2.0":
+  "integrity" "sha512-IC8sL7aB4/ZgFcGI2T1LczZeFWZ06b3zoHH7jBPyHxOtIIz1jppWHjjEXkOFvFojBVAK9pV7g47xOZ4LW3QLfg=="
+  "resolved" "https://registry.npmjs.org/walk-sync/-/walk-sync-2.2.0.tgz"
+  "version" "2.2.0"
+  dependencies:
+    "@types/minimatch" "^3.0.3"
+    "ensure-posix-path" "^1.1.0"
+    "matcher-collection" "^2.0.0"
+    "minimatch" "^3.0.4"
+
+"walk-sync@^2.0.2", "walk-sync@^2.2.0":
   "integrity" "sha512-IC8sL7aB4/ZgFcGI2T1LczZeFWZ06b3zoHH7jBPyHxOtIIz1jppWHjjEXkOFvFojBVAK9pV7g47xOZ4LW3QLfg=="
   "resolved" "https://registry.npmjs.org/walk-sync/-/walk-sync-2.2.0.tgz"
   "version" "2.2.0"

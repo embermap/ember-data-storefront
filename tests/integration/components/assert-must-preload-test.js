@@ -1,13 +1,13 @@
-import Model from '@ember-data/model';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
+import { hbs } from 'ember-cli-htmlbars';
 import { run } from '@ember/runloop';
 import { startMirage } from 'dummy/initializers/ember-cli-mirage';
-import hbs from 'htmlbars-inline-precompile';
 import LoadableModel from 'ember-data-storefront/mixins/loadable-model';
 import LoadableStore from 'ember-data-storefront/mixins/loadable-store';
 import Ember from 'ember';
+import Model from '@ember-data/model';
 
 module('Integration | Component | assert must preload', function(hooks) {
   setupRenderingTest(hooks);

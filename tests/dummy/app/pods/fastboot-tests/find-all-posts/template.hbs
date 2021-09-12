@@ -6,7 +6,7 @@
   shoebox.
 </p>
 
-{{#each model as |post|}}
+{{#each this.model as |post|}}
   <div data-test-id={{concat "post-title-" post.id}}>
     {{post.title}}
   </div>

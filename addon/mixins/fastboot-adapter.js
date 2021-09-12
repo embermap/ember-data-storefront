@@ -47,9 +47,9 @@ export default Mixin.create({
   },
 
   _makeStorefrontQueryBoxer(type, url, params) {
-    let fastboot = this.get('fastboot');
-    let isFastboot = fastboot && fastboot.get('isFastBoot');
-    let cache = this.get('storefront.fastbootDataRequests');
+    const { fastboot } = this;
+    let isFastboot = fastboot && fastboot.isFastBoot;
+    let cache = this.storefront.fastbootDataRequests;
 
     return function(response) {
       if (isFastboot) {
@@ -63,9 +63,9 @@ export default Mixin.create({
 
   _getStorefrontBoxedQuery(type, url, params) {
     let payload;
-    let fastboot = this.get('fastboot');
-    let isFastboot = fastboot && fastboot.get('isFastBoot');
-    let shoebox = fastboot && fastboot.get('shoebox');
+    const { fastboot } = this;
+    let isFastboot = fastboot && fastboot.isFastBoot;
+    let shoebox = fastboot && fastboot.shoebox;
     let box = shoebox && shoebox.retrieve('ember-data-storefront');
 
     const config = getOwner(this).resolveRegistration('config:environment');

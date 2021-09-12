@@ -26,6 +26,7 @@ module.exports = {
   },
   rules: {
     'ember/no-jquery': 'off',
+    'ember/no-mixins': 'off',
     'ember/no-new-mixins': 'off',
     'no-useless-escape': 'off'
   },
@@ -53,11 +54,17 @@ module.exports = {
       },
       plugins: ['node'],
       extends: ['plugin:node/recommended'],
+      rules: {
+        'node/no-unpublished-require': 'off',
+      },
     },
     {
       // Test files:
       files: ['tests/**/*-test.{js,ts}'],
       extends: ['plugin:qunit/recommended'],
+      rules: {
+        'qunit/require-expect': 'off',
+      },
     },
   ],
 };
