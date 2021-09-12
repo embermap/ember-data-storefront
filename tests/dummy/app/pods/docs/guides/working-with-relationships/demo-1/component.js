@@ -23,7 +23,7 @@ export default class DocsDemo1Component extends Component {
   }
 
   setup() {
-    const tasks = {
+    let tasks = {
       // BEGIN-SNIPPET working-with-relationships-demo-1.js
       loadComments: task(function*() {
         yield this.post.load('comments');

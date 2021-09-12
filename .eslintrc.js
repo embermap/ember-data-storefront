@@ -13,7 +13,9 @@ module.exports = {
       legacyDecorators: true
     }
   },
-  plugins: ['ember'],
+  plugins: [
+    'ember'
+  ],
   extends: [
     'eslint:recommended',
     'plugin:ember/recommended',

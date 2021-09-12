@@ -33,7 +33,7 @@ export default class Demo2Component extends Component {
         // route
         model() {
           return this.store.loadRecords('post');
-        },
+        }
         // END-SNIPPET
       },
       '/posts/1': {
@@ -41,9 +41,9 @@ export default class Demo2Component extends Component {
         // route
         model() {
           return this.store.loadRecord('post', 1);
-        },
+        }
         // END-SNIPPET
-      },
+      }
     };
   }
 
