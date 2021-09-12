@@ -37,7 +37,7 @@ module('Integration | Changing data render test', function(hooks) {
 
     await render(hbs`
       <div data-test-title>
-        {{model.title}}
+        {{this.model.title}}
       </div>
     `);
 
@@ -60,7 +60,7 @@ module('Integration | Changing data render test', function(hooks) {
 
     await render(hbs`
       <ul>
-        {{#each model as |post|}}
+        {{#each this.model as |post|}}
           <li>{{post.id}}</li>
         {{/each}}
       </ul>

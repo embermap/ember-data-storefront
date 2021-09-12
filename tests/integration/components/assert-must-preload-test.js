@@ -144,7 +144,7 @@ module('Integration | Component | assert must preload', function(hooks) {
         <AssertMustPreload @model={{this.post}} @includes={{array "comments"}} />
 
         <div data-test-id="title">
-          {{post.title}}
+          {{this.post.title}}
         </div>
       `);
 

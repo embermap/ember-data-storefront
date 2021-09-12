@@ -10,6 +10,7 @@ export default class Demo2Component extends Component {
   @service store;
 
   @tracked visitedRoutes;
+  @tracked isExpanded;
 
   get serverPosts() {
     return window.server.db.dump().posts;

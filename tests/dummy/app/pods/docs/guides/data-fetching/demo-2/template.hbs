@@ -10,16 +10,16 @@
 
     <div class="demo2__panel">
       <div class="demo2__flex demo2__flex-items-center">
-        <a {{on "click" (fn this.visitRoute '/posts')}}
+        <button type="button" {{on "click" (fn this.visitRoute '/posts')}}
           class="demo2__app-link {{if (eq this.activeRoute '/posts') 'demo2__app-link-active'}}"
           data-test-id='posts-link'>
           /posts
-        </a>
-        <a {{on "click" (fn this.visitRoute '/posts/1')}}
+        </button>
+        <button type="button" {{on "click" (fn this.visitRoute '/posts/1')}}
           class="demo2__app-link {{if (eq this.activeRoute '/posts/1') 'demo2__app-link-active'}}"
           data-test-id='post1-link'>
           /posts/1
-        </a>
+        </button>
         <span class='demo2__app-url demo2__mla'>
           {{this.activeRoute}}
         </span>
@@ -54,13 +54,13 @@
     </div>
 
     <div class='demo2__expander'>
-      <a {{on 'click' this.toggleExpand}}>
+      <button type='button' {{on 'click' this.toggleExpand}}>
         {{#if this.isExpanded}}
           <FaIcon @icon='angle-up' />
         {{else}}
           <FaIcon @icon='angle-down' />
         {{/if}}
-      </a>
+      </button>
     </div>
   </div>
 
