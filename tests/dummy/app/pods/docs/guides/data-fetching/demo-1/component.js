@@ -5,6 +5,7 @@ import { inject as service } from '@ember/service';
 import { readOnly } from '@ember/object/computed';
 import { A } from '@ember/array';
 import { action } from '@ember/object';
+import podNames from 'ember-component-css/pod-names';
 
 export default class Demo1Component extends Component {
   @service store;
@@ -46,6 +47,10 @@ export default class Demo1Component extends Component {
     };
   }
 
+  get styleNamespace() {
+    return podNames['docs/guides/data-fetching/demo-1'];
+  }
+
   constructor() {
     super(...arguments);
     this.reset();
@@ -64,16 +69,16 @@ export default class Demo1Component extends Component {
   }
 
   @action visitRoute(routeName) {
-    if (routeName !== this.get('activeRoute')) {
-      this.get('visit').perform(routeName);
+    if (routeName !== this.activeRoute) {
+      this.visit.perform(routeName);
     }
   }
 
   @action toggleExpand() {
-    this.toggleProperty('isExpanded');
+    this.isExpanded = !this.isExpanded;
   }
 
-  @action reset() {
+  @action resetState() {
     this.reset();
   }
 }

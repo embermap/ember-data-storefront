@@ -10,8 +10,8 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: 'module',
     ecmaFeatures: {
-      legacyDecorators: true,
-    },
+      legacyDecorators: true
+    }
   },
   plugins: ['ember'],
   extends: [
@@ -20,12 +20,12 @@ module.exports = {
     'plugin:prettier/recommended',
   ],
   env: {
-    browser: true,
+    browser: true
   },
   rules: {
     'ember/no-jquery': 'off',
     'ember/no-new-mixins': 'off',
-    'no-useless-escape': 'off',
+    'no-useless-escape': 'off'
   },
   overrides: [
     // node files
@@ -39,14 +39,15 @@ module.exports = {
         './testem.js',
         './blueprints/*/index.js',
         './config/**/*.js',
+        './server/**/*.js',
         './tests/dummy/config/**/*.js',
       ],
       parserOptions: {
-        sourceType: 'script',
+        sourceType: 'script'
       },
       env: {
         browser: false,
-        node: true,
+        node: true
       },
       plugins: ['node'],
       extends: ['plugin:node/recommended'],

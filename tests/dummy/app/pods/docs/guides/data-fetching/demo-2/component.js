@@ -1,10 +1,11 @@
-import Component from '@ember/component';
+import Component from '@glimmer/component';
 import { computed } from '@ember/object';
 import { task } from 'ember-concurrency';
 import { inject as service } from '@ember/service';
 import { readOnly } from '@ember/object/computed';
 import { A } from '@ember/array';
 import { action } from '@ember/object';
+import podNames from 'ember-component-css/pod-names';
 
 export default class Demo2Component extends Component {
   @service store;
@@ -46,6 +47,10 @@ export default class Demo2Component extends Component {
     };
   }
 
+  get styleNamespace() {
+    return podNames['docs/guides/data-fetching/demo-2'];
+  }
+
   constructor() {
     super(...arguments);
     this.reset();
@@ -73,7 +78,7 @@ export default class Demo2Component extends Component {
     this.isExpanded = !this.isExpanded;
   }
 
-  @action reset() {
+  @action resetState() {
     this.reset();
   }
 }

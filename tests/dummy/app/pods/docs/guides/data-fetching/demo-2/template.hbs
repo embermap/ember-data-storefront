@@ -1,45 +1,46 @@
+<div class={{this.styleNamespace}}>
 <div class='demo2' data-test-id='demo2'>
   <div class="demo2__top-section">
     <div class="demo2__flex">
       <h2 class="demo2__section-heading">App</h2>
       <div class="demo2__mla">
-        <button {{action 'reset'}} class='demo2__btn'>Reset</button>
+        <button {{on "click" this.resetState}} type="button" class='demo2__btn'>Reset</button>
       </div>
     </div>
 
     <div class="demo2__panel">
       <div class="demo2__flex demo2__flex-items-center">
-        <a {{action 'visitRoute' '/posts'}} href="#"
-          class="demo2__app-link {{if (eq activeRoute '/posts') 'demo2__app-link-active'}}"
+        <a {{on "click" (fn this.visitRoute '/posts')}}
+          class="demo2__app-link {{if (eq this.activeRoute '/posts') 'demo2__app-link-active'}}"
           data-test-id='posts-link'>
           /posts
         </a>
-        <a {{action 'visitRoute' '/posts/1'}} href="#"
-          class="demo2__app-link {{if (eq activeRoute '/posts/1') 'demo2__app-link-active'}}"
+        <a {{on "click" (fn this.visitRoute '/posts/1')}}
+          class="demo2__app-link {{if (eq this.activeRoute '/posts/1') 'demo2__app-link-active'}}"
           data-test-id='post1-link'>
           /posts/1
         </a>
         <span class='demo2__app-url demo2__mla'>
-          {{activeRoute}}
+          {{this.activeRoute}}
         </span>
       </div>
 
       <div data-test-id='app-ui'>
-        {{#if visit.isRunning}}
-          <p class='demo2__subtle'>{{fa-icon 'spinner' spin=true}} Loading {{activeRoute}}...</p>
+        {{#if this.visit.isRunning}}
+          <p class='demo2__subtle'>{{fa-icon 'spinner' spin=true}} Loading {{this.activeRoute}}...</p>
         {{else}}
-          {{#if (eq activeRoute '/posts/1')}}
+          {{#if (eq this.activeRoute '/posts/1')}}
             <p>
               {{!-- BEGIN-SNIPPET demo2-posts1-template.hbs --}}
               {{! template }}
-              {{model.title}}
+              {{this.model.title}}
               {{!-- END-SNIPPET --}}
             </p>
-          {{else if (eq activeRoute '/posts')}}
+          {{else if (eq this.activeRoute '/posts')}}
             <ul class='demo2__list'>
               {{!-- BEGIN-SNIPPET demo2-posts-template.hbs --}}
               {{! template }}
-              {{#each model as |post|}}
+              {{#each this.model as |post|}}
                 <li>{{post.title}}</li>
               {{/each}}
               {{!-- END-SNIPPET --}}
@@ -53,8 +54,8 @@
     </div>
 
     <div class='demo2__expander'>
-      <a {{action 'toggleExpand'}} href="#">
-        {{#if isExpanded}}
+      <a {{on "click" this.toggleExpand}}>
+        {{#if this.isExpanded}}
           {{fa-icon 'angle-up'}}
         {{else}}
           {{fa-icon 'angle-down'}}
@@ -64,7 +65,7 @@
   </div>
 
 
-  {{#if isExpanded}}
+  {{#if this.isExpanded}}
     <div class="demo2__bottom-section">
       <div class="demo2__bottom-left-section">
         <h2 class="demo2__section-heading">Server</h2>
@@ -79,7 +80,7 @@
               </tr>
             </thead>
             <tbody>
-              {{#each serverPosts as |post|}}
+              {{#each this.serverPosts as |post|}}
                 <tr>
                   <td>{{post.id}}</td>
                   <td>{{post.title}}</td>
@@ -98,7 +99,7 @@
             <div class="demo2__panel">
               <h3 class="demo2__panel-title">Store</h3>
               <h4 class="demo2__panel-subtitle">
-                POSTS ({{clientPosts.length}})
+                POSTS ({{this.clientPosts.length}})
               </h4>
               <table class="demo2__table">
                 <thead>
@@ -108,7 +109,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  {{#each clientPosts as |post|}}
+                  {{#each this.clientPosts as |post|}}
                     <tr>
                       <td>{{post.id}}</td>
                       <td>{{post.title}}</td>
@@ -122,7 +123,7 @@
             <div class="demo2__panel">
               <h3 class="demo2__panel-title">History</h3>
               <ul class='demo2__list'>
-                {{#each visitedRoutes as |route|}}
+                {{#each this.visitedRoutes as |route|}}
                   <li>{{route}}</li>
                 {{/each}}
               </ul>
@@ -134,18 +135,19 @@
           <h3 class="demo2__panel-title">Routes</h3>
           <h4 class="demo2__panel-subtitle">/posts</h4>
           <div>
-            {{docs-snippet name="demo2-posts-route.js"}}
-            {{docs-snippet name="demo2-posts-template.hbs"}}
+            <DocsSnippet @name="demo2-posts-route.js" />
+            <DocsSnippet @name="demo2-posts-template.hbs" />
           </div>
 
           <h4 class="demo2__panel-subtitle">/posts/1</h4>
           <div>
-            {{docs-snippet name="demo2-posts1-route.js"}}
-            {{docs-snippet name="demo2-posts1-template.hbs"}}
+            <DocsSnippet @name="demo2-posts1-route.js" />
+            <DocsSnippet @name="demo2-posts1-template.hbs" />
           </div>
         </div>
 
       </div>
     </div>
   {{/if}}
+</div>
 </div>
