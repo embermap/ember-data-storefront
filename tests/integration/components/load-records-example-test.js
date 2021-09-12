@@ -33,9 +33,9 @@ module('Integration | Component | Load records example', function(hooks) {
 
     await render(hbs`
       <LoadRecords
-        @modelName="user"
+        @modelName='user'
         @params={{hash
-          sort="-position"
+          sort='-position'
           page=(hash limit=4)
         }}
       />

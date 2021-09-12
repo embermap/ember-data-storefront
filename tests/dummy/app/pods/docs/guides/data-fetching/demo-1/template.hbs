@@ -4,17 +4,17 @@
     <div class="demo1__flex">
       <h2 class="demo1__section-heading">App</h2>
       <div class="demo1__mla">
-        <button {{on "click" this.reset}} type="button" class='demo1__btn'>Reset</button>
+        <button {{on 'click' this.reset}} type='button' class='demo1__btn'>Reset</button>
       </div>
     </div>
 
     <div class="demo1__panel">
       <div class="demo1__flex demo1__flex-items-center">
-        <a {{on "click" (fn this.visitRoute '/posts')}}
+        <a {{on 'click' (fn this.visitRoute '/posts')}}
           class="demo1__app-link {{if (eq this.activeRoute '/posts') 'demo1__app-link-active'}}">
           /posts
         </a>
-        <a {{on "click" (fn this.visitRoute '/posts/1')}}
+        <a {{on 'click' (fn this.visitRoute '/posts/1')}}
           class="demo1__app-link {{if (eq this.activeRoute '/posts/1') 'demo1__app-link-active'}}">
           /posts/1
         </a>
@@ -50,7 +50,7 @@
     </div>
 
     <div class='demo1__expander'>
-      <a {{on "click" this.toggleExpand}}>
+      <a {{on 'click' this.toggleExpand}}>
         {{#if this.isExpanded}}
           <FaIcon @icon='angle-up' />
         {{else}}

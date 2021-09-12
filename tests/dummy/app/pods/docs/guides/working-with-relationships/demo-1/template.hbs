@@ -4,7 +4,7 @@
     <demo.example @name='working-with-relationships-demo-1.hbs'>
 
       <div class="tr">
-        <UiButton @style="small" @onClick={{this.reset}}>
+        <UiButton @style='small' @onClick={{this.reset}}>
           Reset
         </UiButton>
       </div>
@@ -20,8 +20,8 @@
         <UiButton
           @onClick={{perform this.loadComments}}
           @disabled={{this.loadComments.isRunning}}
-          data-test-id="load-comments">
-          {{if this.loadComments.isIdle "Load comments" "Loading..."}}
+          data-test-id='load-comments'>
+          {{if this.loadComments.isIdle 'Load comments' 'Loading...'}}
         </UiButton>
 
       {{/liquid-if}}

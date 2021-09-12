@@ -4,7 +4,7 @@
     <div class="demo2__flex">
       <h2 class="demo2__section-heading">App</h2>
       <div class="demo2__mla">
-        <button {{on "click" this.reset}} type="button" class='demo2__btn'>Reset</button>
+        <button {{on 'click' this.reset}} type='button' class='demo2__btn'>Reset</button>
       </div>
     </div>
 
@@ -54,7 +54,7 @@
     </div>
 
     <div class='demo2__expander'>
-      <a {{on "click" this.toggleExpand}}>
+      <a {{on 'click' this.toggleExpand}}>
         {{#if this.isExpanded}}
           <FaIcon @icon='angle-up' />
         {{else}}
