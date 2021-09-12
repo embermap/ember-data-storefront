@@ -4,7 +4,7 @@
     <div class="demo1__flex">
       <h2 class="demo1__section-heading">App</h2>
       <div class="demo1__mla">
-        <button {{on "click" this.resetState}} type="button" class='demo1__btn'>Reset</button>
+        <button {{on "click" this.reset}} type="button" class='demo1__btn'>Reset</button>
       </div>
     </div>
 
@@ -24,7 +24,7 @@
       </div>
 
       {{#if this.visit.isRunning}}
-        <p class='demo1__subtle'>{{fa-icon 'spinner' spin=true}} Loading {{this.activeRoute}}...</p>
+        <p class='demo1__subtle'><FaIcon @icon='spinner' @spin={{true}} /> Loading {{this.activeRoute}}...</p>
       {{else}}
         {{#if (eq this.activeRoute '/posts/1')}}
           <p>
@@ -52,9 +52,9 @@
     <div class='demo1__expander'>
       <a {{on "click" this.toggleExpand}}>
         {{#if this.isExpanded}}
-          {{fa-icon 'angle-up'}}
+          <FaIcon @icon='angle-up' />
         {{else}}
-          {{fa-icon 'angle-down'}}
+          <FaIcon @icon='angle-down' />
         {{/if}}
       </a>
     </div>

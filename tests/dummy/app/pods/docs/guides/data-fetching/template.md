@@ -20,7 +20,7 @@ In the following example, compare how the app behaves when you visit the routes 
 
 If you followed the steps above, what you'll notice is that under the second scenario, the `/posts` route was actually rendered in two states. First, it showed `post:1` in the list, and then after about a second the app re-rendered and the other two posts appeared.
 
-This is because the `/posts/1` route had already loaded the `post:1` record into Ember Data's store. By the time you visited the `/posts` index route, the promise from the store's `findAll` method resolved immediately with that `post:1` record, and then triggered a background reload of the entire `posts` collection. (Click the {{fa-icon 'angle-down'}} above to expand the demo for more details about what's happening as you navigate through the app.)
+This is because the `/posts/1` route had already loaded the `post:1` record into Ember Data's store. By the time you visited the `/posts` index route, the promise from the store's `findAll` method resolved immediately with that `post:1` record, and then triggered a background reload of the entire `posts` collection. (Click the <FaIcon @icon='angle-down' /> above to expand the demo for more details about what's happening as you navigate through the app.)
 
 Ember Data's `findAll` method accepts a `reload` option that we can use to force the promise to block, but then we'd lose the benefits of caching. (Note how after visiting `/posts` for the first time, it's fast on all subsequent visits.)
 

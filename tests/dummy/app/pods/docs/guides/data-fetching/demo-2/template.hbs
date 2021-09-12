@@ -4,7 +4,7 @@
     <div class="demo2__flex">
       <h2 class="demo2__section-heading">App</h2>
       <div class="demo2__mla">
-        <button {{on "click" this.resetState}} type="button" class='demo2__btn'>Reset</button>
+        <button {{on "click" this.reset}} type="button" class='demo2__btn'>Reset</button>
       </div>
     </div>
 
@@ -27,7 +27,7 @@
 
       <div data-test-id='app-ui'>
         {{#if this.visit.isRunning}}
-          <p class='demo2__subtle'>{{fa-icon 'spinner' spin=true}} Loading {{this.activeRoute}}...</p>
+          <p class='demo2__subtle'><FaIcon @icon='spinner' @spin={{true}} /> Loading {{this.activeRoute}}...</p>
         {{else}}
           {{#if (eq this.activeRoute '/posts/1')}}
             <p>
@@ -56,9 +56,9 @@
     <div class='demo2__expander'>
       <a {{on "click" this.toggleExpand}}>
         {{#if this.isExpanded}}
-          {{fa-icon 'angle-up'}}
+          <FaIcon @icon='angle-up' />
         {{else}}
-          {{fa-icon 'angle-down'}}
+          <FaIcon @icon='angle-down' />
         {{/if}}
       </a>
     </div>

@@ -1,14 +1,15 @@
 import Component from '@glimmer/component';
-import { computed } from '@ember/object';
 import { task } from 'ember-concurrency';
 import { inject as service } from '@ember/service';
-import { readOnly } from '@ember/object/computed';
 import { A } from '@ember/array';
+import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import podNames from 'ember-component-css/pod-names';
 
 export default class Demo2Component extends Component {
   @service store;
+
+  @tracked visitedRoutes;
 
   get serverPosts() {
     return window.server.db.dump().posts;
@@ -62,12 +63,6 @@ export default class Demo2Component extends Component {
     return yield this.routes[routeName].model.call(this);
   }
 
-  reset() {
-    this.store.unloadAll('post');
-    this.store.resetCache();
-    this.visitedRoutes = A(['/']);
-  }
-
   @action visitRoute(routeName) {
     if (routeName !== this.activeRoute) {
       this.visit.perform(routeName);
@@ -78,7 +73,9 @@ export default class Demo2Component extends Component {
     this.isExpanded = !this.isExpanded;
   }
 
-  @action resetState() {
-    this.reset();
+  @action reset() {
+    this.store.unloadAll('post');
+    this.store.resetCache();
+    this.visitedRoutes = A(['/']);
   }
 }
