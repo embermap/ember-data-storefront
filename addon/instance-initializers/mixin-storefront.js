@@ -9,5 +9,5 @@ export function initialize(appInstance) {
 export default {
   name: 'mixin-storefront',
   after: 'ember-data',
-  initialize
+  initialize,
 };

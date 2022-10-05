@@ -6,10 +6,10 @@ import { startMirage } from 'dummy/initializers/ember-cli-mirage';
 import LoadableModel from 'ember-data-storefront/mixins/loadable-model';
 import LoadableStore from 'ember-data-storefront/mixins/loadable-store';
 
-module('Integration | Mixins | LoadableModel | sideload', function(hooks) {
+module('Integration | Mixins | LoadableModel | sideload', function (hooks) {
   setupTest(hooks);
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     Model.reopen(LoadableModel);
     this.server = startMirage();
 
@@ -21,19 +21,18 @@ module('Integration | Mixins | LoadableModel | sideload', function(hooks) {
     let post = server.create('post', { id: 1, author });
     server.createList('comment', 2, { post, author });
   }),
+    hooks.afterEach(function () {
+      this.server.shutdown();
+      this.store = null;
+    });
 
-  hooks.afterEach(function() {
-    this.server.shutdown();
-    this.store = null;
-  });
-
-  test('#sideload can load includes', async function(assert) {
+  test('#sideload can load includes', async function (assert) {
     let requests = [];
-    server.pretender.handledRequest = function(...args) {
+    server.pretender.handledRequest = function (...args) {
       requests.push(args[2]);
     };
 
-    let post = await this.store.findRecord('post', 1)
+    let post = await this.store.findRecord('post', 1);
 
     assert.equal(post.hasMany('comments').value(), null);
 
@@ -44,11 +43,13 @@ module('Integration | Mixins | LoadableModel | sideload', function(hooks) {
     assert.equal(requests[1].url, '/posts/1?include=comments');
   });
 
-  test('#sideload returns a resolved promise if its already loaded includes, and reloads in the background', async function(assert) {
+  test('#sideload returns a resolved promise if its already loaded includes, and reloads in the background', async function (assert) {
     let serverCalls = 0;
-    server.pretender.handledRequest = function() { serverCalls++ };
+    server.pretender.handledRequest = function () {
+      serverCalls++;
+    };
 
-    let post = await this.store.findRecord('post', 1)
+    let post = await this.store.findRecord('post', 1);
 
     assert.equal(serverCalls, 1);
 
@@ -71,12 +72,12 @@ module('Integration | Mixins | LoadableModel | sideload', function(hooks) {
     assert.equal(post.hasMany('comments').value().get('length'), 3);
   });
 
-  test('#sideload can take multiple arguments', async function(assert) {
+  test('#sideload can take multiple arguments', async function (assert) {
     let tag = server.create('tag');
     let miragePost = this.server.schema.posts.find(1);
-    miragePost.update({ tags: [ tag ]});
+    miragePost.update({ tags: [tag] });
 
-    let post = await this.store.findRecord('post', 1)
+    let post = await this.store.findRecord('post', 1);
 
     await post.sideload('comments', 'tags');
 
@@ -84,9 +85,11 @@ module('Integration | Mixins | LoadableModel | sideload', function(hooks) {
     assert.equal(post.hasMany('tags').value().get('length'), 1);
   });
 
-  test('#sideload can take options, like reload: true', async function(assert) {
+  test('#sideload can take options, like reload: true', async function (assert) {
     let serverCalls = 0;
-    server.pretender.handledRequest = function() { serverCalls++ };
+    server.pretender.handledRequest = function () {
+      serverCalls++;
+    };
 
     let post = await this.store.findRecord('post', 1, { include: 'comments' });
 
@@ -97,10 +100,10 @@ module('Integration | Mixins | LoadableModel | sideload', function(hooks) {
     assert.equal(serverCalls, 2);
   });
 
-  test('#sideload should not make a network request if the relationship is loaded, but backgroundReload is false', async function(assert) {
+  test('#sideload should not make a network request if the relationship is loaded, but backgroundReload is false', async function (assert) {
     let requests = [];
 
-    server.pretender.handledRequest = function(...args) {
+    server.pretender.handledRequest = function (...args) {
       requests.push(args[2]);
     };
 
@@ -113,9 +116,8 @@ module('Integration | Mixins | LoadableModel | sideload', function(hooks) {
     assert.equal(requests.length, 1);
 
     // wait 500ms and make sure there's no network request
-    await new Promise(resolve => setTimeout(resolve, 500));
+    await new Promise((resolve) => setTimeout(resolve, 500));
 
     assert.equal(requests.length, 1);
   });
-
 });

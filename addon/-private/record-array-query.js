@@ -1,5 +1,4 @@
 export default class RecordArrayQuery {
-
   constructor(store, type, params = {}) {
     this.store = store;
     this.type = type;
@@ -13,14 +12,12 @@ export default class RecordArrayQuery {
 
     if (this.value) {
       promise = this.value.update();
-
     } else {
-      promise = this.store.query(this.type, this.params)
-        .then(records => {
-          this.value = records;
+      promise = this.store.query(this.type, this.params).then((records) => {
+        this.value = records;
 
-          return records;
-        });
+        return records;
+      });
     }
 
     return promise;
@@ -30,13 +27,12 @@ export default class RecordArrayQuery {
     let includes = this.params && this.params.include;
     let models = this.value;
 
-    if (includes && models)  {
+    if (includes && models) {
       models
-        .filter(model => model.trackLoadedIncludes)
+        .filter((model) => model.trackLoadedIncludes)
         .forEach((model) => {
           model.trackLoadedIncludes(includes);
         });
     }
   }
-
 }

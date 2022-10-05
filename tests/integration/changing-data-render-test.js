@@ -6,32 +6,32 @@ import MirageServer from 'dummy/tests/integration/helpers/mirage-server';
 import { Model } from 'ember-cli-mirage';
 import LoadableStore from 'ember-data-storefront/mixins/loadable-store';
 
-module('Integration | Changing data render test', function(hooks) {
+module('Integration | Changing data render test', function (hooks) {
   setupRenderingTest(hooks);
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     this.server = new MirageServer({
       models: {
-        post: Model.extend()
+        post: Model.extend(),
       },
       baseConfig() {
         this.resource('posts');
-      }
+      },
     });
-    this.store = this.owner.lookup('service:store')
+    this.store = this.owner.lookup('service:store');
     this.store.reopen(LoadableStore);
     this.store.resetCache();
   });
 
-  hooks.afterEach(function() {
+  hooks.afterEach(function () {
     this.server.shutdown();
   });
 
-  test('record queries trigger template rerenders', async function(assert) {
+  test('record queries trigger template rerenders', async function (assert) {
     let serverPost = this.server.create('post', { title: 'Lorem' });
     let postId = serverPost.id;
 
-    await this.store.loadRecord('post', postId).then(post => {
+    await this.store.loadRecord('post', postId).then((post) => {
       this.set('model', post);
     });
 
@@ -51,10 +51,10 @@ module('Integration | Changing data render test', function(hooks) {
     assert.dom('[data-test-title]').hasText('ipsum');
   });
 
-  test('record array queries trigger template rerenders', async function(assert) {
+  test('record array queries trigger template rerenders', async function (assert) {
     this.server.createList('post', 2);
 
-    await this.store.loadRecords('post').then(posts => {
+    await this.store.loadRecords('post').then((posts) => {
       this.set('model', posts);
     });
 
@@ -69,7 +69,7 @@ module('Integration | Changing data render test', function(hooks) {
     assert.dom('li').exists({ count: 2 });
 
     this.server.create('post');
-    await this.get('model').update();
+    await this.model.update();
     await settled();
 
     assert.dom('li').exists({ count: 3 });

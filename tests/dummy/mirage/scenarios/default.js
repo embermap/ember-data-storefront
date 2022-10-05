@@ -1,18 +1,18 @@
 /*eslint no-console: ["error", { allow: ["log"] }] */
 
-export default function(server) {
+export default function (server) {
   window.server = server;
 
   server.create('post', {
     id: 1,
     title: 'Lorem',
-    comments: server.createList('comment', 3)
+    comments: server.createList('comment', 3),
   });
 
   server.create('post', {
     id: 2,
     title: 'Lorem',
-    comments: server.createList('comment', 5)
+    comments: server.createList('comment', 5),
   });
 
   server.create('post', { title: 'Ipsum' });

@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function(environment) {
+module.exports = function (environment) {
   let ENV = {
     modulePrefix: 'dummy',
     podModulePrefix: 'dummy/pods',
@@ -14,8 +14,8 @@ module.exports = function(environment) {
       },
       EXTEND_PROTOTYPES: {
         // Prevent Ember Data from overriding Date.parse.
-        Date: false
-      }
+        Date: false,
+      },
     },
 
     APP: {
@@ -26,12 +26,12 @@ module.exports = function(environment) {
     historySupportMiddleware: true,
 
     'ember-cli-mirage': {
-      enabled: true
+      enabled: true,
     },
 
     fastboot: {
-      hostWhitelist: [/^localhost:\d+$/]
-    }
+      hostWhitelist: [/^localhost:\d+$/],
+    },
   };
 
   if (environment === 'development') {
@@ -54,7 +54,7 @@ module.exports = function(environment) {
     ENV.APP.autoboot = false;
 
     ENV['ember-cli-mirage'] = {
-      enabled: false
+      enabled: false,
     };
   }
 

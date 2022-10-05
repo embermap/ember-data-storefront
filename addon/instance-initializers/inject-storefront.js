@@ -6,5 +6,5 @@ export function initialize(appInstance) {
 export default {
   name: 'inject-storefront',
   after: 'mixin-storefront',
-  initialize
+  initialize,
 };

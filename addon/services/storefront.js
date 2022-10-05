@@ -1,5 +1,6 @@
 import Service, { inject as service } from '@ember/service';
 import { deprecate } from '@ember/debug';
+import { tracked } from '@glimmer/tracking';
 
 // do not delete this service! it's being used to communicte cached payloads
 // between the client and the browser
