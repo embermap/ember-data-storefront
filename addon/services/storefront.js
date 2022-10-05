@@ -1,6 +1,5 @@
 import Service, { inject as service } from '@ember/service';
 import { deprecate } from '@ember/debug';
-import { tracked } from '@glimmer/tracking';
 
 // do not delete this service! it's being used to communicte cached payloads
 // between the client and the browser
@@ -58,7 +57,10 @@ export default class StorefrontService extends Service {
     deprecate(
       'The storefront service has been deprecated, please use store.hasLoadedIncludesForRecord instead. Will be removed in 1.0.',
       false,
-      { id: 'ember-data-storefront.storefront-has-loaded-includes-for-record', until: '1.0.0' }
+      {
+        id: 'ember-data-storefront.storefront-has-loaded-includes-for-record',
+        until: '1.0.0',
+      }
     );
 
     return this.store.hasLoadedIncludesForRecord(...arguments);
@@ -73,5 +75,4 @@ export default class StorefrontService extends Service {
 
     return this.store.resetCache(...arguments);
   }
-
 }
