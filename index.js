@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-  name: 'ember-data-storefront',
+  name: require('./package').name,
 
   isDevelopingAddon() {
     return false;

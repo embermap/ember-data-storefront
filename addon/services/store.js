@@ -1,4 +1,4 @@
-import StoreService from '@ember-data/store';
+import Store from '@ember-data/store';
 import { deprecate } from '@ember/debug';
 import { resolve } from 'rsvp';
 import Coordinator from 'ember-data-storefront/-private/coordinator';
@@ -11,7 +11,7 @@ import Coordinator from 'ember-data-storefront/-private/coordinator';
   @class LoadableStore
   @public
 */
-export default class LoadableStoreService extends StoreService {
+export default class LoadableStore extends Store {
   constructor() {
     super(...arguments);
 
