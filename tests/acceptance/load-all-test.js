@@ -1,12 +1,10 @@
 import { module, test } from 'qunit';
-import { visit, click, find, waitUntil } from "@ember/test-helpers";
+import { visit, click, find, waitUntil } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { startMirage } from 'dummy/initializers/ember-cli-mirage';
 
 function t(...args) {
-  return args
-    .map(arg => `[data-test-id="${arg}"]`)
-    .join(' ');
+  return args.map((arg) => `[data-test-id="${arg}"]`).join(' ');
 }
 
 async function domHasChanged(selector) {
@@ -15,23 +13,23 @@ async function domHasChanged(selector) {
     let currentUi = find(selector).textContent;
 
     return currentUi !== previousUi;
-  })
+  });
 }
 
-module('Acceptance | data fetching docs', function(hooks) {
+module('Acceptance | data fetching docs', function (hooks) {
   let server;
 
   setupApplicationTest(hooks);
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     server = startMirage();
   });
 
-  hooks.afterEach(function() {
+  hooks.afterEach(function () {
     server.shutdown();
   });
 
-  test('data fetching guide', async function(assert) {
+  test('data fetching guide', async function (assert) {
     // need our data fetching to be slow for these tests.
     server.timing = 1000;
 

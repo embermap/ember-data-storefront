@@ -12,7 +12,6 @@ import Coordinator from 'ember-data-storefront/-private/coordinator';
   @public
 */
 export default Mixin.create({
-
   init() {
     this._super(...arguments);
 
@@ -53,17 +52,17 @@ export default Mixin.create({
     @return {Promise} a promise resolving with the record array
     @public
   */
-  loadRecords(type, options={}) {
+  loadRecords(type, options = {}) {
     let query = this.coordinator.recordArrayQueryFor(type, options);
     let shouldBlock = options.reload || !query.value;
-    let shouldBackgroundReload = (options.backgroundReload !== undefined) ? options.backgroundReload : true;
+    let shouldBackgroundReload =
+      options.backgroundReload !== undefined ? options.backgroundReload : true;
     let promise;
     let fetcher;
 
     if (shouldBlock) {
       promise = query.run();
       fetcher = promise;
-
     } else {
       promise = resolve(query.value);
 
@@ -123,15 +122,15 @@ export default Mixin.create({
     @return {Promise} a promise resolving with the record array
     @public
   */
-  loadRecord(type, id, options={}) {
+  loadRecord(type, id, options = {}) {
     let query = this.coordinator.recordQueryFor(type, id, options);
     let shouldBlock = options.reload || !query.value;
-    let shouldBackgroundReload = (options.backgroundReload !== undefined) ? options.backgroundReload : true;
+    let shouldBackgroundReload =
+      options.backgroundReload !== undefined ? options.backgroundReload : true;
     let promise;
 
     if (shouldBlock) {
       promise = query.run();
-
     } else {
       promise = resolve(query.value);
 
@@ -169,6 +168,5 @@ export default Mixin.create({
   */
   resetCache() {
     this.coordinator = new Coordinator(this);
-  }
-
+  },
 });

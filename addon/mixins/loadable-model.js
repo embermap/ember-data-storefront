@@ -32,7 +32,6 @@ import { camelize } from '@ember/string';
   @public
 */
 export default Mixin.create({
-
   init() {
     this._super(...arguments);
     this.set('_loadedReferences', {});
@@ -48,7 +47,7 @@ export default Mixin.create({
     return this.sideload(...args);
   },
 
-   /**
+  /**
     `sideload` gives you an explicit way to asynchronously sideload related data.
 
     ```js
@@ -100,12 +99,12 @@ export default Mixin.create({
 
     if (typeof possibleOptions === 'string') {
       options = {
-        include: args.join(',')
+        include: args.join(','),
       };
     } else {
       options = {
         ...possibleOptions,
-        ...{ include: args.slice(0,-1).join(',') }
+        ...{ include: args.slice(0, -1).join(',') },
       };
     }
 
@@ -167,7 +166,7 @@ export default Mixin.create({
       }
     }
 
-    return promise.then(data => {
+    return promise.then((data) => {
       // need to track that we loaded this relationship, since relying on the reference's
       // value existing is not enough
       this._loadedReferences[name] = true;
@@ -192,7 +191,9 @@ export default Mixin.create({
     @private
   */
   _getRelationshipInfo(name) {
-    let relationshipInfo = get(this.constructor, `relationshipsByName`).get(name);
+    let relationshipInfo = get(this.constructor, `relationshipsByName`).get(
+      name
+    );
 
     assert(
       `You tried to load the relationship ${name} for a ${this.constructor.modelName}, but that relationship does not exist [ember-data-storefront]`,
@@ -250,7 +251,7 @@ export default Mixin.create({
     if (info.kind === 'hasMany') {
       models = reference.value() || [];
     } else if (info.kind === 'belongsTo') {
-      models = reference.value() ? [ reference.value() ] : [];
+      models = reference.value() ? [reference.value()] : [];
     }
 
     return models;
@@ -266,7 +267,7 @@ export default Mixin.create({
     @private
   */
   trackLoadedIncludes(includes) {
-    includes.split(",").forEach(path => this._trackLoadedIncludePath(path));
+    includes.split(',').forEach((path) => this._trackLoadedIncludePath(path));
   },
 
   /**
@@ -282,7 +283,7 @@ export default Mixin.create({
     @private
   */
   _trackLoadedIncludePath(path) {
-    let [firstInclude, ...rest] = path.split(".");
+    let [firstInclude, ...rest] = path.split('.');
     let relationship = camelize(firstInclude);
 
     if (this._hasNamedRelationship(relationship)) {
@@ -290,8 +291,8 @@ export default Mixin.create({
 
       if (rest.length) {
         this._getRelationshipModels(relationship)
-          .filter(model => model.trackLoadedIncludes)
-          .forEach(model => model.trackLoadedIncludes(rest.join('.')));
+          .filter((model) => model.trackLoadedIncludes)
+          .forEach((model) => model.trackLoadedIncludes(rest.join('.')));
       }
     }
   },
@@ -307,9 +308,7 @@ export default Mixin.create({
     @private
   */
   _graphHasLoaded(includes) {
-    return includes
-      .split(",")
-      .every(path => this._graphHasLoadedPath(path));
+    return includes.split(',').every((path) => this._graphHasLoadedPath(path));
   },
 
   /**
@@ -321,19 +320,20 @@ export default Mixin.create({
     @private
   */
   _graphHasLoadedPath(includePath) {
-    let [firstInclude, ...rest] = includePath.split(".");
+    let [firstInclude, ...rest] = includePath.split('.');
     let relationship = camelize(firstInclude);
     let reference = this._getReference(relationship);
     let hasLoaded = reference && this._hasLoadedReference(relationship);
 
     if (rest.length === 0) {
       return hasLoaded;
-
     } else {
       let models = this._getRelationshipModels(relationship);
 
-      let childrenHaveLoaded = models.every(model => {
-        return model.trackLoadedIncludes && model._graphHasLoaded(rest.join("."));
+      let childrenHaveLoaded = models.every((model) => {
+        return (
+          model.trackLoadedIncludes && model._graphHasLoaded(rest.join('.'))
+        );
       });
 
       return hasLoaded && childrenHaveLoaded;
@@ -362,8 +362,12 @@ export default Mixin.create({
   */
   hasLoaded(includesString) {
     let modelName = this.constructor.modelName;
-    return this.store.hasLoadedIncludesForRecord(modelName, this.id, includesString) ||
-      this._graphHasLoaded(includesString);
-  }
-
+    return (
+      this.store.hasLoadedIncludesForRecord(
+        modelName,
+        this.id,
+        includesString
+      ) || this._graphHasLoaded(includesString)
+    );
+  },
 });

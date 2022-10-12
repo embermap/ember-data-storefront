@@ -25,9 +25,9 @@ export default class DocsDemo2Component extends Component {
   setup() {
     let tasks = {
       // BEGIN-SNIPPET working-with-relationships-demo-2.js
-      sideloadComments: task(function*() {
+      sideloadComments: task(function* () {
         yield this.post.sideload('comments');
-      })
+      }),
       // END-SNIPPET
     };
 

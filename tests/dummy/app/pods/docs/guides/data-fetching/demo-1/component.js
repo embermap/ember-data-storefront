@@ -43,9 +43,9 @@ export default class Demo1Component extends Component {
         // route
         model() {
           return this.store.findRecord('post', 1);
-        }
+        },
         // END-SNIPPET
-      }
+      },
     };
   }
 

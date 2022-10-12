@@ -1,10 +1,9 @@
-import { queryCacheKey, cacheKey } from  './utils/get-key';
+import { queryCacheKey, cacheKey } from './utils/get-key';
 
 /*
   A cache for queries.
 */
 export default class Cache {
-
   constructor() {
     this.store = {};
   }
@@ -21,7 +20,6 @@ export default class Cache {
   }
 
   all() {
-    return Object.keys(this.store).map(key => this.store[key]);
+    return Object.keys(this.store).map((key) => this.store[key]);
   }
-
 }

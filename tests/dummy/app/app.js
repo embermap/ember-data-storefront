@@ -16,7 +16,7 @@ export default class App extends Application {
 
 // We'll ignore the empty tag name warning for test selectors since we have
 // empty tag names for pass through components.
-registerWarnHandler(function(message, { id }, next) {
+registerWarnHandler(function (message, { id }, next) {
   if (id !== 'ember-test-selectors.empty-tag-name') {
     next(...arguments);
   }

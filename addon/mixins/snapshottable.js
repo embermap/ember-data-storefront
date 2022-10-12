@@ -3,7 +3,6 @@ import { isArray } from '@ember/array';
 import Mixin from '@ember/object/mixin';
 
 export default Mixin.create({
-
   /*
     Graph for a post looks like
 
@@ -32,32 +31,45 @@ export default Mixin.create({
         }
       }
   */
-  takeSnapshot(graph={}) {
+  takeSnapshot(graph = {}) {
     let snapshot = { model: this, relationships: {} };
 
-    Object.keys(graph).forEach(key => {
+    Object.keys(graph).forEach((key) => {
       let node = graph[key];
       let relationship = this.get(key);
 
       if (isArray(relationship)) {
-        snapshot.relationships[key] = relationship.map(model => ({ model, relationships: {} }));
+        snapshot.relationships[key] = relationship.map((model) => ({
+          model,
+          relationships: {},
+        }));
       } else {
-        snapshot.relationships[key] = { model: relationship, relationships: {} };
+        snapshot.relationships[key] = {
+          model: relationship,
+          relationships: {},
+        };
       }
 
       // call all this recursively instead
       if (typeof node === 'object') {
-        Object.keys(node).forEach(subkey => {
+        Object.keys(node).forEach((subkey) => {
           let namedRelationshipMeta = snapshot.relationships[key];
           if (namedRelationshipMeta) {
             if (isArray(namedRelationshipMeta)) {
-              namedRelationshipMeta.forEach(relationshipSnapshot => {
+              namedRelationshipMeta.forEach((relationshipSnapshot) => {
                 let nestedRelationship = relationshipSnapshot.model.get(subkey);
 
                 if (isArray(nestedRelationship)) {
-                  relationshipSnapshot.relationships[subkey] = nestedRelationship.map(model => ({ model, relationships: {} }));
+                  relationshipSnapshot.relationships[subkey] =
+                    nestedRelationship.map((model) => ({
+                      model,
+                      relationships: {},
+                    }));
                 } else {
-                  relationshipSnapshot.relationships[subkey] = { model: nestedRelationship, relationships: {} };
+                  relationshipSnapshot.relationships[subkey] = {
+                    model: nestedRelationship,
+                    relationships: {},
+                  };
                 }
 
                 // check the node (would be handled by recursive call)
@@ -67,9 +79,16 @@ export default Mixin.create({
               let nestedRelationship = namedRelationshipMeta.model.get(subkey);
 
               if (isArray(nestedRelationship)) {
-                namedRelationshipMeta.relationships[subkey] = nestedRelationship.map(model => ({ model, relationships: {} }));
+                namedRelationshipMeta.relationships[subkey] =
+                  nestedRelationship.map((model) => ({
+                    model,
+                    relationships: {},
+                  }));
               } else {
-                namedRelationshipMeta.relationships[subkey] = { model: nestedRelationship, relationships: {} };
+                namedRelationshipMeta.relationships[subkey] = {
+                  model: nestedRelationship,
+                  relationships: {},
+                };
               }
             }
           }
@@ -106,15 +125,21 @@ export default Mixin.create({
   restoreSnapshot(snapshot) {
     snapshot.model && snapshot.model.rollbackAttributes();
 
-    Object.keys(snapshot.relationships).forEach(key => {
+    Object.keys(snapshot.relationships).forEach((key) => {
       let relationshipSnapshot = snapshot.relationships[key];
       if (isArray(relationshipSnapshot)) {
-        this.set(key, relationshipSnapshot.map(meta => meta.model));
-        relationshipSnapshot.forEach(rSnapshot => {
+        this.set(
+          key,
+          relationshipSnapshot.map((meta) => meta.model)
+        );
+        relationshipSnapshot.forEach((rSnapshot) => {
           let model = rSnapshot.model;
           model.rollbackAttributes();
           if (Object.keys(rSnapshot.relationships).length) {
-            assert(`You're trying to restore a snapshot on a ${model._debugContainerKey} but that model isn't snapshottable. Be sure to include the Snapshottable mixin.`, model.restoreSnapshot !== undefined);
+            assert(
+              `You're trying to restore a snapshot on a ${model._debugContainerKey} but that model isn't snapshottable. Be sure to include the Snapshottable mixin.`,
+              model.restoreSnapshot !== undefined
+            );
             model.restoreSnapshot(rSnapshot);
           }
         });
@@ -128,11 +153,13 @@ export default Mixin.create({
         }
 
         if (Object.keys(relationshipSnapshot.relationships).length) {
-          assert(`You're trying to restore a snapshot on a ${model._debugContainerKey} but that model isn't snapshottable. Be sure to include the Snapshottable mixin.`, model.restoreSnapshot !== undefined);
+          assert(
+            `You're trying to restore a snapshot on a ${model._debugContainerKey} but that model isn't snapshottable. Be sure to include the Snapshottable mixin.`,
+            model.restoreSnapshot !== undefined
+          );
           model.restoreSnapshot(relationshipSnapshot);
         }
       }
     });
-  }
-
+  },
 });

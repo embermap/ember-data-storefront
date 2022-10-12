@@ -58,7 +58,10 @@ export default class StorefrontService extends Service {
     deprecate(
       'The storefront service has been deprecated, please use store.hasLoadedIncludesForRecord instead. Will be removed in 1.0.',
       false,
-      { id: 'ember-data-storefront.storefront-has-loaded-includes-for-record', until: '1.0.0' }
+      {
+        id: 'ember-data-storefront.storefront-has-loaded-includes-for-record',
+        until: '1.0.0',
+      }
     );
 
     return this.store.hasLoadedIncludesForRecord(...arguments);
@@ -73,5 +76,4 @@ export default class StorefrontService extends Service {
 
     return this.store.resetCache(...arguments);
   }
-
 }
