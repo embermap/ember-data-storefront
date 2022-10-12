@@ -1,21 +1,22 @@
+import Component from '@glimmer/component';
 import { assert } from '@ember/debug';
-import Component from '@ember/component';
 
-/**
+export default class AssertMustPreloadComponent extends Component {
+  /**
   _This component relies on JSON:API, and assumes that your server supports JSON:API includes._
 
-  _{{assert-must-preload}} only works on models that have included the LoadableModel mixin._
+  _<AssertMustPreload /> only works on models that have included the LoadableModel mixin._
 
   Use this when authoring a component that requires a model to be passed in with
   certain relationships already loaded.
 
-  For example, if you wanted to ensure the following template was never rendered without `post.comments` already loaded, you could add the call to `{{assert-must-preload}}`:
+  For example, if you wanted to ensure the following template was never rendered without `post.comments` already loaded, you could add the call to `<AssertMustPreload />`:
 
   ```hbs
-  {{assert-must-preload post 'comments.author'}}
+  <AssertMustPreload @model={{this.post}} @includes={{array "comments.author"}} />
 
   {{!-- the rest of your template --}}
-  {{#each post.comments as |comment|}}
+  {{#each this.post.comments as |comment|}}
     This comment was written by {{comment.author.name}}
   {{/each}}
   ```
@@ -25,17 +26,18 @@ import Component from '@ember/component';
   @class AssertMustPreload
   @public
 */
-export default Component.extend({
-  tagName: '',
+  constructor() {
+    super(...arguments);
 
-  didReceiveAttrs() {
-    let [ model, ...includes ] = this.get('args');
+    const { model, includes } = this.args;
     let parentComponent = this.parentView;
-    let parentName = parentComponent ? parentComponent._debugContainerKey : 'template';
+    let parentName = parentComponent
+      ? parentComponent._debugContainerKey
+      : 'template';
     let includesString = includes.join(',');
 
     assert(
-      `You passed a ${model.constructor.modelName} model into an {{assert-must-preload}}, but that model is not using the Loadable mixin. [ember-data-storefront]`,
+      `You passed a ${model.constructor.modelName} model into an <AssertMustPreload />, but that model is not using the Loadable mixin. [ember-data-storefront]`,
       model.hasLoaded
     );
 
@@ -43,12 +45,5 @@ export default Component.extend({
       `You tried to render a ${parentName} that accesses relationships off of a ${model.constructor.modelName}, but that model didn't have all of its required relationships preloaded ('${includesString}'). Please make sure to preload the association. [ember-data-storefront]`,
       model.hasLoaded(includesString)
     );
-
-    return this._super(...arguments);
   }
-
-}).reopenClass({
-
-  positionalParams: 'args'
-
-});
+}

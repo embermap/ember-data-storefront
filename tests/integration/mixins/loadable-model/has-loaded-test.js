@@ -5,10 +5,10 @@ import { startMirage } from 'dummy/initializers/ember-cli-mirage';
 import LoadableModel from 'ember-data-storefront/mixins/loadable-model';
 import LoadableStore from 'ember-data-storefront/mixins/loadable-store';
 
-module('Integration | Mixins | LoadableModel | hasLoaded', function(hooks) {
+module('Integration | Mixins | LoadableModel | hasLoaded', function (hooks) {
   setupTest(hooks);
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     Model.reopen(LoadableModel);
     this.server = startMirage();
 
@@ -20,13 +20,12 @@ module('Integration | Mixins | LoadableModel | hasLoaded', function(hooks) {
     let post = server.create('post', { id: 1, author });
     server.createList('comment', 2, { post, author });
   }),
+    hooks.afterEach(function () {
+      this.server.shutdown();
+      this.store = null;
+    });
 
-  hooks.afterEach(function() {
-    this.server.shutdown();
-    this.store = null;
-  });
-
-  test('#hasLoaded returns true if a relationship has been loaded', async function(assert) {
+  test('#hasLoaded returns true if a relationship has been loaded', async function (assert) {
     let post = await this.store.findRecord('post', 1);
 
     await post.load('comments');
@@ -34,7 +33,7 @@ module('Integration | Mixins | LoadableModel | hasLoaded', function(hooks) {
     assert.ok(post.hasLoaded('comments'));
   });
 
-  test('#hasLoaded returns true if a relationship has been sideloaded', async function(assert) {
+  test('#hasLoaded returns true if a relationship has been sideloaded', async function (assert) {
     let post = await this.store.findRecord('post', 1);
 
     await post.sideload('comments');
@@ -42,7 +41,7 @@ module('Integration | Mixins | LoadableModel | hasLoaded', function(hooks) {
     assert.ok(post.hasLoaded('comments'));
   });
 
-  test('#hasLoaded returns true if the relationship chain has been sideloaded', async function(assert) {
+  test('#hasLoaded returns true if the relationship chain has been sideloaded', async function (assert) {
     let post = await this.store.findRecord('post', 1);
 
     await post.sideload('comments.author');
@@ -50,13 +49,13 @@ module('Integration | Mixins | LoadableModel | hasLoaded', function(hooks) {
     assert.ok(post.hasLoaded('comments.author'));
   });
 
-  test('#hasLoaded returns false if the relationship has not been sideloaded', async function(assert) {
+  test('#hasLoaded returns false if the relationship has not been sideloaded', async function (assert) {
     let post = await this.store.findRecord('post', 1);
 
     assert.notOk(post.hasLoaded('comments'));
   });
 
-  test('#hasLoaded returns false if another relationship has not been sideloaded', async function(assert) {
+  test('#hasLoaded returns false if another relationship has not been sideloaded', async function (assert) {
     let post = await this.store.findRecord('post', 1);
 
     await post.sideload('comments');
@@ -64,7 +63,7 @@ module('Integration | Mixins | LoadableModel | hasLoaded', function(hooks) {
     assert.notOk(post.hasLoaded('tags'));
   });
 
-  test('#hasLoaded returns false if a relationship chain has not been fully sideloaded', async function(assert) {
+  test('#hasLoaded returns false if a relationship chain has not been fully sideloaded', async function (assert) {
     let post = await this.store.findRecord('post', 1);
 
     await post.sideload('comments');
@@ -72,7 +71,7 @@ module('Integration | Mixins | LoadableModel | hasLoaded', function(hooks) {
     assert.notOk(post.hasLoaded('comments.author'));
   });
 
-  test('#hasLoaded returns false for similarly named relationships', async function(assert) {
+  test('#hasLoaded returns false for similarly named relationships', async function (assert) {
     let post = await this.store.findRecord('post', 1);
 
     await post.sideload('comments.author');

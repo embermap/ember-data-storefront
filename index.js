@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-  name: 'ember-data-storefront',
+  name: require('./package').name,
 
   isDevelopingAddon() {
     return false;
@@ -24,7 +24,7 @@ module.exports = {
     }
 
     this.app = app;
-    this.addonConfig = this.app.project.config(app.env)['ember-data-storefront'] || {};
-  }
-
+    this.addonConfig =
+      this.app.project.config(app.env)['ember-data-storefront'] || {};
+  },
 };

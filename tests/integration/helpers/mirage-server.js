@@ -2,12 +2,12 @@ import Server from 'ember-cli-mirage/server';
 import { JSONAPISerializer } from 'ember-cli-mirage';
 import { assign } from '@ember/polyfills';
 
-export default function(overrides) {
+export default function (overrides) {
   let defaults = {
     environment: 'test',
     serializers: {
-      application: JSONAPISerializer
-    }
+      application: JSONAPISerializer,
+    },
   };
   let config = assign({}, defaults, overrides);
 

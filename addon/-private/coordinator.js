@@ -5,19 +5,18 @@ import { get } from '@ember/object';
 
 // cleans options so that the resulting object only contains
 // data we want to send to the server as query params.
-let _cleanParams = function(options) {
+let _cleanParams = function (options) {
   let clean = { ...{}, ...options };
   delete clean.reload;
   delete clean.backgroundReload;
   return clean;
-}
+};
 
 /*
   I know how to retrieve queries from the cache, and also assemble queries that
   are not in the cache but can be derived from them.
 */
 export default class Coordinator {
-
   constructor(store) {
     this.store = store;
     this.recordCache = new Cache();
@@ -52,9 +51,9 @@ export default class Coordinator {
   }
 
   queryFor(...args) {
-    return args.length === 3 ?
-      this.recordQueryFor(...args) :
-      this.recordArrayQueryFor(...args);
+    return args.length === 3
+      ? this.recordQueryFor(...args)
+      : this.recordArrayQueryFor(...args);
   }
 
   dump() {
@@ -65,7 +64,9 @@ export default class Coordinator {
   }
 
   recordHasIncludes(type, id, includesString) {
-    let query = this._assembleRecordQuery(type, id, { include: includesString });
+    let query = this._assembleRecordQuery(type, id, {
+      include: includesString,
+    });
     let nonLoadedIncludes = this._nonLoadedIncludesForQuery(query);
 
     return nonLoadedIncludes.length === 0;
@@ -99,16 +100,17 @@ export default class Coordinator {
   }
 
   _nonLoadedIncludesForQuery(query) {
-    let loadedIncludes = get(this, `loadedIncludes.${query.type}.${query.id}`) || [];
+    let loadedIncludes =
+      get(this, `loadedIncludes.${query.type}.${query.id}`) || [];
     let includesString = query.params.include || '';
 
     return includesString
       .split(',')
-      .filter(include => !!include)
-      .filter(include => {
-        return !loadedIncludes.find(loadedInclude => {
+      .filter((include) => !!include)
+      .filter((include) => {
+        return !loadedIncludes.find((loadedInclude) => {
           return loadedInclude.indexOf(include) === 0;
-        })
+        });
       });
   }
 
@@ -123,7 +125,8 @@ export default class Coordinator {
 
   _updateLoadedIncludesWithQuery(query) {
     this.loadedIncludes[query.type] = this.loadedIncludes[query.type] || {};
-    this.loadedIncludes[query.type][query.id] = this.loadedIncludes[query.type][query.id] || [];
+    this.loadedIncludes[query.type][query.id] =
+      this.loadedIncludes[query.type][query.id] || [];
 
     let currentIncludes = this.loadedIncludes[query.type][query.id];
     let nonLoadedIncludes = this._nonLoadedIncludesForQuery(query);
@@ -131,5 +134,4 @@ export default class Coordinator {
 
     this.loadedIncludes[query.type][query.id] = newLoadedIncludes;
   }
-
 }

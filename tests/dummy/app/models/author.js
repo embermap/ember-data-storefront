@@ -5,5 +5,4 @@ export default class AuthorModel extends Model {
 
   @hasMany() comments;
   @belongsTo() post;
-
 }

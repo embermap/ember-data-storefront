@@ -1,46 +1,43 @@
-import Component from '@ember/component';
+import Component from '@glimmer/component';
 import { task } from 'ember-concurrency';
 import { inject as service } from '@ember/service';
-import { readOnly } from '@ember/object/computed';
-import { defineProperty } from '@ember/object';
+import { defineProperty, notifyPropertyChange } from '@ember/object';
+import { action } from '@ember/object';
 
-export default Component.extend({
+export default class DocsDemo2Component extends Component {
+  @service store;
 
-  store: service(),
+  constructor() {
+    super(...arguments);
 
-  didInsertElement() {
-    this._super(...arguments);
-
-    this.get('loadPost').perform();
+    this.loadPost.perform();
     this.setup();
-  },
+  }
 
-  loadPost: task(function*() {
-    return yield this.get('store').findRecord('post', 2);
-  }),
+  @task *loadPost() {
+    return yield this.store.findRecord('post', 2);
+  }
 
-  post: readOnly('loadPost.lastSuccessful.value'),
+  get post() {
+    return this.loadPost.lastSuccessful?.value;
+  }
 
   setup() {
     let tasks = {
       // BEGIN-SNIPPET working-with-relationships-demo-2.js
-      sideloadComments: task(function*() {
-        yield this.get('post').sideload('comments');
-      })
+      sideloadComments: task(function* () {
+        yield this.post.sideload('comments');
+      }),
       // END-SNIPPET
     };
 
-    this.get('store').resetCache();
+    this.store.resetCache();
     // We do this to reset loadComments state
     defineProperty(this, 'sideloadComments', tasks.sideloadComments);
-    this.notifyPropertyChange('sideloadComments');
-  },
-
-  actions: {
-    reset() {
-      this.setup();
-    }
+    notifyPropertyChange(this, 'sideloadComments');
   }
 
-
-});
+  @action reset() {
+    this.setup();
+  }
+}

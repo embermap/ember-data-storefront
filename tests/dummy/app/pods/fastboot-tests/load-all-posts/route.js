@@ -1,7 +1,7 @@
 import Route from '@ember/routing/route';
 
-export default Route.extend({
-  model: function() {
-    return this.store.loadRecords('post', { filter: { popular: true }});
-  },
-});
+export default class LoadAllPostsRoute extends Route {
+  model() {
+    return this.store.loadRecords('post', { filter: { popular: true } });
+  }
+}

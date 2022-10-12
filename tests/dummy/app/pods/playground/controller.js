@@ -1,28 +1,27 @@
 import Controller from '@ember/controller';
-import { readOnly } from '@ember/object/computed';
-import { computed } from '@ember/object';
+import { action } from '@ember/object';
 
-export default Controller.extend({
-  post: readOnly('model'),
+export default class PlaygroundController extends Controller {
+  get post() {
+    return this.model;
+  }
 
-  comments: computed('post.comments', function() {
-    return this.get('post').hasMany('comments').value();
-  }),
+  get comments() {
+    return this.post.hasMany('comments').value();
+  }
 
-  actions: {
-    createServerComment() {
-      server.create('comment', { postId: this.get('post.id') });
-    },
+  @action createServerComment() {
+    server.create('comment', { postId: this.post.id });
+  }
 
-    async loadComments() {
-      let returnValue = await this.get('post').load('comments');
-      if (!this.get('returnValue')) {
-        this.set('returnValue', returnValue);
-      }
-    },
-
-    makeSiteSlow() {
-      server.timing = 5000;
+  @action async loadComments() {
+    let returnValue = await this.post.load('comments');
+    if (!this.returnValue) {
+      this.returnValue = returnValue;
     }
   }
-});
+
+  @action makeSiteSlow() {
+    server.timing = 5000;
+  }
+}

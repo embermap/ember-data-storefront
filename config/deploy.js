@@ -1,12 +1,12 @@
 /* eslint-env node */
 'use strict';
 
-module.exports = function(deployTarget) {
+module.exports = function (deployTarget) {
   let ENV = {
     build: {},
     git: {
-      repo: 'git@github.com:embermap/ember-data-storefront.git'
-    }
+      repo: 'git@github.com:embermap/ember-data-storefront.git',
+    },
   };
 
   if (deployTarget === 'development') {

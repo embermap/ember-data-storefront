@@ -6,7 +6,7 @@ export default Factory.extend({
     return `The title for post #${i + 1}`;
   },
 
-  text: "This is the text of the post.",
+  text: 'This is the text of the post.',
 
   afterCreate(post) {
     post.update({ slug: dasherize(post.title) });
@@ -15,6 +15,6 @@ export default Factory.extend({
   withComments: trait({
     afterCreate(post, server) {
       server.createList('comment', 3, { post });
-    }
-  })
+    },
+  }),
 });
